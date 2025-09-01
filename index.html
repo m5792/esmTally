@@ -490,6 +490,7 @@
     </div></section>
 
 
+
 <script>
 document.getElementById("monthSelector").addEventListener("change", fetchSummary);
 
@@ -555,15 +556,34 @@ function fetchSummary(retryCount = 0) {
 
     let rowMonth = "";
     try {
-      // ✅ अब "1-Sep-2025" और "01-Sep-2025" दोनों format handle होंगे
-      const parsedDate = new Date(dateStr.replace(/(\d{1,2})-(\w{3})-(\d{4})/, "$1 $2 $3"));
-      if (isNaN(parsedDate)) {
-        console.warn("Invalid date format:", dateStr);
+      // ✅ "1-Sep-2025" / "01-Sep-2025" को सही parse करेंगे
+      const parts = dateStr.split("-");
+      if (parts.length === 3) {
+        const day = parseInt(parts[0], 10);
+        const monthStr = parts[1].toLowerCase();
+        const year = parseInt(parts[2], 10);
+
+        // ✅ month mapping
+        const monthMap = {
+          jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5,
+          jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11
+        };
+
+        const month = monthMap[monthStr];
+        if (month === undefined || isNaN(day) || isNaN(year)) {
+          console.warn("Invalid date parts:", dateStr);
+          continue;
+        }
+
+        // ✅ local date (timezone safe)
+        const parsedDate = new Date(year, month, day);
+        rowMonth = parsedDate.getFullYear() + "-" + String(parsedDate.getMonth() + 1).padStart(2, "0");
+      } else {
+        console.warn("Unexpected date format:", dateStr);
         continue;
       }
-      rowMonth = parsedDate.toISOString().slice(0, 7);
     } catch (e) {
-      console.warn("Date parse error:", dateStr);
+      console.warn("Date parse error:", dateStr, e);
       continue;
     }
 
@@ -635,6 +655,8 @@ function fetchSummary(retryCount = 0) {
   document.getElementById("gstSummaryDiv").innerHTML = gstSummaryHTML;
 }
 </script>
+
+
 
 
 
@@ -1131,16 +1153,16 @@ document.addEventListener("DOMContentLoaded", () => {
       const mobailno = foundRow[8]?.innerText || "N/A";
         const cin = foundRow[2]?.innerText || "N/A";
 
-      profileDiv.innerHTML = `
-       <h3 style="margin:0; color:#022d5e;">Company ID No.:  ${cin}</h3>
-        <h1 style="color:#2F4F4F;text-align:center;font-size:150%">
-<span id="selectcid" style="color:#022d5e;font-size: 150%;">${companyName}</span>
+       profileDiv.innerHTML = `
+       <h4 style="margin:0; color:#022d5e;">ID No.:  ${cin}</h4>
+        <h1 style="color:#2F4F4F;text-align:center;font-size:120%">
+<span id="selectcid" style="color:#022d5e;font-size: 100%;">${companyName}</span>
 </h1>
 
- <h1 style="color:rgb(2, 172, 172); text-align: center; font-size: 100%;"> ${address}</h1>
-<h1 style="color:#2F4F4F;text-align:center;font-size:100%">
-<span style="color:#848585;font-size: 100%;">${mobailno}</span>
-<span style="color:#616060;font-size: 100%;">(${proprietor})</span>
+ <h1 style="color:black; text-align: center; font-size: 80%;"> ${address}</h1>
+<h1 style="color:#2F4F4F;text-align:center;font-size:80%">
+<span style="color:#848585;font-size: 80%;">${mobailno}</span>
+<span style="color:#616060;font-size: 80%;">(${proprietor})</span>
 </h1>
       `;
     } else {
@@ -4283,4 +4305,5 @@ if(reportInput){
   </style>
 
 <!-- ****************************************** login tab summrry stop ************************************************************ -->
+
 
