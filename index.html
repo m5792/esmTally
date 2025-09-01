@@ -1,0 +1,4286 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>eS/MTally</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+ #dashboard {
+   top: 20px;
+  padding: 3px;
+  min-height: 100vh;
+  background-color: rgb(209, 238, 247);
+
+}
+
+
+   .section {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-top: 0; /* 🔧 Changed from 5px to 0px */
+  background-color: #ffffff;
+  border-radius: 6px;
+}
+
+
+
+#sections {
+  position: fixed;
+  top: 40px; /* 1 inch from top */
+  left: 0;
+  right: 0;
+  bottom: 0; /* allows full height scrolling inside */
+  overflow-y: auto; /* only inner content scrolls */
+  padding: 1px;
+  background-color: #e9f7fc;
+}
+
+    .message {
+      color: red;
+      margin-top: 15px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    h2 span {
+      color: #004466;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #f9fafa;
+      padding: 5px 10px;
+      z-index: 1000;
+    }
+
+    #top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2px;
+      background-color: #026186;
+      color: white;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 999;
+    }
+
+    .button-div {
+      display: flex;
+      overflow-x: auto;
+      white-space: nowrap;
+      gap: 1px;
+    }
+
+    .button-div button {
+      flex: 0 0 auto;
+      min-width: 200px;
+      padding: 10px 10px;
+      background-color: #026186;
+      color: white;
+      border: none;
+      border-radius: 0px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .button-div button:hover {
+      background-color: #01384e;
+      color: rgb(233, 248, 26);
+    }
+
+    #logout-btn {
+      background-color: #f44336;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    #logout-btn:hover {
+      background-color: #e53935;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background-color: rgb(8, 8, 8);
+      color: white;
+      border: 1px solid rgb(1, 45, 75);
+      border-radius: 4px;
+      padding: 0 10px;
+    }
+
+    #username {
+      font-size: 20px;
+      font-weight: bold;
+      color: rgb(243, 243, 242);
+    }
+
+
+
+
+
+ /* 30%-70% div Style start  */
+
+     .twopartdiv {
+            display: flex;
+           
+
+            flex-direction: row; /* Arrange child divs side-by-side (flex-direction: column;) */
+
+          /*  flex-direction: column;  Arrange child divs vertically */
+            height: 87vh; /* Full viewport height */
+        }
+      .left {
+      flex: 2; /* 70% */
+      background-color: #cdcfd0;
+      border: 7px solid #9dc8e4;
+      padding: 10px;
+      z-index: 99;
+      overflow-y: auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      border-radius: 8px;
+    
+}
+
+.right {
+    flex: 8; /* 30% */
+   background-color: #dddedf;
+    
+      padding: 10px;
+      z-index: 99;
+      overflow-y: auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      border-radius: 8px;
+}
+
+/* 30%-70% div Style stop  */
+
+
+
+/* Form Styling Scoped to .form-container start */
+
+.form-container input,
+.form-container select {
+    width: 100%;
+    padding: 6px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.form-container input[type="text"],
+.form-container input[type="number"],
+.form-container input[type="date"],
+.form-container select {
+    background-color: #f9f9f9;
+}
+
+.form-container input[type="submit"],
+.form-container button {
+    background-color: #080808;
+    color: #f6f6f8;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.form-container input[type="submit"]:hover,
+.form-container button:hover {
+    background-color: #575555;
+    transform: translateY(-2px);
+}
+
+
+.fetchbtn {
+  background-color: #b9e0f9;
+  color: rgb(44, 3, 0);
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: 'Eras Bold ITC', sans-serif;
+  width: 1.5in;
+  padding: 5px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.fetchbtn:hover {
+  background-color: #a5d4f0;
+}
+
+
+/* Form Styling Scoped to .form-container stop */
+
+
+
+/* Base table style */
+      table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+           
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+     table tr:hover {
+            background-color: #e5ec68 ; color: rgb(5, 5, 5);
+        }
+
+
+/* footer Styling start */
+
+  .footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #026186;
+  padding: 4px;
+  z-index: 1000;
+}
+
+
+
+/* Dropdown base */
+.footer .dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown button */
+.footer .dropbtn {
+  background-color: #012330;
+  color: white;
+  padding: 10px 10px;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+  min-width: 200px;
+}
+
+/* Dropdown content */
+.footer .dropdown-content {
+  display: none;
+  position: absolute;
+  bottom: 100%;  /* Show above the button */
+  left: 0;
+  background-color: #026186;
+  min-width: 200px;
+  z-index: 1001;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  border: 1px solid #004d66;
+}
+
+/* Buttons inside dropdown */
+.footer .dropdown-content button {
+  background-color: #02866e;
+  color: white;
+  padding: 10px;
+  text-align: left;
+  width: 100%;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.footer .dropdown-content button:hover {
+  background-color: #01384e;
+  color: rgb(233, 248, 26);
+}
+
+/* footer Styling stop */
+
+  </style>
+</head>
+<body>
+
+
+  <!-- LOGIN PAGE start -->
+<div id="loginPage" class="active" style="display:flex; height:100vh; font-family:'Segoe UI',sans-serif;">
+
+  <!-- ===== LEFT: Company Info ===== -->
+  <div style="flex:1; background:linear-gradient(135deg,#9e3e5e,#48a48f); color:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:40px;">
+    <img src="https://content3.jdmagicbox.com/comp/kashipur/a5/9999p5947.5947.171001025659.i1a5/catalogue/e-services-and-stationery-kundeswari-kashipur-stationery-shops-uk7qol91fm.jpg" alt="Company Logo" style="width:100px; height:100px; margin-bottom:20px;">
+    <h1 style="margin:0; font-size:28px;">eS|M Tally</h1>
+    <p style="max-width:300px; text-align:center; margin:10px 0 20px; font-size:14px; line-height:1.5;">
+      Welcome to our secure login portal. Manage your accounts, invoices, and reports with ease.
+    </p>
+    <ul style="list-style:none; padding:0; margin:0; font-size:14px; text-align:left;">
+      <li>✔ GST Enabled Invoicing</li>
+      <li>✔ Secure Ledger Reports</li>
+      <li>✔ Multi-user Access</li>
+    </ul>
+  </div>
+
+  <!-- ===== RIGHT: Login Box ===== -->
+  <div style="flex:1; display:flex; justify-content:center; align-items:center; background:#f4f6f9;">
+    <div class="login-box" style="background:#fff; padding:40px; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.1); width:320px;">
+      
+      <h2 style="text-align:center; margin-bottom:20px; color:#5b2c6f;">Login</h2>
+
+      <select id="selectcid" required 
+              style="width:100%; padding:10px; margin-bottom:12px; border:1px solid #ccc; border-radius:6px; font-size:14px; color:#5b2c6f;">
+        <option value="">Loading...</option>
+      </select>
+
+      <input type="text" id="loginUser" placeholder="User ID"
+             style="width:100%; padding:10px; margin-bottom:12px; border:1px solid #ccc; border-radius:6px; font-size:14px;">
+      
+      <input type="password" id="loginPass" placeholder="Password"
+             style="width:100%; padding:10px; margin-bottom:16px; border:1px solid #ccc; border-radius:6px; font-size:14px;">
+      
+      <button onclick="attemptLogin()" 
+              style="width:100%; padding:12px; font-size:15px; border:none; border-radius:8px; background:#5b2c6f; color:#fff; cursor:pointer;">
+        Login
+      </button>
+
+      <div class="error" id="loginError" 
+           style="color:red; font-size:13px; margin-top:10px; text-align:center;"></div>
+
+      <!-- CREATE COMPANY BUTTON -->
+      <button onclick="openCompanyDialog()" 
+              style="margin-top:20px; width:100%; padding:10px; font-size:14px; border-radius:8px; background:#ecf0f1; color:#333; border:none; cursor:pointer;">
+        Create Company
+      </button>
+    </div>
+  </div>
+</div>
+
+
+  <!-- LOGIN PAGE stop -->
+
+
+
+
+
+  <div id="dashboard">  <!-- Dashboard div start -->
+    <header>
+      <div id="top-bar">
+
+      <div class="button-div">
+      <button onclick="showSection(1)">HOME</button>
+      <button onclick="showSection(3)" style="color: rgb(249, 172, 172);">Voucher</button>
+      <button onclick="showSection(2)">Daybook</button>
+        <button onclick="showSection(4)" style="color: rgb(255, 255, 255);">Ledger Report</button>
+      <button onclick="showSection(7)">Admin*</button>
+      </div>
+        
+        <div class="user-info">
+          <span id="username">Guest</span>
+          <button id="logout-btn" onclick="logout()">Logout</button>
+        </div>
+      </div>
+    </header>
+
+    <div style="height: 60px;"></div> <!-- spacer under header -->
+
+    <div id="message" class="message"></div>
+
+    <!-- ============================================== sections start =============================================================== -->
+
+  <div id="sections">  <!-- sections Div open-->
+
+     <div id="sectionGuest" class="section hidden">
+  <h2><span>Welcome Guest</span></h2>
+  <p>You are logged in as a guest. Limited access.</p>
+
+
+
+</div>
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  
+<!-- SECTION (1) START -->  <div id="section1" class="section hidden" >
+  <h3><span>HOME</span> Section</h2>
+
+
+    <!-- Company Profile Show -->
+<div id="companyProfile" style="margin-top:15px; padding:10px; border:1px solid #ccc; background:#f8f9fa; border-radius:8px;">
+ 
+  <div id="profileDetails" style="font-size:16px; padding-top:5px; color:#333;">Please select a company.</div>
+</div>
+    
+
+<style>
+
+  .homesection {
+      padding: 40px 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+      .services {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
+ 
+.card {
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin: 10px;
+      width: 350px;
+      border-radius: 8px;
+    }
+</style>
+
+
+<p style="text-align:center;">We are a leading trading company dealing in import-export, bulk supply, and product sourcing solutions. With over 10 years of experience, we provide reliable and efficient business services to grow your brand internationally.</p>
+
+
+  <section class="homesection" >
+    <h2>Dashboard</h2>
+    <label>Select Month:</label>
+    <input type="month" id="monthSelector">
+    <div class="services">
+
+      <div class="card">
+<div id="summaryDiv" style="margin-top: 20px;"></div>
+      </div>
+
+      <div class="card">
+       <div id="gstSummaryDiv"></div>
+      </div>
+
+      <div class="card">
+
+
+       <div id="eventsList" style="color:#013030;font-size:100%;font-family:Arial;"></div>
+
+           <span class="CMNYNAME" style="color: rgb(40, 40, 40); font-weight: bold;"></span> <br/>
+
+           <span style="color: rgb(8, 8, 8); font-weight: bold;">ID No.</span> 
+         <span class="IDNO" style="color: rgb(96, 97, 97); font-weight: bold;"></span>
+
+        <p>Admin Details: Mr. Mukhtiyar Ahamad <br/> Contect No: +91-9756735792</p>
+
+          <span id="globalMessage" style="color: rgb(11, 3, 241); font-size: 16px;"></span>
+      </div>
+
+    </div></section>
+
+
+<script>
+document.getElementById("monthSelector").addEventListener("change", fetchSummary);
+
+window.addEventListener("DOMContentLoaded", () => {
+  const today = new Date();
+  const currentMonth = today.toISOString().slice(0, 7); // "YYYY-MM"
+  const monthInput = document.getElementById("monthSelector");
+  monthInput.value = currentMonth;
+  fetchSummary(); // Load summary for current month
+});
+
+function fetchSummary(retryCount = 0) {
+  const monthValue = document.getElementById("monthSelector").value;
+  if (!monthValue) return;
+
+  const esmTable = document.getElementById("esmdata");
+  if (!esmTable) return;
+
+  const rows = Array.from(esmTable.querySelectorAll("tr"))
+    .map(tr => Array.from(tr.querySelectorAll("td")).map(td => td.innerText.trim()));
+
+  // ✅ अगर table खाली है तो 500ms बाद फिर try करो (max 10 बार)
+  if (rows.length <= 1) {
+    if (retryCount < 10) {
+      setTimeout(() => fetchSummary(retryCount + 1), 500);
+    } else {
+      console.warn("esmdata table अब तक populate नहीं हुई।");
+    }
+    return;
+  }
+
+  // ✅ पहले span से ID लो
+  const currentID = document.querySelector(".IDNO")?.innerText.trim();
+  if (!currentID) {
+    console.warn("IDNO value नहीं मिली।");
+    return;
+  }
+
+  const DATE_INDEX = 3;
+  const TYPE_INDEX = 2;
+  const CREDIT_INDEX = 7;
+  const DEBIT_INDEX = 6;
+  const GST_AMOUNT_INDEX = 13;
+  const ID_INDEX = 11;  // Column 12 (index 11)
+  const GST_TYPE_INDEX = 15;
+
+  let sale = 0, bankcr = 0, cashcr = 0, bankdr = 0, cashdr = 0, purchase = 0;
+  let gstOutput = 0, igstOutput = 0, gstInput = 0, igstInput = 0;
+
+  for (let i = 1; i < rows.length; i++) { // skip header
+    const row = rows[i];
+    if (!row.length) continue;
+
+    // ✅ पहले filter: केवल वही row लो जिसका ID match करे
+    if ((row[ID_INDEX] || "").trim() !== currentID) continue;
+
+    const dateStr = row[DATE_INDEX] || "";
+    const type = (row[TYPE_INDEX] || "").toUpperCase();
+    const credit = parseFloat(row[CREDIT_INDEX] || 0);
+    const debit = parseFloat(row[DEBIT_INDEX] || 0);
+    const gstAmount = parseFloat(row[GST_AMOUNT_INDEX] || 0);
+    const gstType = (row[GST_TYPE_INDEX] || "").toUpperCase();
+
+    let rowMonth = "";
+    try {
+      // ✅ अब "1-Sep-2025" और "01-Sep-2025" दोनों format handle होंगे
+      const parsedDate = new Date(dateStr.replace(/(\d{1,2})-(\w{3})-(\d{4})/, "$1 $2 $3"));
+      if (isNaN(parsedDate)) {
+        console.warn("Invalid date format:", dateStr);
+        continue;
+      }
+      rowMonth = parsedDate.toISOString().slice(0, 7);
+    } catch (e) {
+      console.warn("Date parse error:", dateStr);
+      continue;
+    }
+
+    if (rowMonth !== monthValue) continue;
+
+    // Financial Summary
+    if (type === "SALE") {
+      sale += debit;
+      if (gstType === "GST") gstOutput += gstAmount;
+      else if (gstType === "IGT") igstOutput += gstAmount;
+    } else if (type === "PURCHASE") {
+      purchase += credit;
+      if (gstType === "GST") gstInput += gstAmount;
+      else if (gstType === "IGT") igstInput += gstAmount;
+    } else if (type === "BANK") {
+      bankcr += credit;
+      bankdr += debit;
+    } else if (type === "CASH") {
+      cashcr += credit;
+      cashdr += debit;
+    }
+  }
+
+  const totalCredit = bankcr + cashcr + purchase;
+  const totalDebit = bankdr + cashdr + sale;
+  const profitLoss = totalCredit - totalDebit;
+
+  const profitLossColor = profitLoss < 0 ? "red" : "green";
+  const profitLossLabel = profitLoss < 0 ? "Loss" : "Profit";
+
+  const summaryHTML = `
+    <h3>📊 Summary for ${monthValue}</h3>
+    <ul>
+      <li><strong>Sale (Dr):</strong> ₹${sale.toFixed(2)}</li>
+      <li><strong>Purchase (Cr):</strong> ₹${purchase.toFixed(2)}</li>
+      <li><strong>Bank Credit:</strong> ₹${bankcr.toFixed(2)}</li>
+      <li><strong>Bank Debit:</strong> ₹${bankdr.toFixed(2)}</li>
+      <li><strong>Cash Credit:</strong> ₹${cashcr.toFixed(2)}</li>
+      <li><strong>Cash Debit:</strong> ₹${cashdr.toFixed(2)}</li>
+    </ul>
+    <div style="margin-top: 10px; font-weight: bold;">
+      🧾 Profit & Loss:
+      <span style="color: ${profitLossColor};">
+        ₹${profitLoss.toFixed(2)} (${profitLossLabel})
+      </span>
+    </div>
+  `;
+
+  const outputgst = gstOutput + igstOutput;
+  const inputgst = gstInput + igstInput;
+  const gstDiff = inputgst - outputgst;
+
+  const gstSummaryHTML = `
+    <h4>🧾 GST Summary for ${monthValue} </h4>
+
+    <strong style="color: rgb(1, 147, 142);"> GST Diff:</strong> ₹${gstDiff.toFixed(2)}
+    <ul>
+      <li><strong>Output (GST):</strong> ₹${gstOutput.toFixed(2)}</li>
+      <li><strong>Output (IGST):</strong> ₹${igstOutput.toFixed(2)}</li>
+      <li><strong style="color: rgb(248, 103, 103);">Total Output (Sale):</strong> ₹${outputgst.toFixed(2)}</li>
+      <br>
+      <li><strong>Input (GST):</strong> ₹${gstInput.toFixed(2)}</li>
+      <li><strong>Input (IGT):</strong> ₹${igstInput.toFixed(2)}</li>
+      <li><strong style="color: rgb(5, 242, 155);">Total Input (Purchase):</strong> ₹${inputgst.toFixed(2)}</li>
+    </ul>
+  `;
+
+  document.getElementById("summaryDiv").innerHTML = summaryHTML;
+  document.getElementById("gstSummaryDiv").innerHTML = gstSummaryHTML;
+}
+</script>
+
+
+
+
+
+</div> <!-- SECTION (1) STOP -->
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+
+
+<!-- SECTION (2) START --> <div id="section2" class="section hidden">
+ 
+  
+
+  <div class="modalDAYBOOK">
+      <div class="modalDAYBOOK-header">
+        <div>
+          <div class="modalDAYBOOK-title">
+            <span class="CMNYNAME" style="color: rgb(0, 48, 46); font-weight: bold;"></span>
+          </div>
+          <div class="muted">Daybook Serch Bar</div>
+        </div>
+      </div>
+
+      <div class="modalDAYBOOK-body">
+        <!-- Upper panelDAYBOOK -->
+        <section class="panelDAYBOOK">
+           <!-- daybook serch bar -->
+
+ 
+
+<!-- serchbar + Date Filter + Print -->
+<div style="display: flex; justify-content: flex-start; gap:10px; margin:10px 0;">
+
+    <!-- Search Box -->
+<label>Daybook Searchbar
+<input type="text" id="daybookserch" placeholder="🔍 Search..." onkeyup="applyDaybookFilters()" >
+</label>
+  <label>From: <input type="date" id="dbfromDate"></label>
+  <label>To: <input type="date" id="dbtoDate"></label>
+  <button onclick="applyDaybookFilters()" 
+          style="border: none; color: rgb(37, 0, 0); font-weight: bold;  
+                 cursor: pointer; background-color:white;">
+    Filter
+  </button>
+  <button id="daybookPrint" onclick="printDaybook()" 
+          style="border: none; color: rgb(0, 27, 37); font-weight: bold;  
+                 cursor: pointer; background-color: white;">
+    🖨️ Print
+  </button>
+</div>
+
+        </section>
+
+        <!-- Lower panelDAYBOOK -->
+        <section class="panelDAYBOOK">
+          <h3>Daybook</h3>
+         
+   
+<!-- Table structure -->
+<table id="ledgerreport" border="1" style="border-collapse: collapse; width:100%; margin-top:20px;">
+  <thead>
+    <tr style="background-color: black; color: white; text-align: center; font-weight: bold;">
+      <th>SNo</th>
+      <th>User</th>
+      <th>Voucher</th>
+      <th>Date</th>
+      <th>Ledger</th>
+      <th>Invoice No.</th>
+      <th>Narration</th>
+      <th>Vehicle No.</th>
+      <th>GST %</th>
+      <th>GST Amount</th>
+      <th>Amt (Dr.)</th>
+      <th>Amt (Cr.)</th>
+      <th>Balance</th>
+    </tr>
+  </thead>
+  <tbody id="ledgerreportBody"></tbody>
+</table>
+
+        </section>
+      </div>
+
+      <div class="modalDAYBOOK-footer">
+
+      </div>
+    </div>
+</div> <!-- SECTION (2) STOP -->
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+
+
+
+
+<!-- SECTION (3) START --> <div id="section3" class="section hidden">
+
+   <div class="twopartdiv">  <div class="left" style="background-color: #dcdddd; color:#004d80;font-weight: bold;">   <!-- यह एक नोट है, vertical Two Part Div (30-70) left content start ((CODE501)) -->
+
+<!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& -->
+ <!-- Right Form Section -->
+<div class="form-container" id="formContainer" style="display:none;">
+  
+  <div id="formContent">
+    <!-- Form will be injected here -->
+  </div>
+</div>
+<!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& -->  
+
+    </div> <!-- यह एक नोट है, vertical Two Part Div (30-70) left content stop -->
+<div class="right" style="background-color: rgb(253, 252, 252);">  <!-- यह एक नोट है, vertical Two Part Div (30-70) right content start -->
+
+ 
+
+
+
+  <div class="modalvcr">
+      <div class="modalvcr-header">
+        <div>
+          <div class="modalvcr-title">
+            <span class="CMNYNAME" style="color: rgb(0, 48, 46); font-weight: bold;"></span>
+          </div>
+          <div class="muted">Creat Ledger,Sale,Purchase,Banking, Other Voucher</div>
+        </div>
+      </div>
+
+      <div class="modalvcr-body">
+        <!-- Upper panelvcr -->
+        <section class="panelvcr">
+     
+
+           <!-- First dropdown populated based on username -->
+ <label style="font-size: 16px; font-weight: bold;color: rgb(14, 14, 14);">Select Voucher:</label>
+<select id="DMPUSER" required onchange="showForm(this.value)" style="width: 3in; font-size: 18px; text-align: center; background-color: #ffffff;color: rgb(1, 32, 42);"></select>
+
+   <span style="font-size: 16px; font-weight: bold;color: rgb(14, 14, 14);">Search Ledger Details</span>
+    <input type="text" id="serchbarspldgr" placeholder="🔍 Search..." onkeyup="searchspldgrTable()" style="width: 3in; font-size: 18px; text-align: center; background-color: #eaf2f6;color: rgb(1, 32, 42);">
+
+        </section>
+
+        <!-- Lower panelvcr -->
+        <section class="panelvcr">
+          <h3>Voucher Daybook Entry</h3>
+         
+   <table >
+   <thead id="tableHeadSpldgr"></thead>
+  <tbody id="tableBodyspldgr"></tbody>
+</table>
+        </section>
+      </div>
+
+      <div class="modalvcr-footer">
+
+      </div>
+    </div>
+
+
+    </div> </div>  <!-- यह एक नोट है, vertical Two Part Div (30-70) right content stop -->
+</div> <!-- SECTION (3) STOP -->
+
+
+
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+
+<!-- SECTION (4) START -->
+  <!-- Section 4 where popup content will always show -->
+  <div id="section4" class="section">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title">
+            <span class="CMNYNAME" style="color: rgb(0, 48, 46); font-weight: bold;"></span>
+          </div>
+          <div class="muted">Ledger search, summary, SOA table</div>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <!-- Upper panel -->
+        <section class="panel">
+       
+          <!-- Ledger Input -->
+ <label style="color: red; font-size: 16px; font-weight: bold;">Search & Select Ledger:*</label>
+<input type="text"  class="ldgrReport" required placeholder="Enter Ledger" autocomplete="on" />
+<div id="ledgerReportSuggestions" class="suggestion-box" style="width: 5in;"></div>
+
+ <!-- Date filters -->
+  <div style="display: flex; justify-content: flex-start;">
+<label>From: <input type="date" id="fromDate"></label>
+<label>To: <input type="date" id="toDate"></label>
+<button  onclick="applySOADateFilter()" style="border: none; color: rgb(37, 0, 0); font-weight: bold;  cursor: pointer;background-color:white;">Filter</button>
+<button  id="soaPrintBtn" style="border: none; color: rgb(0, 27, 37); font-weight: bold;  cursor: pointer;background-color: white;">🖨️ Print</button>
+  
+</div>
+
+          <div id="summaryBox">Search Ledger...</div>
+        
+        </section>
+
+        <!-- Lower panel -->
+        <section class="panel">
+          <h3>Account Details</h3>
+          <table id="soa"></table>
+        </section>
+      </div>
+
+      <div class="modal-footer">
+
+      <span id="whastup" style="color:rgb(88, 29, 1);font-size:100%;">WhatsApp</span>
+
+      </div>
+    </div>
+  </div>
+ 
+
+<!-- SECTION (4) STOP -->
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+
+<!-- SECTION (5) START --> <div id="section5" class="section hidden">
+  <h2>PO Summary</h2><p>Content for PO summary...</p>
+</div> <!-- SECTION (5) STOP -->
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+
+<!-- SECTION (6) START --> <div id="section6" class="section hidden">
+  <h2>Job/Reff</h2><p>Content for Job/Reff...</p>
+</div> <!-- SECTION (6) STOP -->
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+
+<!-- SECTION (7) START --> <div id="section7" class="section hidden">
+  <h2>Admin Panel</h2><p>Admin-only content here.</p>
+
+
+   <script>
+
+     // ✅ पेज लोड होते ही सभी div छिपा दो
+          document.addEventListener("DOMContentLoaded", function () {
+        // ✅ पेज लोड होते ही सभी div छिपा दो
+        const divs = document.querySelectorAll('.content');
+        divs.forEach(div => div.style.display = 'none');
+    });
+        function showDiv(selectedValue) {
+            // सभी div को छिपाना
+            const divs = document.querySelectorAll('.content');
+            divs.forEach(div => div.style.display = 'none');
+            
+            // चयनित div को दिखाना
+            const selectedDiv = document.getElementById(selectedValue);
+            if (selectedDiv) {
+                selectedDiv.style.display = 'block';
+            }
+        }
+      
+    </script>
+<span style="color: #117A65 ;font-size:130%;">Select Your Sheet</span>
+ <br/>
+    <select onchange="showDiv(this.value)">
+    <option value="">Select an option</option>
+    <option value="1">Data Sheet</option>
+    <option value="2">Licence and User Sheet</option>
+    <option value="3">Sheet and Other Url</option>
+    </select>
+
+
+      <div id="1" class="content"><table id="esmdata"></table> </div>
+      <div id="2" class="content"><table id="esmdata1"></table> </div>
+        <div id="3" class="content">
+          
+       <!-- यह एक नोट है, Dropdown URL  Script Start Heare -->
+<!DOCTYPE html>
+<html>
+<head>
+
+    <script>
+        // Function to handle dropdown selection
+        function handleDropdownChange() {
+            const dropdown = document.getElementById('linkDropdown');
+            const selectedOption = dropdown.options[dropdown.selectedIndex];
+
+            if (selectedOption.value) {
+                // Open the link in a new tab
+                window.open(selectedOption.value, '_blank');
+            }
+        }
+    </script>
+    <style>
+        select {
+            padding:5px;
+            font-size: 14px;
+            margin: 2px 0;
+        }
+    </style>
+</head>
+<body>
+
+ <label style="color: #000;"> Google Sheet Links</label>
+    <select id="linkDropdown" onchange="handleDropdownChange()">
+        <option value="">--Google Sheet Links --</option>
+        <option value="https://docs.google.com/spreadsheets/d/1lCFkLCR3MjqoLLiJTAqP9uLXtSwIOeiWL3MJoL5Qz6Y/edit?gid=1731123188#gid=1731123188">	eS/MTally Google sheet</option>
+        <option value="https://docs.google.com/spreadsheets/d/1Le3PAEVKUtx3CILxfafC9O3HC9WppRnDPtngYNo6EG4/edit?gid=0#gid=0">	Ols SEW SHeet Data</option>
+     <option value="https://github.com/">	github (mukhtarahamadksp@gmail.com)</option>
+     <option value="eTally.html">	eTally Dashboard</option>
+    </select>
+</body>
+</html>
+
+<!-- यह एक नोट है, Dropdown URL  Script Stop Heare -->
+        
+        
+        
+        </div>
+        
+
+</div> <!-- SECTION (7) STOP -->
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+    </div>
+
+
+<!-- ✅ Footer content start -->
+<div class="footer">
+
+  
+
+ <!-- Current date and time will be displayed here -->
+            
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+            
+<div style="display: flex; flex-direction: row; align-items: center; background-color: #002044; color: rgb(249, 252, 229); font-size: 20px; font-weight: bold;">
+  
+  <!-- Current Time -->
+  <div id="currentDateTime" style="padding: 10px 20px; white-space: nowrap;"></div>
+
+  
+ 
+</div>
+ 
+<script>
+function displayCurrentDateTime() {
+const now = new Date();
+
+// Formatting options
+const options = { 
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric', 
+    hour: '2-digit', 
+    minute: '2-digit', 
+    second: '2-digit' 
+};
+
+// Formatting date and time
+const formattedDateTime = now.toLocaleString('en-US', options);
+
+// Displaying in the div
+document.getElementById("currentDateTime").textContent = `Today: ${formattedDateTime}`;
+}
+
+// Call the function on page load to show the current date and time
+displayCurrentDateTime();
+
+// Update the date and time every second
+setInterval(displayCurrentDateTime, 1000);
+</script>
+<!-- Current date and time will be displayed Stop -->
+
+  </div>    <!-- footer div stop---- -->
+
+</body>
+</html>
+
+  </div>  <!-- footer div stop -->
+
+
+
+<!-- ****************************** LOGIN DASHBOARD SCRIPT START ******************************************************************** -->
+
+
+
+
+
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 0;
+    }
+    #loginPage, #dashboard {
+      display: none;
+      padding: 20px;
+    }
+    #loginPage.active, #dashboard.active {
+      display: block;
+    }
+    .login-box {
+      max-width: 350px;
+      margin: 100px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .login-box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .login-box input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .login-box button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .login-box button:hover {
+      background: #0056b3;
+    }
+    .error {
+      color: red;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .hidden { display: none; }
+  </style>
+
+<!-- ****************************** LOGIN DASHBOARD SCRIPT ******************************************************************** -->
+<script src="esm.js"></script>
+
+
+<!-- **************** company id aur company profile div for home screen script start ********--> 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const selectCid = document.getElementById("selectcid");
+  const profileDiv = document.getElementById("profileDetails");
+
+  selectCid.addEventListener("change", () => {
+    const selectedValue = selectCid.value.trim();
+
+    // Hidden CIN value update
+    document.querySelectorAll('input[name="CIN"]').forEach(input => {
+      input.value = selectedValue;
+    });
+
+    // Agar dusre script me setUserCode function defined hai, to call karo
+    if (typeof setUserCode === "function") {
+      setUserCode(selectedValue);
+    }
+
+    // Search in esmdata table
+    const esmTable = document.getElementById("esmdata");
+    if (!esmTable) return;
+
+    const rows = Array.from(esmTable.querySelectorAll("tr")).slice(1); // skip header
+    let foundRow = null;
+
+    rows.forEach(tr => {
+      const cells = tr.querySelectorAll("td");
+      if (cells[2]?.innerText.trim() === selectedValue) {  // column index 2 = CIN
+        foundRow = cells;
+      }
+    });
+
+    if (foundRow) {
+      const companyName = foundRow[3]?.innerText || "N/A";
+      const proprietor = foundRow[4]?.innerText || "N/A";
+      const address = foundRow[5]?.innerText || "N/A";
+      const mobailno = foundRow[8]?.innerText || "N/A";
+        const cin = foundRow[2]?.innerText || "N/A";
+
+      profileDiv.innerHTML = `
+       <h3 style="margin:0; color:#022d5e;">Company ID No.:  ${cin}</h3>
+        <h1 style="color:#2F4F4F;text-align:center;font-size:150%">
+<span id="selectcid" style="color:#022d5e;font-size: 150%;">${companyName}</span>
+</h1>
+
+ <h1 style="color:rgb(2, 172, 172); text-align: center; font-size: 100%;"> ${address}</h1>
+<h1 style="color:#2F4F4F;text-align:center;font-size:100%">
+<span style="color:#848585;font-size: 100%;">${mobailno}</span>
+<span style="color:#616060;font-size: 100%;">(${proprietor})</span>
+</h1>
+      `;
+    } else {
+      profileDiv.innerHTML = `<span style="color:red;">No profile found for ${selectedValue}</span>`;
+    }
+  });
+});
+</script>
+<!-- **************** company id aur company profile div for home screen script stop ********--> 
+
+<!-- **************** company id and name in a span script start ********--> 
+<script>
+// Jab option select hoga
+document.getElementById("selectcid").addEventListener("change", function() {
+    const selectedOption = this.options[this.selectedIndex];
+    const value = selectedOption.value;   // option ka value
+    const text  = selectedOption.text;    // option ka naam (label)
+
+    // sabhi IDNO spans ko update karo
+    document.querySelectorAll(".IDNO").forEach(el => el.textContent = value);
+
+    // sabhi CMNYNAME spans ko update karo
+    document.querySelectorAll(".CMNYNAME").forEach(el => el.textContent = text);
+});
+</script>
+
+<!-- **************** company id and name in a span script stop ********--> 
+
+<!-- ****************************** LOGIN DASHBOARD SCRIPT STOP ******************************************************************** --> 
+
+
+
+<!-- ******************************************voucher selection option ************************************************************ -->
+<script>
+  function showForm(type) {
+    const titleMap = {
+      CREAT: "JLN1",
+      SALE: "SALES1",
+      PURCHASE: "PURCHASE1",
+      BANK: "BANKING",
+      CASH: "CASH IN HEND"
+      
+    };
+
+    const contentMap = {
+      CREAT: `
+        <form id="mainVCRForm">
+        <input type="hidden" name="SNo" id="sNo">
+       
+         
+           <input type="hidden" name="CIN" id="CINID">
+
+        <label >User</label>
+        <input type="text" id="IDvcr12" class="usercode" name="User" value="" required readonly>
+        
+        
+        
+        <label >Ledger Code</label>
+        <input type="text" id="IDvcr11" name="Clm5" value="" readonly required> </input>
+
+        <label >Voucher Head</label>
+         <select id="IDvcr18" name="Date" required>
+                    <option value="">Select</option>
+                    <option value="Debtors">Debtors</option>
+                     <option value="Creditors">Creditors</option>
+                    <option value="Income">Income</option>
+                    <option value="Expenses">Expenses</option>
+                     <option value="Taxes">Taxes</option>
+                </select>
+
+ 
+        <label >Voucher</label>
+       <select id="IDvcr21"  name="Voucher" style="color: #6803a2 ;font-size:100%;" required readonly>
+            <option value="CREAT">Creat/Alter</option>
+        </select>
+        
+         
+
+        <label>Ledger Name:</label>
+        <input type="text" id="IDvcr13" name="Ledger" placeholder="Enter Ledger Name" required >
+
+        <label>Address:</label>
+        <input type="text" id="IDvcr14" name="Clm1" placeholder="Enter Address" required >
+      
+        <label>Registration Type:</label>
+        <select id="IDvcr15" name="Clm2" onchange="handleOptionChange()" required>
+                    <option value="">Select</option>
+                    <option value="Unregistered/Consumer">Unregistered</option>
+                    <option value="Regular">Regular</option>
+                </select>
+  
+
+                  <div id="input-container" style="display:none;">
+                    <label for="IDvcr16" style="color: rgb(115, 3, 14);">Enter GST No.:</label>
+                    <input type="text" id="IDvcr16" name="Clm3" placeholder="Enter GSTIN No." />
+                  </div>
+
+
+
+
+        <label>Contect No:</label>
+        <input type="text" id="IDvcr17" name="Clm4" placeholder="Enter Contect No. if any" >
+
+
+         <input type="hidden" name="Timestamp" id="timestampVCR">
+
+        <input type="submit" id="submitVCRButton" value="Submit">
+                  
+                   <!-- Wait message div -->
+        <div id="waitVCRMessage" style="display:none; color:red; font-size:16px; font-weight:bold;"></div>
+
+        <H3 style="background-color: #004466 ;color: white;font-size: 120%; text-align: center;font-weight: bold;">Alter|Modify</H3>
+               </form>
+
+        <form id="modifyVCRForm">
+           <input type="hidden" id="formModeVCR" name="formModeVCR" value="new">
+            <input type="number" id="searchVCRSNo" placeholder="Enter S.No. to Modify Entry" >
+            <button type="button" class="fetchbtn" onclick="fetchVCRDetails()">Fetch Details</button>
+            <button type="button" class="fetchbtn"  id="modifyVCRButton" onclick="modifyVCREntry()" style="display:none;">Modify Entry</button>
+             
+       
+    </form>
+    
+      `,
+      SALE: `
+       
+<form id="mainspldgrForm">
+        <input type="hidden" name="SNo" id="sNo">
+       
+
+         <input type="hidden" name="CIN" id="CINID">
+
+        <label >User</label>
+        <input type="text" id="IDspldgr12" class="usercode" name="User" value="" required readonly>
+
+         <label >Date.</label>
+        <input type="date" id="IDspldgr11" name="Date" required>
+
+ 
+
+        <label >Voucher</label>
+       <select id="IDspldgr21" class="dynamicDMPdp" name="Voucher" style="color: #6803a2 ;font-size:100%;" required  readonly> </select>
+
+<!-- यह एक नोट है, ledger dropdown option and script start -->
+<!-- Ledger Input -->
+ <label>Ledger Name:</label>
+<input type="text" id="IDspldgr13" class="ldgrdp" name="Ledger" required placeholder="Enter Ledger" autocomplete="on" />
+<div id="ledgerSuggestions" class="suggestion-box"></div>
+
+
+
+
+<label>Invoice No.:</label>
+        <input type="text" id="IDspldgr14" name="Clm1" placeholder="Enter Invoice No" required >
+
+        <label>Total Amount:</label>
+        <input type="number" id="IDspldgr15" name="Clm2" placeholder="Enter Amount" required >
+      
+        <label>GST %:</label>
+        <select id="IDspldgr16" name="Clm6" required>
+                    <option value="">Select</option>
+                    <option value="5">5%</option>
+                     <option value="12">12%</option>
+                    <option value="18">18%</option>
+                    <option value="28">28%</option>
+                    <option value="0">URP</option>
+                </select>
+  
+        <label>Narration:</label>
+        <input type="text" id="IDspldgr17" name="Clm4" placeholder="Enter Narration" />
+
+        <label>Vehicle No:</label>
+        <input type="text" id="IDspldgr18" name="Clm5" placeholder="Enter Narration" />
+
+
+        
+
+         <input type="hidden" name="Timestamp" id="timestampspldgr">
+
+        <input type="submit" id="submitspldgrButton" value="Submit">
+
+        <!-- Wait message div -->
+<div id="waitspldgrMessage" style="display:none; color:red; font-size:16px; font-weight:bold;"></div>
+
+        <H3 style="background-color: #004466 ;color: white;font-size: 120%; text-align: center;font-weight: bold;">Alter|Modify</H3>
+
+         </form>
+
+
+        <form id="modifyspldgrForm">
+           <input type="hidden" id="formModespldgr" name="formModespldgr" value="new">
+            <input type="number" id="searchspldgrSNo" placeholder="Enter S.No. to Modify Entry" >
+            <button type="button" class="fetchbtn" onclick="fetchspldgrDetails()">Fetch Details</button>
+            <button type="button" class="fetchbtn"  id="modifyspldgrButton" onclick="modifyspldgrEntry()" style="display:none;">Modify Entry</button>
+             
+        </form>
+   
+      `,
+      PURCHASE: `
+        <form id="mainpurformForm">
+        <input type="hidden" name="SNo" id="sNo">
+        <input type="hidden" name="CIN" id="CINID">
+
+        <label >User</label>
+        <input type="text" id="IDpurform12" class="usercode" name="User" value="" required readonly>
+
+         <label >Date.</label>
+        <input type="date" id="IDpurform11" name="Date" required>
+
+ 
+
+        <label >Voucher</label>
+       <select id="IDpurform21" class="dynamicDMPdp" name="Voucher" style="color: #6803a2 ;font-size:100%;" required readonly> </select>
+
+
+
+<!-- Ledger Input -->
+ <label>Ledger Name:</label>
+<input type="text" id="IDpurform13" class="ldgrdp" name="Ledger" required placeholder="Enter Ledger" autocomplete="on" />
+<div id="ledgerSuggestions" class="suggestion-box"></div>
+
+
+<label>Invoice No.:</label>
+        <input type="text" id="IDpurform14" name="Clm1" placeholder="Enter Invoice No" required >
+
+        <label>Total Amount:</label>
+        <input type="number" id="IDpurform15" name="Clm3" placeholder="Enter Amount" required >
+      
+        <label>GST %:</label>
+        <select id="IDpurform16" name="Clm6" required>
+                    <option value="">Select</option>
+                    <option value="5">5%</option>
+                     <option value="12">12%</option>
+                    <option value="18">18%</option>
+                    <option value="28">28%</option>
+                     <option value="0">URP</option>
+                </select>
+  
+        <label>Narration:</label>
+        <input type="text" id="IDpurform17" name="Clm4" placeholder="Enter Narration" />
+
+        <label>Vehicle No:</label>
+        <input type="text" id="IDpurform18" name="Clm5" placeholder="Enter Narration" />
+
+
+        
+
+         <input type="hidden" name="Timestamp" id="timestamppurform">
+
+        <input type="submit" id="submitpurformButton" value="Submit">
+
+         <!-- Wait message div -->
+<div id="waitpurformMessage" style="display:none; color:red; font-size:16px; font-weight:bold;"></div>
+
+        <H3 style="background-color: #004466 ;color: white;font-size: 120%; text-align: center;font-weight: bold;">Alter|Modify</H3>
+
+         </form>
+
+
+        <form id="modifypurformForm">
+           <input type="hidden" id="formModepurform" name="formModepurform" value="new">
+            <input type="number" id="searchpurformSNo" placeholder="Enter S.No. to Modify Entry" >
+            <button type="button" class="fetchbtn" onclick="fetchpurformDetails()">Fetch Details</button>
+            <button type="button" class="fetchbtn"  id="modifypurformButton" onclick="modifypurformEntry()" style="display:none;">Modify Entry</button>
+            
+        </form>
+      `,
+       
+      BANK: `
+
+      <form id="maincontraForm">
+        <input type="hidden" name="SNo" id="sNo">
+         <input type="hidden" name="CIN" id="CINID">
+
+        <label >User</label>
+        <input type="text" id="IDcontra12" class="usercode" name="User" value="" required readonly>
+
+         
+
+ 
+
+        <label >Voucher</label>
+       <select id="IDcontra21" class="dynamicDMPdp" name="Voucher" style="color: #6803a2 ;font-size:100%;" required readonly> </select>
+
+       <label >Date.</label>
+        <input type="date" id="IDcontra11" name="Date" required>
+
+
+
+
+<!-- Ledger Input -->
+ <label>Ledger Name:</label>
+<input type="text" id="IDcontra13" class="ldgrdp" name="Ledger" required placeholder="Enter Ledger" autocomplete="on" />
+<div id="ledgerSuggestions" class="suggestion-box"></div>
+
+
+<!-- Dropdown to select Dr. or Cr. -->
+<label>Payment Type:</label>
+<select id="drcr"   required onchange="toggleAmountInput()">
+    <option value="">--Payment Type--</option>
+    <option value="Dr.">Payment</option>
+    <option value="Cr.">Receipt</option>
+</select>
+
+<!-- Amount input fields -->
+<label>Enter Amount:</label>
+<input type="number"  id="contraDR" class="DR" name="Clm2" placeholder="Enter Pay. Amount" required style="display: none;">
+<input type="number" id="contraCR" class="CR" name="Clm3" placeholder="Enter Rec. Amount" required style="display: none;">
+
+
+
+
+        
+        <label>Narration:</label>
+        <input type="text" id="IDcontra17" name="Clm4" placeholder="Enter Narration" />
+
+        
+
+         <input type="hidden" name="Timestamp" id="timestampcontra">
+
+        <input type="submit" id="submitcontraButton" value="Submit">
+
+        <!-- Wait message div -->
+<div id="waitcontraMessage" style="display:none; color:red; font-size:16px; font-weight:bold;"></div>
+
+       <H3 style="background-color: #004466 ;color: white;font-size: 120%; text-align: center;font-weight: bold;">Alter|Modify</H3>
+
+         </form>
+
+
+        <form id="modifycontraForm">
+           <input type="hidden" id="formModecontra" name="formModecontra" value="new">
+            <input type="number" id="searchcontraSNo" placeholder="Enter S.No. to Modify Entry" >
+            <button type="button" class="fetchbtn" onclick="fetchcontraDetails()">Fetch Details</button>
+            <button type="button" class="fetchbtn"  id="modifycontraButton" onclick="modifycontraEntry()" style="display:none;">Modify Entry</button>
+             
+        </form>
+
+
+      `,
+
+      
+      CASH: `
+
+     
+      <form id="maincashForm">
+        <input type="hidden" name="SNo" id="sNo">
+
+        <input type="hidden" name="CIN" id="CINID">
+
+        <label >User</label>
+        <input type="text" id="IDcash12" class="usercode" name="User" value="" required readonly>
+
+         
+
+ 
+
+        <label >Voucher</label>
+       <select id="IDcash21" class="dynamicDMPdp" name="Voucher" style="color: #6803a2 ;font-size:100%;" required readonly> </select>
+
+       <label >Date.</label>
+        <input type="date" id="IDcash11" name="Date" required>
+
+
+<!-- Ledger Input -->
+ <label>Ledger Name:</label>
+<input type="text" id="IDcash13" class="ldgrdp" name="Ledger" required placeholder="Enter Ledger" autocomplete="on" />
+<div id="ledgerSuggestions" class="suggestion-box"></div>
+
+<!-- Dropdown to select Dr. or Cr. -->
+<label>Payment Type:</label>
+<select id="drcr1"   required onchange="togglecashInput()">
+    <option value="">--Payment Type--</option>
+    <option value="Dr.">Payment</option>
+    <option value="Cr.">Receipt</option>
+</select>
+
+<!-- Amount input fields -->
+<label>Enter Amount:</label>
+<input type="number"  id="cashDR" class="DR" name="Clm2" placeholder="Enter Pay. Amount" required style="display: none;">
+<input type="number" id="cashCR" class="CR" name="Clm3" placeholder="Enter Rec. Amount" required style="display: none;">
+
+
+
+
+        
+        <label>Narration:</label>
+        <input type="text" id="IDcash17" name="Clm4" placeholder="Enter Narration" />
+
+        
+
+         <input type="hidden" name="Timestamp" id="timestampcash">
+
+        <input type="submit" id="submitcashButton" value="Submit">
+
+        <!-- Wait message div -->
+<div id="waitcashMessage" style="display:none; color:red; font-size:16px; font-weight:bold;"></div>
+
+       <H3 style="background-color: #004466 ;color: white;font-size: 120%; text-align: center;font-weight: bold;">Alter|Modify</H3>
+
+         </form>
+
+
+        <form id="modifycashForm">
+           <input type="hidden" id="formModecash" name="formModecash" value="new">
+            <input type="number" id="searchcashSNo" placeholder="Enter S.No. to Modify Entry" >
+            <button type="button" class="fetchbtn" onclick="fetchcashDetails()">Fetch Details</button>
+            <button type="button" class="fetchbtn"  id="modifycashButton" onclick="modifycashEntry()" style="display:none;">Modify Entry</button>
+             
+        </form>
+
+
+      `
+
+    };
+
+   // document.getElementById("formTitle").innerText = titleMap[type] || "";  
+   
+  document.getElementById("formContent").innerHTML = contentMap[type] || "";
+  document.getElementById("formContainer").style.display = type ? "block" : "none";
+
+  // ✅ अब ledger search को activate करेंगे
+  if (typeof enableLedgerSearchForAll === "function") enableLedgerSearchForAll();
+
+  if (typeof setUniqueRefNo === "function") setUniqueRefNo();
+  if (typeof setUserCode === "function") setUserCode();
+
+  // ✅ CIN value set karna (selectcid dropdown ke base par)
+  const selectCid = document.getElementById("selectcid");
+  if (selectCid) {
+    const selectedValue = selectCid.value;
+    document.querySelectorAll('#formContent input[name="CIN"]').forEach(input => {
+      input.value = selectedValue;
+    });
+  }
+  //
+}
+  
+
+</script>
+<!-- ******************************************voucher selection option ************************************************************ -->
+
+
+
+
+
+<!-- ****************************************** sale form script ************************************************************ -->
+
+<script>
+  const scriptspldgrURL = 'https://script.google.com/macros/s/AKfycbysoEaG0GqQa9ewvhAc-pvvZbbDmR3mhDBsmt7rBQ-DezmvbyE-EDIWkC6NUUvez1wa/exec';  //esm
+
+  document.addEventListener("submit", async function (e) {
+    const form = e.target;
+    if (form.id !== "mainspldgrForm") return;
+
+    e.preventDefault();
+    const formMode = document.getElementById("formModespldgr").value;
+    const submitspldgrButton = document.getElementById("submitspldgrButton");
+    submitspldgrButton.disabled = true;
+    submitspldgrButton.value = "Wait..";
+
+    const now = new Date();
+    document.getElementById('timestampspldgr').value = `${now.getMonth()+1}/${now.getDate()}/${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+
+    const formInputs = form.querySelectorAll('input, textarea');
+    formInputs.forEach(input => {
+      if (input.type === 'text' || input.type === 'textarea') {
+        input.value = input.value.toUpperCase();
+      }
+    });
+
+    if (formMode === "modify") {
+      await modifyspldgrEntry();
+    } else {
+      await submitspldgrEntry(form);
+    }
+
+    submitspldgrButton.disabled = false;
+    submitspldgrButton.value = "Submit";
+  });
+
+  async function submitspldgrEntry(form) {
+    const formData = new FormData(form);
+
+    console.log("Submitting new entry with SNo:", formData.get("SNo")); // Debug log
+
+    try {
+      const response = await fetch(scriptspldgrURL, { method: 'POST', body: formData });
+      const result = await response.json();
+
+      if (result.result === 'success') {
+        alert('Entry saved successfully!');
+        form.reset(); // Reset all fields
+
+        // ✅ Clear hidden fields manually
+        document.getElementById("formModespldgr").value = "new";
+        document.getElementById("sNo").value = "";
+        document.getElementById("searchspldgrSNo").value = "";
+
+        loadDataFromEsmTable();  // Optional UI refresh
+        setUserCode();
+        loadFormData();
+        refreshAll();
+
+        // ✅ Remove DLT option after submit
+        const SALEDropdown = document.getElementById("IDspldgr21");
+        const dltspldgrOption = [...SALEDropdown.options].find(opt => opt.value === "DLT");
+        if (dltspldgrOption) {
+          SALEDropdown.removeChild(dltspldgrOption);
+        }
+      } else {
+        alert(`Error: ${result.error || 'Unknown error occurred.'}`);
+      }
+    } catch (error) {
+      alert(`Error submitting the form: ${error.message}`);
+    }
+  }
+
+  async function fetchspldgrDetails() {
+    const sNo = document.getElementById("searchspldgrSNo").value;
+    const waitMessage = document.getElementById("waitspldgrMessage");
+    waitMessage.innerText = "Fetching data... Please wait...";
+    waitMessage.style.display = 'block';
+
+    try {
+      const response = await fetch(`${scriptspldgrURL}?sNo=${sNo}`);
+      const data = await response.json();
+
+      if (data.result !== "error" && data.Voucher === "SALE") {
+        document.getElementById("sNo").value = data.SNo;
+        document.getElementById("CINID").value = data.CIN;
+        document.getElementById("IDspldgr11").value = data.Date;
+        document.getElementById("IDspldgr12").value = data.User;
+        document.getElementById("IDspldgr13").value = data.Ledger;
+        document.getElementById("IDspldgr14").value = data.Clm1;
+        document.getElementById("IDspldgr15").value = data.Clm2;
+        document.getElementById("IDspldgr21").value = data.Voucher;
+        document.getElementById("IDspldgr16").value = data.Clm6;
+        document.getElementById("IDspldgr17").value = data.Clm4;
+         document.getElementById("IDspldgr18").value = data.Clm5;
+
+        // Add Delete option if not exists
+        const SALEDropdown = document.getElementById("IDspldgr21");
+        if (![...SALEDropdown.options].some(opt => opt.value === "DLT")) {
+          const dltSALEOption = document.createElement("option");
+          dltSALEOption.value = "DLT";
+          dltSALEOption.text = "Delete";
+          dltSALEOption.style.color = "red";
+          dltSALEOption.style.backgroundColor = "blue";
+          SALEDropdown.appendChild(dltSALEOption);
+        }
+
+        document.getElementById("formModespldgr").value = "modify";
+        alert("Select Delete Option in User Section For Delete Entry");
+      } else {
+        alert("No record found for the given S.No.");
+      }
+    } catch (error) {
+      console.error("Error fetching details:", error);
+      alert("Please reconcile details or contact admin.");
+    } finally {
+      setTimeout(() => waitMessage.style.display = 'none', 2000);
+    }
+  }
+
+  async function modifyspldgrEntry() {
+    const waitMessage = document.getElementById("waitspldgrMessage");
+    waitMessage.innerText = "Please wait...";
+    waitMessage.style.display = "block";
+
+    const form = document.getElementById('mainspldgrForm');
+
+    // ✅ Set new timestamp
+    const now = new Date();
+    document.getElementById('timestampspldgr').value = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+
+    const formData = new FormData(form);
+    formData.set('SNo', document.getElementById('sNo').value);
+
+    console.log("Modifying entry with SNo:", formData.get("SNo")); // Debug log
+
+    try {
+      const response = await fetch(scriptspldgrURL, { method: 'POST', body: formData });
+      const result = await response.json();
+
+      if (result.result === 'success') {
+        alert('Entry modified successfully!');
+        form.reset();
+
+        // ✅ Clear hidden fields after modify
+        document.getElementById("formModespldgr").value = "new";
+        document.getElementById("sNo").value = "";
+        document.getElementById("searchspldgrSNo").value = "";
+
+        loadDataFromEsmTable();
+        setUserCode();
+        loadFormData();
+        refreshAll();
+
+        document.getElementById("submitspldgrButton").style.display = "inline-block";
+        document.getElementById("modifyspldgrButton").style.display = "none";
+
+        // ✅ Remove DLT option
+        const SALEDropdown = document.getElementById("IDspldgr21");
+        const dltspldgrOption = [...SALEDropdown.options].find(opt => opt.value === "DLT");
+        if (dltspldgrOption) {
+          SALEDropdown.removeChild(dltspldgrOption);
+        }
+      } else {
+        alert(`Error modifying entry: ${result.error}`);
+      }
+    } catch (error) {
+      alert(`Error: ${error.message}`);
+    } finally {
+      setTimeout(() => waitMessage.style.display = 'none', 2000);
+    }
+  }
+</script>
+
+
+
+<!-- ****************************************** sale form script ************************************************************ -->
+
+
+        <!-- ****************************************** purchase form script ************************************************************ -->
+
+<script>
+  const scriptpurformURL = 'https://script.google.com/macros/s/AKfycbysoEaG0GqQa9ewvhAc-pvvZbbDmR3mhDBsmt7rBQ-DezmvbyE-EDIWkC6NUUvez1wa/exec';  //esm
+
+  document.addEventListener("submit", async function (e) {
+    const form = e.target;
+    if (form.id !== "mainpurformForm") return;
+
+    e.preventDefault();
+    const formMode = document.getElementById("formModepurform").value;
+    const submitpurformButton = document.getElementById("submitpurformButton");
+    submitpurformButton.disabled = true;
+    submitpurformButton.value = "Wait..";
+
+    const now = new Date();
+    document.getElementById('timestamppurform').value = `${now.getMonth()+1}/${now.getDate()}/${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+
+    const formInputs = form.querySelectorAll('input, textarea');
+    formInputs.forEach(input => {
+      if (input.type === 'text' || input.type === 'textarea') {
+        input.value = input.value.toUpperCase();
+      }
+    });
+
+    if (formMode === "modify") {
+      await modifypurformEntry();
+    } else {
+      await submitpurformEntry(form);
+    }
+
+    submitpurformButton.disabled = false;
+    submitpurformButton.value = "Submit";
+  });
+
+  async function submitpurformEntry(form) {
+    const formData = new FormData(form);
+
+    console.log("Submitting new entry with SNo:", formData.get("SNo")); // Debug log
+
+    try {
+      const response = await fetch(scriptpurformURL, { method: 'POST', body: formData });
+      const result = await response.json();
+
+      if (result.result === 'success') {
+        alert('Entry saved successfully!');
+        form.reset(); // Reset all fields
+
+        // ✅ Clear hidden fields manually
+        document.getElementById("formModepurform").value = "new";
+        document.getElementById("sNo").value = "";
+        document.getElementById("searchpurformSNo").value = "";
+
+        loadDataFromEsmTable();  // Optional UI refresh
+        setUserCode();
+        loadFormData();
+        refreshAll();
+        
+
+        // ✅ Remove DLT option after submit
+        const SALEDropdown = document.getElementById("IDpurform21");
+        const dltpurformOption = [...SALEDropdown.options].find(opt => opt.value === "DLT");
+        if (dltpurformOption) {
+          SALEDropdown.removeChild(dltpurformOption);
+        }
+      } else {
+        alert(`Error: ${result.error || 'Unknown error occurred.'}`);
+      }
+    } catch (error) {
+      alert(`Error submitting the form: ${error.message}`);
+    }
+  }
+
+  async function fetchpurformDetails() {
+    const sNo = document.getElementById("searchpurformSNo").value;
+    const waitMessage = document.getElementById("waitpurformMessage");
+    waitMessage.innerText = "Fetching data... Please wait...";
+    waitMessage.style.display = 'block';
+
+    try {
+      const response = await fetch(`${scriptpurformURL}?sNo=${sNo}`);
+      const data = await response.json();
+
+      if (data.result !== "error" && data.Voucher === "PURCHASE") {
+        document.getElementById("sNo").value = data.SNo;
+        document.getElementById("CINID").value = data.CIN;
+        document.getElementById("IDpurform11").value = data.Date;
+        document.getElementById("IDpurform12").value = data.User;
+        document.getElementById("IDpurform13").value = data.Ledger;
+        document.getElementById("IDpurform14").value = data.Clm1;
+        document.getElementById("IDpurform15").value = data.Clm3;
+        document.getElementById("IDpurform21").value = data.Voucher;
+        document.getElementById("IDpurform16").value = data.Clm6;
+        document.getElementById("IDpurform17").value = data.Clm4;
+         document.getElementById("IDpurform18").value = data.Clm5;
+
+        // Add Delete option if not exists
+        const SALEDropdown = document.getElementById("IDpurform21");
+        if (![...SALEDropdown.options].some(opt => opt.value === "DLT")) {
+          const dltSALEOption = document.createElement("option");
+          dltSALEOption.value = "DLT";
+          dltSALEOption.text = "Delete";
+          dltSALEOption.style.color = "red";
+          dltSALEOption.style.backgroundColor = "blue";
+          SALEDropdown.appendChild(dltSALEOption);
+        }
+
+        document.getElementById("formModepurform").value = "modify";
+        alert("Select Delete Option in User Section For Delete Entry");
+      } else {
+        alert("No record found for the given S.No.");
+      }
+    } catch (error) {
+      console.error("Error fetching details:", error);
+      alert("Please reconcile details or contact admin.");
+    } finally {
+      setTimeout(() => waitMessage.style.display = 'none', 2000);
+    }
+  }
+
+  async function modifypurformEntry() {
+    const waitMessage = document.getElementById("waitpurformMessage");
+    waitMessage.innerText = "Please wait...";
+    waitMessage.style.display = "block";
+
+    const form = document.getElementById('mainpurformForm');
+
+    // ✅ Set new timestamp
+    const now = new Date();
+    document.getElementById('timestamppurform').value = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+
+    const formData = new FormData(form);
+    formData.set('SNo', document.getElementById('sNo').value);
+
+    console.log("Modifying entry with SNo:", formData.get("SNo")); // Debug log
+
+    try {
+      const response = await fetch(scriptpurformURL, { method: 'POST', body: formData });
+      const result = await response.json();
+
+      if (result.result === 'success') {
+        alert('Entry modified successfully!');
+        form.reset();
+
+        // ✅ Clear hidden fields after modify
+        document.getElementById("formModepurform").value = "new";
+        document.getElementById("sNo").value = "";
+        document.getElementById("searchpurformSNo").value = "";
+
+        loadDataFromEsmTable();
+        setUserCode();
+        loadFormData();
+        refreshAll();
+
+        document.getElementById("submitpurformButton").style.display = "inline-block";
+        document.getElementById("modifypurformButton").style.display = "none";
+
+        // ✅ Remove DLT option
+        const SALEDropdown = document.getElementById("IDpurform21");
+        const dltpurformOption = [...SALEDropdown.options].find(opt => opt.value === "DLT");
+        if (dltpurformOption) {
+          SALEDropdown.removeChild(dltpurformOption);
+        }
+      } else {
+        alert(`Error modifying entry: ${result.error}`);
+      }
+    } catch (error) {
+      alert(`Error: ${error.message}`);
+    } finally {
+      setTimeout(() => waitMessage.style.display = 'none', 2000);
+    }
+  }
+</script>
+
+<!-- ****************************************** purchase form script ************************************************************ -->
+
+
+
+
+
+
+
+
+
+
+<!-- ******************************************creat/alter form script ************************************************************ -->
+<!-- creat VOUCHER submit form  script start hare -->
+<script>
+  const scriptVCRURL = 'https://script.google.com/macros/s/AKfycbysoEaG0GqQa9ewvhAc-pvvZbbDmR3mhDBsmt7rBQ-DezmvbyE-EDIWkC6NUUvez1wa/exec';  //esm
+
+  document.addEventListener("submit", async function (e) {
+    const form = e.target;
+    if (form.id !== "mainVCRForm") return;
+
+    e.preventDefault();
+    const formMode = document.getElementById("formModeVCR").value;
+    const submitVCRButton = document.getElementById("submitVCRButton");
+    submitVCRButton.disabled = true;
+    submitVCRButton.value = "Wait..";
+
+    const now = new Date();
+    document.getElementById('timestampVCR').value = `${now.getMonth()+1}/${now.getDate()}/${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+
+    const formInputs = form.querySelectorAll('input, textarea');
+    formInputs.forEach(input => {
+      if (input.type === 'text' || input.type === 'textarea') {
+        input.value = input.value.toUpperCase();
+      }
+    });
+
+    if (formMode === "modify") {
+      await modifyVCREntry();
+    } else {
+      await submitVCREntry(form);
+    }
+
+    submitVCRButton.disabled = false;
+    submitVCRButton.value = "Submit";
+  });
+
+  async function submitVCREntry(form) {
+    const formData = new FormData(form);
+
+    console.log("Submitting new entry with SNo:", formData.get("SNo")); // Debug log
+
+    try {
+      const response = await fetch(scriptVCRURL, { method: 'POST', body: formData });
+      const result = await response.json();
+
+      if (result.result === 'success') {
+        alert('Entry saved successfully!');
+        form.reset(); // Reset all fields
+
+        // ✅ Clear hidden fields manually
+        document.getElementById("formModeVCR").value = "new";
+        document.getElementById("sNo").value = "";
+        document.getElementById("searchVCRSNo").value = "";
+
+        loadDataFromEsmTable();  // Optional UI refresh
+        setUniqueRefNo();
+        setUserCode();
+        loadFormData();
+        refreshAll();
+
+        // ✅ Remove DLT option after submit
+        const SALEDropdown = document.getElementById("IDvcr21");
+        const dltVCROption = [...SALEDropdown.options].find(opt => opt.value === "DLT");
+        if (dltVCROption) {
+          SALEDropdown.removeChild(dltVCROption);
+        }
+      } else {
+        alert(`Error: ${result.error || 'Unknown error occurred.'}`);
+      }
+    } catch (error) {
+      alert(`Error submitting the form: ${error.message}`);
+    }
+  }
+
+  async function fetchVCRDetails() {
+    const sNo = document.getElementById("searchVCRSNo").value;
+    const waitMessage = document.getElementById("waitVCRMessage");
+    waitMessage.innerText = "Fetching data... Please wait...";
+    waitMessage.style.display = 'block';
+
+    try {
+      const response = await fetch(`${scriptVCRURL}?sNo=${sNo}`);
+      const data = await response.json();
+
+      if (data.result !== "error" && data.Voucher === "CREAT") {
+        document.getElementById("sNo").value = data.SNo;
+          document.getElementById("CINID").value = data.CIN;   // <input type="hidden" name="CIN" id="CINID">
+        document.getElementById("IDvcr11").value = data.Clm5;
+        document.getElementById("IDvcr12").value = data.User;
+        document.getElementById("IDvcr13").value = data.Ledger;
+        document.getElementById("IDvcr14").value = data.Clm1;
+        document.getElementById("IDvcr15").value = data.Clm2;
+        document.getElementById("IDvcr21").value = data.Voucher;
+        document.getElementById("IDvcr16").value = data.Clm3;
+        document.getElementById("IDvcr17").value = data.Clm4;
+        document.getElementById("IDvcr18").value = data.Date;
+
+        // Add Delete option if not exists
+        const SALEDropdown = document.getElementById("IDvcr21");
+        if (![...SALEDropdown.options].some(opt => opt.value === "DLT")) {
+          const dltSALEOption = document.createElement("option");
+          dltSALEOption.value = "DLT";
+          dltSALEOption.text = "Delete";
+          dltSALEOption.style.color = "red";
+          dltSALEOption.style.backgroundColor = "blue";
+          SALEDropdown.appendChild(dltSALEOption);
+        }
+
+        document.getElementById("formModeVCR").value = "modify";
+        alert("Select Delete Option in User Section For Delete Entry");
+      } else {
+        alert("No record found for the given S.No.");
+      }
+    } catch (error) {
+      console.error("Error fetching details:", error);
+      alert("Please reconcile details or contact admin.");
+    } finally {
+      setTimeout(() => waitMessage.style.display = 'none', 2000);
+    }
+  }
+
+  async function modifyVCREntry() {
+    const waitMessage = document.getElementById("waitVCRMessage");
+    waitMessage.innerText = "Please wait...";
+    waitMessage.style.display = "block";
+
+    const form = document.getElementById('mainVCRForm');
+
+    // ✅ Set new timestamp
+    const now = new Date();
+    document.getElementById('timestampVCR').value = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+
+    const formData = new FormData(form);
+    formData.set('SNo', document.getElementById('sNo').value);
+
+    console.log("Modifying entry with SNo:", formData.get("SNo")); // Debug log
+
+    try {
+      const response = await fetch(scriptVCRURL, { method: 'POST', body: formData });
+      const result = await response.json();
+
+      if (result.result === 'success') {
+        alert('Entry modified successfully!');
+        form.reset();
+
+        // ✅ Clear hidden fields after modify
+        document.getElementById("formModeVCR").value = "new";
+        document.getElementById("sNo").value = "";
+        document.getElementById("searchVCRSNo").value = "";
+
+       loadDataFromEsmTable();  // Optional UI refresh
+        setUniqueRefNo();
+        setUserCode();
+        loadFormData();
+        refreshAll();
+        
+        document.getElementById("submitVCRButton").style.display = "inline-block";
+        document.getElementById("modifyVCRButton").style.display = "none";
+
+        // ✅ Remove DLT option
+        const SALEDropdown = document.getElementById("IDvcr21");
+        const dltVCROption = [...SALEDropdown.options].find(opt => opt.value === "DLT");
+        if (dltVCROption) {
+          SALEDropdown.removeChild(dltVCROption);
+        }
+      } else {
+        alert(`Error modifying entry: ${result.error}`);
+      }
+    } catch (error) {
+      alert(`Error: ${error.message}`);
+    } finally {
+      setTimeout(() => waitMessage.style.display = 'none', 2000);
+    }
+  }
+</script>
+
+<!-- ******************************************creat/alter form script ************************************************************ -->
+
+<!-- ******************************************gst type selection option (creat/alter form option) ************************************************************ -->
+                  <script>
+                function handleOptionChange() {
+                  const selectedOption = document.getElementById("IDvcr15").value;
+                  const inputContainer = document.getElementById("input-container");
+                  const dynamicInput = document.getElementById("IDvcr16");
+            
+                  if (selectedOption === "Regular") {
+                    inputContainer.style.display = "block";
+                    dynamicInput.value = ""; // Reset input value
+                  } else if (selectedOption === "Unregistered/Consumer") {
+                inputContainer.style.display = "none";  // Hide input container for this option
+                // Set default value as 'URP'
+                dynamicInput.value = "URP";
+              }
+                  
+                  else {
+                    inputContainer.style.display = "none";
+                  }
+                }
+            
+                function updateOptionValue() {
+                  const inputValue = document.getElementById("IDvcr16").value;
+                  const RegularOption = document.querySelector("#IDvcr15 option[value='Regular']");
+            
+                  if (RegularOption && inputValue !== "") {
+                    RegularOption.value = `Regular-${inputValue}`; // e.g., Regular-50
+                  } else if (selectedOption === "Unregistered/Consumer") {
+                // If "Unregistered/Consumer" is selected, set the value as 'URP'
+                RegularOption.value = "URP"; 
+              }
+              else {
+                    RegularOption.value = "Regular"; // Reset to default
+                  }
+                }
+             </script>
+<!-- ******************************************gst type selection option (creat/alter form option) ************************************************************ -->
+
+
+
+
+<!-- ****************************************** uniq reff no for ledger name option (creat/alter form option) ************************************************************ -->
+
+<script>
+  const scriptuniqrefURL = 'https://script.google.com/macros/s/AKfycbysoEaG0GqQa9ewvhAc-pvvZbbDmR3mhDBsmt7rBQ-DezmvbyE-EDIWkC6NUUvez1wa/exec';  //esm
+
+  async function fetchExistingRefNos() {
+    try {
+      const response = await fetch(scriptuniqrefURL);
+      const data = await response.json();
+
+      const existingValues = new Set(data.data.map(row => row.Clm5));
+      return existingValues;
+    } catch (error) {
+      console.error("Error fetching existing Ref Nos:", error);
+      return new Set();
+    }
+  }
+
+  // ✅ Generate "L" + 4-digit random number
+  function generateRefWithL() {
+    const num = Math.floor(1000 + Math.random() * 9000); // always 4-digit
+    return "L" + num;
+  }
+
+  async function setUniqueRefNo() {
+    const existingValues = await fetchExistingRefNos();
+    let uniqueRef;
+
+    do {
+      uniqueRef = generateRefWithL();
+    } while (existingValues.has(uniqueRef)); // ensure no duplicate
+
+    document.getElementById("IDvcr11").value = uniqueRef;
+  }
+
+  // Run after reset
+  document.getElementById("mainVCRForm").addEventListener("reset", () => {
+    setTimeout(setUniqueRefNo, 100);
+  });
+
+  // Run immediately
+  setUniqueRefNo();
+</script>
+
+<!-- ****************************************** uniq reff no for ledger name option (creat/alter form option) ************************************************** -->
+
+<!-- ******************************************creat/alter form script ************************************************************ -->
+
+
+
+<!-- ****************************************** banking form script ************************************************************ -->
+
+<script>
+  const scriptcontraURL = 'https://script.google.com/macros/s/AKfycbysoEaG0GqQa9ewvhAc-pvvZbbDmR3mhDBsmt7rBQ-DezmvbyE-EDIWkC6NUUvez1wa/exec';  //esm
+
+  document.addEventListener("submit", async function (e) {
+    const form = e.target;
+    if (form.id !== "maincontraForm") return;
+
+    e.preventDefault();
+    const formMode = document.getElementById("formModecontra").value;
+    const submitcontraButton = document.getElementById("submitcontraButton");
+    submitcontraButton.disabled = true;
+    submitcontraButton.value = "Wait..";
+
+    const now = new Date();
+    document.getElementById('timestampcontra').value = `${now.getMonth()+1}/${now.getDate()}/${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+
+    const formInputs = form.querySelectorAll('input, textarea');
+    formInputs.forEach(input => {
+      if (input.type === 'text' || input.type === 'textarea') {
+        input.value = input.value.toUpperCase();
+      }
+    });
+
+    if (formMode === "modify") {
+      await modifycontraEntry();
+    } else {
+      await submitcontraEntry(form);
+    }
+
+    submitcontraButton.disabled = false;
+    submitcontraButton.value = "Submit";
+  });
+
+  async function submitcontraEntry(form) {
+    const formData = new FormData(form);
+
+    console.log("Submitting new entry with SNo:", formData.get("SNo")); // Debug log
+
+    try {
+      const response = await fetch(scriptcontraURL, { method: 'POST', body: formData });
+      const result = await response.json();
+
+      if (result.result === 'success') {
+        alert('Entry saved successfully!');
+        form.reset(); // Reset all fields
+
+        // ✅ Clear hidden fields manually
+        document.getElementById("formModecontra").value = "new";
+        document.getElementById("sNo").value = "";
+        document.getElementById("searchcontraSNo").value = "";
+
+        loadDataFromEsmTable();  // Optional UI refresh
+        setUserCode();
+        loadFormData();
+        refreshAll();
+
+        // ✅ Remove DLT option after submit
+        const SALEDropdown = document.getElementById("IDcontra21");
+        const dltcontraOption = [...SALEDropdown.options].find(opt => opt.value === "DLT");
+        if (dltcontraOption) {
+          SALEDropdown.removeChild(dltcontraOption);
+        }
+      } else {
+        alert(`Error: ${result.error || 'Unknown error occurred.'}`);
+      }
+    } catch (error) {
+      alert(`Error submitting the form: ${error.message}`);
+    }
+  }
+
+  async function fetchcontraDetails() {
+    const sNo = document.getElementById("searchcontraSNo").value;
+    const waitMessage = document.getElementById("waitcontraMessage");
+    waitMessage.innerText = "Fetching data... Please wait...";
+    waitMessage.style.display = 'block';
+
+    try {
+      const response = await fetch(`${scriptcontraURL}?sNo=${sNo}`);
+      const data = await response.json();
+
+      if (data.result !== "error" && data.Voucher === "BANK") {
+        document.getElementById("sNo").value = data.SNo;
+        document.getElementById("CINID").value = data.CIN;
+        document.getElementById("IDcontra11").value = data.Date;
+        document.getElementById("IDcontra12").value = data.User;
+        document.getElementById("IDcontra13").value = data.Ledger;
+        document.getElementById("contraDR").value = data.Clm2;
+        document.getElementById("contraCR").value = data.Clm3;
+        document.getElementById("IDcontra21").value = data.Voucher;
+        document.getElementById("IDcontra17").value = data.Clm4;;
+
+        // Add Delete option if not exists
+        const SALEDropdown = document.getElementById("IDcontra21");
+        if (![...SALEDropdown.options].some(opt => opt.value === "DLT")) {
+          const dltSALEOption = document.createElement("option");
+          dltSALEOption.value = "DLT";
+          dltSALEOption.text = "Delete";
+          dltSALEOption.style.color = "red";
+          dltSALEOption.style.backgroundColor = "blue";
+          SALEDropdown.appendChild(dltSALEOption);
+        }
+
+        document.getElementById("formModecontra").value = "modify";
+        alert("Select Delete Option in User Section For Delete Entry");
+      } else {
+        alert("No record found for the given S.No.");
+      }
+    } catch (error) {
+      console.error("Error fetching details:", error);
+      alert("Please reconcile details or contact admin.");
+    } finally {
+      setTimeout(() => waitMessage.style.display = 'none', 2000);
+    }
+  }
+
+  async function modifycontraEntry() {
+    const waitMessage = document.getElementById("waitcontraMessage");
+    waitMessage.innerText = "Please wait...";
+    waitMessage.style.display = "block";
+
+    const form = document.getElementById('maincontraForm');
+
+    // ✅ Set new timestamp
+    const now = new Date();
+    document.getElementById('timestampcontra').value = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+
+    const formData = new FormData(form);
+    formData.set('SNo', document.getElementById('sNo').value);
+
+    console.log("Modifying entry with SNo:", formData.get("SNo")); // Debug log
+
+    try {
+      const response = await fetch(scriptcontraURL, { method: 'POST', body: formData });
+      const result = await response.json();
+
+      if (result.result === 'success') {
+        alert('Entry modified successfully!');
+        form.reset();
+
+        // ✅ Clear hidden fields after modify
+        document.getElementById("formModecontra").value = "new";
+        document.getElementById("sNo").value = "";
+        document.getElementById("searchcontraSNo").value = "";
+
+        loadDataFromEsmTable();
+        setUserCode();
+        loadFormData();
+        refreshAll();
+
+        document.getElementById("submitcontraButton").style.display = "inline-block";
+        document.getElementById("modifycontraButton").style.display = "none";
+
+        // ✅ Remove DLT option
+        const SALEDropdown = document.getElementById("IDcontra21");
+        const dltcontraOption = [...SALEDropdown.options].find(opt => opt.value === "DLT");
+        if (dltcontraOption) {
+          SALEDropdown.removeChild(dltcontraOption);
+        }
+      } else {
+        alert(`Error modifying entry: ${result.error}`);
+      }
+    } catch (error) {
+      alert(`Error: ${error.message}`);
+    } finally {
+      setTimeout(() => waitMessage.style.display = 'none', 2000);
+    }
+  }
+</script>
+
+<!-- **** payment type (BANKING) script ***** -->
+<script>
+function toggleAmountInput() {
+    const selectedValue = document.getElementById("drcr").value;
+    const drInput = document.getElementById("contraDR");
+    const crInput = document.getElementById("contraCR");
+
+    if (selectedValue === "Dr.") {
+        drInput.style.display = "inline-block";
+        drInput.required = true;
+
+        crInput.style.display = "none";
+        crInput.required = false;
+        crInput.value = ""; // clear other field
+    } else if (selectedValue === "Cr.") {
+        crInput.style.display = "inline-block";
+        crInput.required = true;
+
+        drInput.style.display = "none";
+        drInput.required = false;
+        drInput.value = "";
+    }
+}
+
+// Call on page load to set default
+window.addEventListener("DOMContentLoaded", toggleAmountInput);
+</script>
+<!-- **** payment type (BANKING) script ***** -->
+
+<!-- ****************************************** banking form script ************************************************************ -->
+
+
+
+
+        
+<!-- ****************************************** cash in hend form script ************************************************************ -->
+
+<script>
+  const scriptcashURL = 'https://script.google.com/macros/s/AKfycbysoEaG0GqQa9ewvhAc-pvvZbbDmR3mhDBsmt7rBQ-DezmvbyE-EDIWkC6NUUvez1wa/exec';  //esm
+
+  document.addEventListener("submit", async function (e) {
+    const form = e.target;
+    if (form.id !== "maincashForm") return;
+
+    e.preventDefault();
+    const formMode = document.getElementById("formModecash").value;
+    const submitcashButton = document.getElementById("submitcashButton");
+    submitcashButton.disabled = true;
+    submitcashButton.value = "Wait..";
+
+    const now = new Date();
+    document.getElementById('timestampcash').value = `${now.getMonth()+1}/${now.getDate()}/${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+
+    const formInputs = form.querySelectorAll('input, textarea');
+    formInputs.forEach(input => {
+      if (input.type === 'text' || input.type === 'textarea') {
+        input.value = input.value.toUpperCase();
+      }
+    });
+
+    if (formMode === "modify") {
+      await modifycashEntry();
+    } else {
+      await submitcashEntry(form);
+    }
+
+    submitcashButton.disabled = false;
+    submitcashButton.value = "Submit";
+  });
+
+  async function submitcashEntry(form) {
+    const formData = new FormData(form);
+
+    console.log("Submitting new entry with SNo:", formData.get("SNo")); // Debug log
+
+    try {
+      const response = await fetch(scriptcashURL, { method: 'POST', body: formData });
+      const result = await response.json();
+
+      if (result.result === 'success') {
+        alert('Entry saved successfully!');
+        form.reset(); // Reset all fields
+
+        // ✅ Clear hidden fields manually
+        document.getElementById("formModecash").value = "new";
+        document.getElementById("sNo").value = "";
+        document.getElementById("searchcashSNo").value = "";
+
+        loadDataFromEsmTable();  // Optional UI refresh
+        setUserCode();
+        loadFormData();
+        refreshAll();
+
+        // ✅ Remove DLT option after submit
+        const SALEDropdown = document.getElementById("IDcash21");
+        const dltcashOption = [...SALEDropdown.options].find(opt => opt.value === "DLT");
+        if (dltcashOption) {
+          SALEDropdown.removeChild(dltcashOption);
+        }
+      } else {
+        alert(`Error: ${result.error || 'Unknown error occurred.'}`);
+      }
+    } catch (error) {
+      alert(`Error submitting the form: ${error.message}`);
+    }
+  }
+
+  async function fetchcashDetails() {
+    const sNo = document.getElementById("searchcashSNo").value;
+    const waitMessage = document.getElementById("waitcashMessage");
+    waitMessage.innerText = "Fetching data... Please wait...";
+    waitMessage.style.display = 'block';
+
+    try {
+      const response = await fetch(`${scriptcashURL}?sNo=${sNo}`);
+      const data = await response.json();
+
+      if (data.result !== "error" && data.Voucher === "CASH") {
+        document.getElementById("sNo").value = data.SNo;
+        document.getElementById("CINID").value = data.CIN;
+        document.getElementById("IDcash11").value = data.Date;
+        document.getElementById("IDcash12").value = data.User;
+        document.getElementById("IDcash13").value = data.Ledger;
+        document.getElementById("cashDR").value = data.Clm2;
+        document.getElementById("cashCR").value = data.Clm3;
+        document.getElementById("IDcash21").value = data.Voucher;
+        document.getElementById("IDcash17").value = data.Clm4;;
+
+        // Add Delete option if not exists
+        const SALEDropdown = document.getElementById("IDcash21");
+        if (![...SALEDropdown.options].some(opt => opt.value === "DLT")) {
+          const dltSALEOption = document.createElement("option");
+          dltSALEOption.value = "DLT";
+          dltSALEOption.text = "Delete";
+          dltSALEOption.style.color = "red";
+          dltSALEOption.style.backgroundColor = "blue";
+          SALEDropdown.appendChild(dltSALEOption);
+        }
+
+        document.getElementById("formModecash").value = "modify";
+        alert("Select Delete Option in User Section For Delete Entry");
+      } else {
+        alert("No record found for the given S.No.");
+      }
+    } catch (error) {
+      console.error("Error fetching details:", error);
+      alert("Please reconcile details or contact admin.");
+    } finally {
+      setTimeout(() => waitMessage.style.display = 'none', 2000);
+    }
+  }
+
+  async function modifycashEntry() {
+    const waitMessage = document.getElementById("waitcashMessage");
+    waitMessage.innerText = "Please wait...";
+    waitMessage.style.display = "block";
+
+    const form = document.getElementById('maincashForm');
+
+    // ✅ Set new timestamp
+    const now = new Date();
+    document.getElementById('timestampcash').value = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+
+    const formData = new FormData(form);
+    formData.set('SNo', document.getElementById('sNo').value);
+
+    console.log("Modifying entry with SNo:", formData.get("SNo")); // Debug log
+
+    try {
+      const response = await fetch(scriptcashURL, { method: 'POST', body: formData });
+      const result = await response.json();
+
+      if (result.result === 'success') {
+        alert('Entry modified successfully!');
+        form.reset();
+
+        // ✅ Clear hidden fields after modify
+        document.getElementById("formModecash").value = "new";
+        document.getElementById("sNo").value = "";
+        document.getElementById("searchcashSNo").value = "";
+
+        loadDataFromEsmTable();
+        setUserCode();
+        loadFormData();
+        refreshAll();
+
+        document.getElementById("submitcashButton").style.display = "inline-block";
+        document.getElementById("modifycashButton").style.display = "none";
+
+        // ✅ Remove DLT option
+        const SALEDropdown = document.getElementById("IDcash21");
+        const dltcashOption = [...SALEDropdown.options].find(opt => opt.value === "DLT");
+        if (dltcashOption) {
+          SALEDropdown.removeChild(dltcashOption);
+        }
+      } else {
+        alert(`Error modifying entry: ${result.error}`);
+      }
+    } catch (error) {
+      alert(`Error: ${error.message}`);
+    } finally {
+      setTimeout(() => waitMessage.style.display = 'none', 2000);
+    }
+  }
+</script>
+
+
+<!-- **** payment type (cash i hend) script ***** -->
+<script>
+function togglecashInput() {
+    const selectedValue = document.getElementById("drcr1").value;
+    const drInput = document.getElementById("cashDR");
+    const crInput = document.getElementById("cashCR");
+
+    if (selectedValue === "Dr.") {
+        drInput.style.display = "inline-block";
+        drInput.required = true;
+
+        crInput.style.display = "none";
+        crInput.required = false;
+        crInput.value = ""; // clear other field
+    } else if (selectedValue === "Cr.") {
+        crInput.style.display = "inline-block";
+        crInput.required = true;
+
+        drInput.style.display = "none";
+        drInput.required = false;
+        drInput.value = "";
+    }
+}
+
+// Call on page load to set default
+window.addEventListener("DOMContentLoaded", togglecashInput);
+</script>
+<!-- **** payment type (cash i hend) script ***** -->
+<!-- ****************************************** cash in hand form script ************************************************************ -->
+
+
+
+<!-- ****************************************** voucher forms summry table ************************************************************ -->
+<style>
+.suggestion-box {
+  border: 1px solid #151414;
+  max-height: 300px;
+  overflow-y: auto;
+  position: absolute;
+  background: rgb(228, 246, 251);
+  width: 200px; /* input ke barabar ya custom */
+  display: none;
+  z-index: 1000;
+  
+}
+.suggestion-box div {
+  padding: 2px;
+  cursor: pointer;
+}
+.suggestion-box div:hover {
+  background: #020c90;
+  color: white;
+}
+</style>
+
+<script>
+let allSpldgrRows = [];
+
+// Function to read esmdata table rows
+function loadDataFromEsmTable() {
+    const esmTable = document.getElementById("esmdata");
+    if (!esmTable) return;
+
+    const rows = Array.from(esmTable.querySelectorAll("tr")).map(tr =>
+        Array.from(tr.querySelectorAll("td,th")).map(td => td.innerText.trim())
+    );
+
+    allSpldgrRows = rows.slice(1); // skip header
+    refreshSpldgrTable();
+  //  populateLedgerDropdowns();
+}
+
+// Refresh summary table based on dropdown
+function refreshSpldgrTable() {
+    const selectedVoucher = document.getElementById("DMPUSER")?.value.trim().toUpperCase();
+    const tableBodyspldgr = document.getElementById("tableBodyspldgr");
+    const tableHead = document.getElementById("tableHeadSpldgr");
+
+    if (!selectedVoucher) {
+        tableHead.innerHTML = "";
+        tableBodyspldgr.innerHTML = "<tr><td colspan='10' style='text-align:center;'>Select a voucher</td></tr>";
+        return;
+    }
+
+    let headerHTML = "";
+    let visibleIndexes = [];
+
+    if (selectedVoucher === "SALE") {
+        headerHTML = `<tr style="background-color:#008000;color:white;">
+           <th>SNo</th><th>Voucher</th><th>Date</th><th>Ledger</th>
+            <th>Invoice No.</th><th>Narration</th><th>Vehicle No.</th><th>Amount (Dr.)</th><th>GST %</th><th>GST Amount</th>
+        </tr>`;
+        visibleIndexes = [0,2,3,4,5,8,9,6,10,13];
+    }
+    else if (selectedVoucher === "PURCHASE") {
+        headerHTML = `<tr style="background-color:#FF0000;color:white;">
+            <th>SNo</th><th>Voucher</th><th>Date</th><th>Ledger</th>
+            <th>Invoice No.</th><th>Narration</th><th>Vehicle No.</th><th>Amount (Cr.)</th><th>GST %</th><th>GST Amount</th>
+        </tr>`;
+        visibleIndexes = [0,2,3,4,5,8,9,7,10,13];
+    }
+    else if (selectedVoucher === "CREAT") {
+        headerHTML = `<tr style="background-color:#000080;color:white;">
+            <th>SNo</th><th>Head</th><th>Voucher</th><th>L. Code</th><th>Ledger</th><th>Address</th>
+            <th>GST Type</th><th>GST No.</th><th>Contect Details</th>
+        </tr>`;
+        visibleIndexes = [0,3,2,9,4,5,6,7,8];
+    }
+    else if (selectedVoucher === "BANK") {
+        headerHTML = `<tr style="background-color:#020618;color:white;">
+            <th>S No.</th><th>Voucher</th><th>Date</th><th>Ledger</th>
+            <th>Amount (Dr.)</th><th>Amount (Cr.)</th>
+        </tr>`;
+        visibleIndexes = [0,2,3,4,6,7];
+    }
+     else if (selectedVoucher === "CASH") {
+        headerHTML = `<tr style="background-color:#894B0A;color:white;">
+            <th>S No.</th><th>Voucher</th><th>Date</th><th>Ledger</th>
+            <th>Amount (Dr.)</th><th>Amount (Cr.)</th>
+        </tr>`;
+        visibleIndexes = [0,2,3,4,6,7];
+    }
+    else {
+        headerHTML = `<tr>${allSpldgrRows[0]?.map((_,i)=>`<th>Col ${i}</th>`).join('')}</tr>`;
+        visibleIndexes = [...Array(allSpldgrRows[0]?.length||0).keys()];
+    }
+
+    tableHead.innerHTML = headerHTML;
+
+    const filteredRows = allSpldgrRows.filter(row => row[2]?.trim().toUpperCase() === selectedVoucher);
+
+    tableBodyspldgr.innerHTML = filteredRows.length
+        ? filteredRows.map(row => `<tr>${visibleIndexes.map(i=>`<td>${row[i]||''}</td>`).join('')}</tr>`).join('')
+        : `<tr><td colspan="${visibleIndexes.length}" style="text-align:center;">No matching data.</td></tr>`;
+
+    // Save filtered rows globally for searching
+    window.currentSpldgrRows = filteredRows.map(row => visibleIndexes.map(i => row[i]||''));
+}
+
+// Search function
+function searchspldgrTable() {
+    const input = document.getElementById("serchbarspldgr").value.toLowerCase();
+    const tableBody = document.getElementById("tableBodyspldgr");
+    const rows = tableBody.getElementsByTagName("tr");
+
+    for (let r of rows) {
+        const cells = r.getElementsByTagName("td");
+        let match = false;
+        for (let c of cells) {
+            if (c.innerText.toLowerCase().includes(input)) {
+                match = true;
+                break;
+            }
+        }
+        r.style.display = match ? "" : "none";
+    }
+}
+// ------------------ Ledger Dropdown ------------------
+function enableLedgerSearchForAll() {
+    // Get unique ledger names from column 14
+    const ledgerNames = [...new Set(allSpldgrRows.map(r => r[14]).filter(Boolean))].sort();
+
+    // Collect all ldgrdp inputs once
+    const allInputs = document.querySelectorAll(".ldgrdp");
+
+    allInputs.forEach((input) => {
+        // create / find suggestion box just after input
+        let suggestionBox = input.nextElementSibling;
+        if (!suggestionBox || !suggestionBox.classList.contains("suggestion-box")) {
+            suggestionBox = document.createElement("div");
+            suggestionBox.className = "suggestion-box";
+            input.insertAdjacentElement("afterend", suggestionBox);
+        }
+
+        // ✅ type करने पर suggestions दिखें
+        input.addEventListener("input", function () {
+            const filter = input.value.toLowerCase();
+            suggestionBox.innerHTML = "";
+            if (!filter) {
+                suggestionBox.style.display = "none";
+                return;
+            }
+
+            const filtered = ledgerNames.filter(name => name.toLowerCase().includes(filter));
+            if (filtered.length === 0) {
+                suggestionBox.style.display = "none";
+                return;
+            }
+
+            filtered.forEach(name => {
+                const div = document.createElement("div");
+                div.textContent = name;
+                div.addEventListener("click", () => {
+                    // ✅ सभी inputs में same value set करो
+                    allInputs.forEach(inp => {
+                        inp.value = name;
+                        inp.dataset.validLedger = "true";
+                    });
+
+                    suggestionBox.style.display = "none"; 
+                });
+                suggestionBox.appendChild(div);
+            });
+
+            // show suggestions (below current input)
+            const rect = input.getBoundingClientRect();
+            suggestionBox.style.left = rect.left + "px";
+            suggestionBox.style.top = rect.bottom + window.scrollY + "px";
+            suggestionBox.style.width = rect.width + "px";
+            suggestionBox.style.position = "absolute";
+            suggestionBox.style.zIndex = "9999";
+            suggestionBox.style.display = "block";
+
+            // जब type कर रहा है तो अभी तक valid नहीं
+            input.dataset.validLedger = "false";
+        });
+
+        // ✅ बाहर click करने पर suggestions छुपाएँ
+        document.addEventListener("click", (e) => {
+            if (!suggestionBox.contains(e.target) && e.target !== input) {
+                suggestionBox.style.display = "none";
+            }
+        });
+
+        // ✅ blur (focus छोड़ते समय) check करें
+        input.addEventListener("blur", function () {
+            const val = input.value.trim();
+            if (val && !ledgerNames.includes(val)) {
+                // ❌ अगर suggestion से select नहीं किया → blank कर दो
+                allInputs.forEach(inp => {
+                    inp.value = "";
+                    inp.dataset.validLedger = "false";
+                });
+            }
+        });
+    });
+}
+
+
+//***************************************************************
+
+// Listen for dropdown change
+document.getElementById("DMPUSER")?.addEventListener("change", refreshSpldgrTable);
+
+// Observe dynamic changes in esmdata table
+const esmTable = document.getElementById("esmdata");
+if (esmTable) {
+    const observer = new MutationObserver(() => loadDataFromEsmTable());
+    observer.observe(esmTable, { childList: true, subtree: true });
+}
+
+
+// Initial load
+loadDataFromEsmTable();
+</script>
+<!-- ****************************************** voucher forms summry table ************************************************************ -->
+
+
+
+<!-- ****************************************** DAYBOOK DIV (SECTION-2) START ************************************************************ -->
+
+<script>
+let allLedgerRows = []; // global data (for filters)
+
+// Read data from esmdata table
+function getRowsFromEsm() {
+  const esm = document.getElementById("esmdata");
+  const rows = esm ? esm.querySelectorAll("tr") : [];
+  let data = [];
+
+  rows.forEach((row, i) => {
+    const cells = row.querySelectorAll("td");
+    if (cells.length === 0) return; // skip headers
+    let rowData = [];
+    cells.forEach(cell => rowData.push(cell.innerText.trim()));
+    data.push(rowData);
+  });
+
+  return data;
+}
+
+// Build main ledger data (with IDNO filter)
+function buildLedgerReport() {
+  const tbody = document.getElementById("ledgerreportBody");
+  tbody.innerHTML = "";
+
+  const allRows = getRowsFromEsm();
+  const idnoValue = (document.querySelector(".IDNO")?.textContent || "").trim();
+
+  if (!idnoValue) {
+    tbody.innerHTML = `<tr><td colspan="13" style="text-align:center;">Waiting for IDNO...</td></tr>`;
+    return;
+  }
+
+  // filter: column 11 (index 10) == idnoValue
+  let filtered = allRows.filter(r => (r[11] || "").trim() === idnoValue);
+
+  // filter voucher type
+  allLedgerRows = filtered.filter(r =>
+    ["PURCHASE", "SALE", "BANK", "CASH"].includes((r[2] || "").toUpperCase())
+  );
+
+  // first render (without filters)
+  renderLedgerRows(allLedgerRows);
+}
+
+// Render rows with running balance
+function renderLedgerRows(rows) {
+  const tbody = document.getElementById("ledgerreportBody");
+  tbody.innerHTML = "";
+
+  if (rows.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="13" style="text-align:center;">No matching records</td></tr>`;
+    return;
+  }
+
+  // recalc running balance only on these rows
+  let balance = 0;
+  const reversed = [...rows].reverse();
+  const withBalance = reversed.map(r => {
+    const dr = parseFloat(r[6] || "0");
+    const cr = parseFloat(r[7] || "0");
+    balance += dr - cr;
+    return { row: r, balance };
+  }).reverse();
+
+  withBalance.forEach(({ row: r, balance }) => {
+    const sno = r[0] || "";
+    const user = r[1] || "";
+    const voucher = r[2] || "";
+    const date = r[3] || "";
+    const ledger = r[4] || "";
+    const invoice = r[5] || "";
+    const narration = r[8] || "";
+    const vehicle = r[9] || "";
+    const gst = r[10] || "";
+    const gstAmt = r[13] || "";
+    const dr = parseFloat(r[6] || "0");
+    const cr = parseFloat(r[7] || "0");
+
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${sno}</td>
+      <td>${user}</td>
+      <td>${voucher}</td>
+      <td>${date}</td>
+      <td>${ledger}</td>
+      <td>${invoice}</td>
+      <td>${narration}</td>
+      <td>${vehicle}</td>
+      <td>${gst}</td>
+      <td>${gstAmt}</td>
+      <td style="color:red;">${dr}</td>
+      <td style="color:green;">${cr}</td>
+      <td>${balance}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// -----------------------------
+// Combined Filters (Search + Date + Sorting)
+// -----------------------------
+// Combined Filters (Search + Date + Sorting)
+function applyDaybookFilters() {
+  let rows = [...allLedgerRows];
+
+  // Date filter (inclusive fromDate and toDate)
+  const fromDate = document.getElementById("dbfromDate").value;
+  const toDate = document.getElementById("dbtoDate").value;
+
+  function normalizeDate(d) {
+    if (!d) return null;
+    const nd = new Date(d);
+    nd.setHours(0, 0, 0, 0);  // ✅ remove time part
+    return nd;
+  }
+
+  const fDate = normalizeDate(fromDate);
+  const tDate = normalizeDate(toDate);
+
+  if (fDate || tDate) {
+    rows = rows.filter(r => {
+      const rowDate = normalizeDate(r[3]); // col 3 = date
+
+      if (!rowDate) return false;
+      if (fDate && rowDate < fDate) return false;  // fromDate included
+      if (tDate && rowDate > tDate) return false;  // toDate included
+      return true;
+    });
+  }
+
+  // Search filter
+  const searchVal = document.getElementById("daybookserch").value.toLowerCase();
+  if (searchVal) {
+    rows = rows.filter(r => r.join(" ").toLowerCase().includes(searchVal));
+  }
+
+  // --- Sort by Date desc (col 3) ---
+  rows.sort((a, b) => (new Date(b[3]) - new Date(a[3])));
+
+  renderLedgerRows(rows);
+}
+
+
+// -----------------------------
+// Print Function with Summary
+function printDaybook() {
+  const searchVal = document.getElementById("daybookserch").value || "All";
+  const fromDate = document.getElementById("dbfromDate").value || "Start";
+  const toDate = document.getElementById("dbtoDate").value || "End";
+
+  const summaryHTML = `
+    <div style="margin-bottom:10px; font-size:16px; font-weight:bold;">
+      <div>🔍 Search: ${searchVal}</div>
+      <div>📅 Date Range: ${fromDate} ➝ ${toDate}</div>
+    </div>
+  `;
+
+  const tableHTML = document.querySelector("table").outerHTML;
+  const w = window.open("", "", "width=900,height=600");
+  w.document.write(`
+    <html>
+    <head><title>Daybook Print</title></head>
+    <body>
+      ${summaryHTML}
+      ${tableHTML}
+    </body>
+    </html>
+  `);
+  w.document.close();
+  w.print();
+}
+
+// -----------------------------
+// Run after esmdata fills
+setTimeout(buildLedgerReport, 2000);
+
+// Agar IDNO ki value later change hoti hai to dobara run karwana hoga
+const idnoSpan = document.querySelector(".IDNO");
+if (idnoSpan) {
+  const observer = new MutationObserver(() => {
+    buildLedgerReport();
+  });
+  observer.observe(idnoSpan, { childList: true, characterData: true, subtree: true });
+}
+</script>
+<!-- ****************************************** DAYBOOK DIV (SECTION-2) STOP ************************************************************ -->
+
+
+
+
+
+
+
+
+
+<!-- यह एक नोट है, REFRESH BUTTON START HARE -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Single Button for Multiple Function Refresh</title>
+
+  <style>
+    /* 👇 Refresh button fixed to bottom-right corner */
+    #refreshButton {
+      position: fixed;
+      bottom: 8px;
+      right: 10px;
+      padding: 2px 5px;
+      background-color: #00254d;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      z-index: 1000;
+    }
+
+    #refreshButton:hover {
+      background-color: #0056b3;
+    }
+  </style>
+
+  <!-- ✅ Fixed Positioned Refresh Button -->
+  <button id="refreshButton" onclick="refreshAll()">Refresh</button>
+
+   <!-- Combine Refresh Script -->
+  <script>
+    function refreshAll() {
+     
+     getRowsFromEsm();
+      buildLedgerReport();
+    
+      fetchSummary();
+      fetchSummary(retryCount = 0);
+    }
+
+
+    // ✅ Auto Refresh Every 1 Minute (60000 milliseconds)
+  //   setInterval(refreshAll, 60000);  // auto refresh after 1 mnt
+    // Optional: Run once on page load
+  //  window.onload = refreshAll;
+  </script>
+
+
+</body>
+</html>
+<!-- यह एक नोट है, REFRESH BUTTON START STOP -->
+
+
+
+
+
+
+
+
+
+
+
+<!-- यह एक नोट है, logo code start -->
+
+<style>
+#floatingBrand {
+  position: fixed;
+  top: 8px;
+  right: 400px;
+  z-index: 9999;
+  background: transparent;
+  padding: 5px 10px;
+  pointer-events: auto; /* Prevent clicks if needed */
+}
+
+/* Sticky Note Style */
+#noteTooltip {
+  display: none;
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background-color: #cceaff;
+  border: 1px solid #013556;
+  padding: 10px;
+  width: 200px;
+  font-family: Arial, sans-serif;
+  font-size: 90%;
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+  z-index: 10000;
+  border-radius: 5px;
+}
+</style>
+</style>
+
+<div id="floatingBrand">
+  <span style="color:rgb(246, 156, 156);font-size:130%;font-family:Magneto;">eS |</span> 
+  <span style="color:#a0d0f0;font-size:130%;font-family:Magneto;">MTally</span>
+   <div id="noteTooltip">Design By: eS|MTally <br/> Admin: Mukhtiyar Ahamad <br/> Contect: +91-9756735792</div>
+</div>
+
+
+<script>
+const brand = document.getElementById('floatingBrand');
+const tooltip = document.getElementById('noteTooltip');
+
+// Show on hover
+brand.addEventListener('mouseenter', () => {
+  tooltip.style.display = 'block';
+});
+
+// Hide when mouse leaves
+brand.addEventListener('mouseleave', () => {
+  tooltip.style.display = 'none';
+});
+</script>
+<!-- यह एक नोट है, logo code stop -->
+
+
+
+
+
+
+
+<!-- यह एक नोट है, events Event script Start Heare -->
+
+<!-- यह एक नोट है, events Event script Start Heare -->
+
+
+
+<script>
+    const apiEVENTKey = "AIzaSyBe-AlG9lpyXyC7KV-AavR6tbqOc75iYdM";
+    const sheetEVENTId = "1cXqnV7kKebvzk6-BAuuBNSmDnpJOyCqh7LRVB6sHiL4";
+    const rangeEVENT = 'HOLIDAY!A:J';
+
+    // Fetch data from Google Sheets and process
+    async function eventSheet() {
+        try {
+            const response = await fetch(
+                `https://sheets.googleapis.com/v4/spreadsheets/${sheetEVENTId}/values/${rangeEVENT}?key=${apiEVENTKey}`
+            );
+            const data = await response.json();
+
+            if (data.values) {
+                showTodayevents(data.values);
+            } else {
+                console.error("No data found in the specified range.");
+            }
+        } catch (error) {
+            console.error("Error fetching data from Google Sheets:", error);
+        }
+    }
+
+    // Display today's events in #eventsList div
+    function showTodayevents(values) {
+        const today = new Date();
+        const todayDate = today.getDate();
+        const todayMonth = today.toLocaleString("en", { month: "short" });
+
+        let htmlContent = "<strong>Today's Events:</strong><br/><ul>";
+
+        values.forEach(row => {
+            const dob = row[2]; // Assuming DOB is in 3rd column (index 2)
+            if (dob) {
+                const [dobDay, dobMonth] = dob.split("-").slice(0, 2);
+                const dobDayNumber = parseInt(dobDay);
+
+                if (dobDayNumber === todayDate && dobMonth === todayMonth) {
+                    const name = row[1] || "No Event Today"; // Assuming Name is in 2nd column (index 1)
+                    const cls = row[3] || ""; // Assuming Class is in 4th column (index 3)
+                    htmlContent += `<li>${name} ${cls}</li>`;
+                }
+            }
+        });
+
+        htmlContent += "</ul>";
+        document.getElementById("eventsList").innerHTML = htmlContent;
+    }
+
+    // Auto-run function immediately
+    (async () => {
+        await eventSheet();
+    })();
+</script>
+
+<!-- यह एक नोट है,  Event script stop Here -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ================= CREATE COMPANY DIALOG ================= -->
+<div id="companyDialog" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:50; justify-content:center; align-items:center;">
+  <div id="dialogContent" style="background:white; width:400px; padding:20px; border-radius:12px; box-shadow:0 4px 20px rgba(0,0,0,0.5);">
+    <!-- Activation Form -->
+    <form id="activationForm">
+      <h2 style="font-size:22px; text-align:center; margin-bottom:20px;">Enter Activation Key</h2>
+
+      <label>Activation Key:</label>
+      <input type="text" id="activationKey" placeholder="Enter Key" required style="width:100%; padding:8px; margin-bottom:20px; border-radius:6px; border:1px solid #ccc;">
+
+      <div style="display:flex; justify-content:space-between;">
+        <button type="button" onclick="closeCompanyDialog()" 
+                style="padding:10px 20px; border:none; border-radius:6px; background:#888; color:white; cursor:pointer;">
+          Cancel
+        </button>
+        <button type="submit" 
+                style="padding:10px 20px; border:none; border-radius:6px; background:green; color:white; cursor:pointer;">
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<!-- ****************************************** Company creat and select code and script stop ************************************************************ -->
+
+
+<style>
+     /* Form Inputs */
+input, select {
+    width: 100%;
+    padding: 6px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+/* Light Gray Background for Inputs */
+input[type="text"], input[type="number"], input[type="date"], select {
+    background-color: #f9f9f9;
+}
+
+/* Submit and Button Styling */
+input[type="submit"] {
+    background-color: #080808;
+    color: rgb(246, 246, 248);
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+input[type="submit"]:hover, button:hover {
+    background-color: #575555;
+    transform: translateY(-2px);
+}
+      
+</style>
+
+
+
+<script>
+const apiCIDKey = "AIzaSyBe-AlG9lpyXyC7KV-AavR6tbqOc75iYdM";
+const sheetCIDId = "1lCFkLCR3MjqoLLiJTAqP9uLXtSwIOeiWL3MJoL5Qz6Y";
+const rangeCID = 'LICENCE!A:C';
+
+function openCompanyDialog() {
+  document.getElementById("companyDialog").style.display = "flex";
+}
+
+function closeCompanyDialog() {
+  document.getElementById("companyDialog").style.display = "none";
+}
+
+// Activation key submit
+document.getElementById("activationForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+  const key = document.getElementById("activationKey").value.trim();
+
+  // Fetch sheet data
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetCIDId}/values/${rangeCID}?key=${apiCIDKey}`;
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    const rows = data.values || [];
+
+    // Search for key in column A
+    const row = rows.find(r => r[0] === key);
+
+    if(!row){
+      alert("Invalid Activation Key");
+      return;
+    }
+
+    if(row[1] && row[1].trim() !== ""){
+      alert("Activation Code Already Used");
+      return;
+    }
+
+    // Key valid and not used → show main form in same dialog
+    const dialogContent = document.getElementById("dialogContent");
+    dialogContent.innerHTML = `
+      <h2 style="font-size:22px; text-align:center; margin-bottom:20px;">Create Company</h2>
+
+
+
+      
+    <form id="mainNEWACTForm">
+        <input type="hidden" name="SNo" id="sNo">
+
+        
+         <label >Voucher</label>
+       <select id="NEWACT12"  name="User" style="color: #6803a2 ;font-size:100%;" required>
+            <option value="CLINT">COMPANY</option>
+        </select>
+    
+        
+           <input type="hidden" class="NEWACTID" name="CIN" id="CINID">
+
+        <label >COMPANY ID.</label>
+        <input type="text" id="NEWACT11" class="NEWACTID" name="Voucher" value="" readonly required> </input>
+
+
+  <label>Enter Company Name:</label>
+        <input type="text" id="NEWACT18" name="Date" placeholder="Enter Company Name" required >
+
+        <label>Proprietor/Director Name:</label>
+        <input type="text" id="NEWACT13" name="Ledger" placeholder="Enter Ledger Name" required >
+
+        <label>Address:</label>
+        <input type="text" id="NEWACT14" name="Clm1" placeholder="Enter Full Address" required >
+      
+        <label>Registration Type:</label>
+        <select id="NEWACT15" name="Clm2" onchange="handleOptionChange()" required>
+                    <option value="">Select</option>
+                    <option value="Unregistered/Consumer">Unregistered</option>
+                    <option value="Regular">Regular</option>
+                </select>
+  
+
+         <label>Enter GST/PAN/ADHAR No:</label>
+        <input type="text" id="NEWACT18" name="Clm4" placeholder="Enter Contect No. if any" >
+
+
+        <label>Contect No:</label>
+        <input type="text" id="NEWACT17" name="Clm5" placeholder="Enter Contect No. if any" >
+
+        
+
+
+         <input type="hidden" name="Timestamp" id="timestampNEWACT">
+
+        <input type="submit" id="submitNEWACTButton" value="Submit">
+                  
+                  
+        <H3 style="background-color: #004466 ;color: white;font-size: 120%; text-align: center;font-weight: bold;">---------------------------</H3>
+
+         <div style="display:flex; justify-content:space-between;">
+          <button type="button" onclick="closeCompanyDialog()" style="padding:10px 20px; border:none; border-radius:6px; background:#888; color:white; cursor:pointer;">Cancel</button>
+      
+        </div>
+               </form>
+
+        
+
+
+
+    `;
+
+
+    // ✅ Call after DOM is inserted
+async function setUniqueCIDNo() {
+    const existingValues = await fetchExistingRefNos();
+    let uniqueRef;
+    do {
+      uniqueRef = generateRandom5Digit();
+    } while (existingValues.has(uniqueRef));
+
+    const refInput = document.getElementById("NEWACT11");
+    if(refInput) refInput.value = uniqueRef;
+}
+
+// Call immediately after form render
+setUniqueCIDNo();
+
+
+  
+
+  } catch(err) {
+    console.error("Error fetching activation sheet:", err);
+    alert("Error connecting to server. Try again.");
+  }
+});
+
+//******************************************************
+// 🔹 Dropdown को भरने वाला function
+async function populateCompanyDropdown() {
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetCIDId}/values/${rangeCID}?key=${apiCIDKey}`;
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    let rows = data.values || [];
+
+    const dropdown = document.getElementById("selectcid");
+    dropdown.innerHTML = "";
+
+    // default option
+    const defaultOpt = document.createElement("option");
+    defaultOpt.value = "";
+    defaultOpt.textContent = "Select Company";
+    dropdown.appendChild(defaultOpt);
+
+    // header हटाओ और बाकी rows लो
+    rows = rows.slice(1);
+
+    // 🔹 Column C (name) के आधार पर sort
+    rows.sort((a, b) => {
+      const nameA = (a[2] || "").toLowerCase();
+      const nameB = (b[2] || "").toLowerCase();
+      return nameA.localeCompare(nameB);
+    });
+
+    // rows से option बनाओ (B=Value, C=Text)
+    rows.forEach(r => {
+      if(r[1] && r[2]) {
+        const opt = document.createElement("option");
+        opt.value = r[1];      // Column B → value
+        opt.textContent = r[2]; // Column C → text
+        dropdown.appendChild(opt);
+      }
+    });
+
+  } catch (err) {
+    console.error("Dropdown load error:", err);
+    alert("Error loading company list!");
+  }
+}
+
+
+
+// ✅ data table store function start hare-------------------
+async function loadFormData() {
+  const sheetRanges = ["DATABASE!A:P", "LICENCE!A:K"];
+
+  // Dropdown se CIN value lo
+  const selectCid = document.getElementById("selectcid");
+  const cinValue = selectCid ? selectCid.value.trim() : "";
+
+  let tableCounter = 0;
+  for (const range of sheetRanges) {
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetCIDId}/values/${range}?key=${apiCIDKey}`;
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      let rows = data.values || [];
+
+      if (rows.length === 0) {
+        tableCounter++;
+        continue;
+      }
+
+      // Header + data rows
+      const headers = rows[0];
+      let dataRows = rows.slice(1);
+
+      // ✅ Sirf DATABASE!A:P ke liye CIN filter lagana
+      if (range.startsWith("DATABASE!") && cinValue) {
+        dataRows = dataRows.filter(r => (r[11] || "").trim() === cinValue);
+      }
+
+      // Target table id
+      const tableId = tableCounter === 0 ? "esmdata" : `esmdata${tableCounter}`;
+      const table = document.getElementById(tableId);
+
+      if (!table) {
+        console.warn(`Table with id="${tableId}" not found in HTML.`);
+        tableCounter++;
+        continue;
+      }
+
+      // Clear old content
+      table.innerHTML = "";
+
+      // ---- Table Head ----
+      const thead = document.createElement("thead");
+      const headRow = document.createElement("tr");
+      headers.forEach(h => {
+        const th = document.createElement("th");
+        th.textContent = h;
+        th.style.padding = "6px";
+        th.style.background = "#004466";
+        th.style.color = "white";
+        headRow.appendChild(th);
+      });
+      thead.appendChild(headRow);
+      table.appendChild(thead);
+
+      // ---- Table Body ----
+      const tbody = document.createElement("tbody");
+
+      if (dataRows.length === 0) {
+        // ✅ Agar CIN filter se koi match nahi mila to message show karo
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.colSpan = headers.length;
+        td.textContent = "NO DATA AVAILABLE";
+        td.style.textAlign = "center";
+        td.style.color = "red";
+        td.style.fontWeight = "bold";
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+      } else {
+        // ✅ Agar data hai to normal rows show karo
+        dataRows.sort((a, b) => {
+          const valA = a[0] || "";
+          const valB = b[0] || "";
+          return valB.localeCompare(valA, undefined, { numeric: true });
+        });
+
+        dataRows.forEach(r => {
+          const tr = document.createElement("tr");
+          headers.forEach((_, i) => {
+            const td = document.createElement("td");
+            td.textContent = r[i] || "";
+            td.style.padding = "5px 10px";
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+      }
+
+      table.appendChild(tbody);
+      tableCounter++;
+    } catch (err) {
+      console.error("Form data load error:", err);
+    }
+  }
+}
+
+// ✅ Call when page loads
+window.addEventListener("DOMContentLoaded", () => {
+  loadFormData();
+
+  // ✅ Dropdown change hone par tables reload karo
+  const selectCid = document.getElementById("selectcid");
+  if (selectCid) {
+    selectCid.addEventListener("change", loadFormData);
+  }
+});
+
+// ✅ data table store function stop hare-------------------
+
+
+// 🔹 पेज लोड होते ही कॉल करो
+window.addEventListener("DOMContentLoaded", populateCompanyDropdown);
+
+</script>
+
+<!-- ****************************************** Company creat and select code and script stop ************************************************************ -->
+
+
+
+
+<!-- ****************************************** COMPANY ID NO SCRIPT STRAT ************************************************************ -->
+<script>
+(() => {
+  const scriptuniqrefCID = 'https://script.google.com/macros/s/AKfycbysoEaG0GqQa9ewvhAc-pvvZbbDmR3mhDBsmt7rBQ-DezmvbyE-EDIWkC6NUUvez1wa/exec';
+
+  let _voucherSetCache = null;
+
+  async function fetchExistingCINNos() {
+    if (_voucherSetCache) return _voucherSetCache;
+    try {
+      const response = await fetch(scriptuniqrefCID);
+      const data = await response.json();
+      const rows = Array.isArray(data?.data) ? data.data : [];
+
+      const existingValues = new Set(
+        rows.map(r => String(r?.Voucher ?? '')).filter(Boolean)
+      );
+
+      _voucherSetCache = existingValues;
+      return existingValues;
+    } catch (error) {
+      console.error("Error fetching existing CIN Nos:", error);
+      return new Set();
+    }
+  }
+
+  function generateCIN5Digit() {
+    return String(Math.floor(10000 + Math.random() * 90000));
+  }
+
+  async function genCIDNo() {
+    const elements = document.querySelectorAll(".NEWACTID");
+    if (!elements.length) {
+      setTimeout(genCIDNo, 200);
+      return;
+    }
+
+    const existingValues = await fetchExistingCINNos();
+
+    let uniqueRef;
+    do {
+      uniqueRef = generateCIN5Digit();
+    } while (existingValues.has(uniqueRef));
+
+    // ✅ Ab sabhi inputs me SAME no. set hoga
+    elements.forEach(el => {
+      el.value = uniqueRef;
+    });
+
+    existingValues.add(uniqueRef); // taaki dubara yeh no. na bane
+  }
+
+  function bindFormReset() {
+    document.querySelectorAll("form").forEach(form => {
+      form.addEventListener("reset", () => {
+        setTimeout(genCIDNo, 100);
+      });
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    bindFormReset();
+    genCIDNo();
+  });
+
+  window.genCIDNo = genCIDNo; // manual trigger ke liye
+})();
+</script>
+
+
+
+<!-- ****************************************** COMPANY ID NO SCRIPT STOP ************************************************************ -->
+
+
+
+
+<!-- ****************************************** Create NEW COMPANR Submit Form Script START ************************************************************ -->
+<script>
+  const scriptNEWACTURL = 'https://script.google.com/macros/s/AKfycbysoEaG0GqQa9ewvhAc-pvvZbbDmR3mhDBsmt7rBQ-DezmvbyE-EDIWkC6NUUvez1wa/exec';
+
+  document.addEventListener("submit", async function (e) {
+    const form = e.target;
+    if (form.id !== "mainNEWACTForm") return;
+
+    e.preventDefault();
+    const submitNEWACTButton = document.getElementById("submitNEWACTButton");
+    submitNEWACTButton.disabled = true;
+    submitNEWACTButton.value = "Wait..";
+
+    // ✅ Convert input text to uppercase
+    const formInputs = form.querySelectorAll('input, textarea');
+    formInputs.forEach(input => {
+      if (input.type === 'text' || input.type === 'textarea') {
+        input.value = input.value.toUpperCase();
+      }
+    });
+
+    // ✅ Generate timestamp in M/D/YYYY HH:MM:SS format
+    const now = new Date();
+    const formatted =
+      (now.getMonth() + 1) + "/" +   // month (1–12)
+      now.getDate() + "/" +          // day
+      now.getFullYear() + " " +      // year
+      now.toLocaleTimeString();      // time (HH:MM:SS)
+
+    document.getElementById("timestampNEWACT").value = formatted;
+
+    await submitNEWACTEntry(form, submitNEWACTButton);
+  });
+
+  async function submitNEWACTEntry(form, submitNEWACTButton) {
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch(scriptNEWACTURL, { method: 'POST', body: formData });
+      const result = await response.json();
+
+      if (result.result === 'success') {
+        alert('Company Creat successfully! ✅');
+        form.reset();
+        submitNEWACTButton.style.display = "none"; // ✅ Hide permanently
+      } else {
+        alert(`Error: ${result.error || 'Unknown error occurred.'}`);
+        submitNEWACTButton.disabled = false;
+        submitNEWACTButton.value = "Submit";
+      }
+    } catch (error) {
+      alert(`Error submitting the form: ${error.message}`);
+      submitNEWACTButton.disabled = false;
+      submitNEWACTButton.value = "Submit";
+    }
+  }
+</script>
+
+
+<!-- ****************************************** Create NEW COMPANR Submit Form Script STOP ************************************************************ -->
+
+
+
+
+
+
+
+
+
+<!-- ****************************************** party ledger report with poup box and print script start ************************************************************ -->
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ledger Report</title>
+  <style>
+    :root {
+      --card-bg: #ffffff;
+      --border: #e5e7eb;
+      --ring: #3b82f6;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; background:#f7f7f8; }
+
+  
+
+    /* Modal (अब normal box की तरह काम करेगा) */
+    .modal { 
+      width: min(1850px, 100%); max-height: 100vh; background: var(--card-bg); 
+      border-radius: 20px; overflow: hidden; border:1px solid var(--border);
+      box-shadow: 0 12px 30px rgba(0,0,0,.15);
+      display:flex; flex-direction: column;
+      margin: 5px auto;
+    }
+    .modal-header { display:flex; align-items:center; justify-content:space-between; padding:16px 18px; border-bottom:1px solid var(--border);background-color: #caf7e9; }
+    .modal-title { font-size: 1.05rem; font-weight:700; }
+
+    /* Sections */
+    .modal-body { 
+      display: grid; 
+      grid-template-rows: 27vh 47vh;
+      min-height: 60vh; 
+    }
+    .panel { padding: 5px; overflow:auto; }
+    .panel + .panel { border-top:1px solid var(--border); }
+
+    .panel h3 { margin: 4px 0 12px; font-size: 1rem; }
+    .muted { color:#6b7280; font-size: .9rem; }
+
+    /* Footer */
+    .modal-footer { display:flex; justify-content:flex-start; gap:5px; padding:12px 16px; border-top:1px solid var(--border);background-color: #cadff7; }
+    .secondary { background:#e5e7eb; color:#111827; }
+
+    /* Inputs & table */
+    #searchInput { width:100%; padding:8px; border-radius:10px; border:1px solid #d1d5db; margin-bottom:8px; }
+    #resultDropdown { width:100%; border-radius:6px; border:1px solid #d1d5db; margin-bottom:8px;}
+    #summaryBox { margin-bottom:8px; font-size:0.95rem; }
+    #soa { width:100%; border-collapse: collapse; margin-top:8px; }
+    #soa th, #soa td { border:1px solid #d1d5db; padding:6px; text-align:center; }
+    #soa th { background:#f3f4f6; }
+
+    @media (max-width:720px){
+      .modal-body { grid-template-rows: 1fr 1fr; }
+      .panel + .panel { border-top:1px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+
+
+<script>
+const table = document.getElementById("esmdata"); // main data table
+const input = document.querySelector(".ldgrdp");  // first input field
+const suggestionsBox = document.getElementById("ledgerSuggestions");
+const summaryBox = document.getElementById("summaryBox");
+const soaTable = document.getElementById("soa");
+
+const reportInput = document.querySelector(".ldgrReport"); // new report input
+const reportSuggestionsBox = document.getElementById("ledgerReportSuggestions");
+
+let creatRowsData = [];
+let currentLedgerCode = "";
+
+// --- Helper: parse "26-Aug-2025"
+function parseCustomDate(dateStr) {
+  if (!dateStr) return null;
+  const parts = dateStr.split("-");
+  if (parts.length !== 3) return null;
+  const day = parseInt(parts[0], 10);
+  const monthStr = parts[1].toLowerCase();
+  const year = parseInt(parts[2], 10);
+  const months = { jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11 };
+  const month = months[monthStr];
+  if (isNaN(day)||isNaN(year)||month===undefined) return null;
+  return new Date(year, month, day);
+}
+
+// --- 1) Find CREAT rows
+function findCreatRows() {
+  const rows = table ? Array.from(table.querySelectorAll("tr")) : [];
+  creatRowsData = [];
+  rows.forEach(row => {
+    const cells = Array.from(row.querySelectorAll("td, th")).map(td => td.innerText.trim());
+    if ((cells[2]||"").toUpperCase() === "CREAT") creatRowsData.push(cells);
+  });
+}
+
+// --- 2a) Search ledger name for ldgrdp
+function searchLedger(value) {
+  findCreatRows();
+  const q = (value||"").toLowerCase();
+  if (!q) { hideSuggestions(); return; }
+  const matches = creatRowsData.reduce((acc, cells) => {
+    const ledgerName=(cells[4]||"").trim();
+    const ledgerCode=(cells[9]||"").trim();
+    const address=(cells[5]||"").trim();
+    const regtype=(cells[6]||"").trim();
+    const regno=(cells[7]||"").trim();
+    const mobno=(cells[8]||"").trim();
+    if (ledgerName.toLowerCase().includes(q)) {
+      acc.push({ledgerName,ledgerCode,address,mobno,regno,regtype,rowData:cells});
+    }
+    return acc;
+  }, []);
+  updateSuggestions(matches);
+}
+
+// --- 2b) Search ledger name for ldgrReport
+function searchLedgerReport(value) {
+  findCreatRows();
+  const q = (value||"").toLowerCase();
+  if (!q) { hideSuggestionsReport(); return; }
+  const matches = creatRowsData.reduce((acc, cells) => {
+    const ledgerName=(cells[4]||"").trim();
+    const ledgerCode=(cells[9]||"").trim();
+    const address=(cells[5]||"").trim();
+    const regtype=(cells[6]||"").trim();
+    const regno=(cells[7]||"").trim();
+    const mobno=(cells[8]||"").trim();
+    if (ledgerName.toLowerCase().includes(q)) {
+      acc.push({ledgerName,ledgerCode,address,mobno,regno,regtype,rowData:cells});
+    }
+    return acc;
+  }, []);
+  updateSuggestionsReport(matches);
+}
+
+// --- 3a) Update suggestions for ldgrdp
+function updateSuggestions(matches) {
+  suggestionsBox.innerHTML = "";
+  if(matches.length===0){ hideSuggestions(); summaryBox.innerHTML='<span>No match found.</span>'; return; }
+  matches.forEach((m)=>{
+    const div=document.createElement("div");
+    div.className="suggestion-item";
+    div.textContent=`${m.ledgerName}`;
+    div.dataset.ledger=JSON.stringify(m);
+    div.addEventListener("click",()=> selectLedger(m, input, suggestionsBox));
+    suggestionsBox.appendChild(div);
+  });
+  suggestionsBox.style.display="block";
+}
+function hideSuggestions(){ suggestionsBox.style.display="none"; }
+
+// --- 3b) Update suggestions for ldgrReport
+function updateSuggestionsReport(matches) {
+  reportSuggestionsBox.innerHTML = "";
+  if(matches.length===0){ hideSuggestionsReport(); summaryBox.innerHTML='<span>No match found.</span>'; return; }
+  matches.forEach((m)=>{
+    const div=document.createElement("div");
+    div.className="suggestion-item";
+    div.textContent=`${m.ledgerName}`;
+    div.dataset.ledger=JSON.stringify(m);
+    div.addEventListener("click",()=> selectLedger(m, reportInput, reportSuggestionsBox));
+    reportSuggestionsBox.appendChild(div);
+  });
+  reportSuggestionsBox.style.display="block";
+}
+function hideSuggestionsReport(){ reportSuggestionsBox.style.display="none"; }
+
+// --- 4) Select Ledger (common for both inputs)
+function selectLedger(m, targetInput, box) {
+  targetInput.value = m.ledgerName;
+  currentLedgerCode = m.ledgerCode;
+
+  // Summary update
+  summaryBox.innerHTML=`
+    <b>Ledger:</b> ${m.ledgerName}
+    <b>Ledger Code:</b> ${m.ledgerCode||"-"}<br>
+    <b>Address:</b> ${m.address||"-"}<br>
+    <b>Type:</b> ${m.regtype||"-"} | <b>Reg No:</b> ${m.regno||"-"} <br>
+    <b>Contact:</b> ${m.mobno||"-"}
+  `;
+
+  // WhatsApp message link update
+ // WhatsApp message link update
+// WhatsApp message link update
+const whatsappSpan = document.getElementById("whastup");
+if (whatsappSpan) {
+  whatsappSpan.innerHTML = ""; // पहले साफ़ करो
+  
+  // ✅ सिर्फ तब ही show करो जब mobno valid हो
+  if (m.mobno && m.mobno.trim() !== "") {
+    const message = encodeURIComponent(
+      `Hello ${m.ledgerName},\nHere is your ledger statement.`
+    );
+    const cleanNumber = m.mobno.replace(/\D/g, '');
+    whatsappSpan.innerHTML = `
+      <b>Contact:</b> ${m.mobno} | 
+      <a href="https://wa.me/${cleanNumber}?text=${message}" 
+         target="_blank" 
+         style="color:blue; text-decoration:none;">
+         Send WhatsApp
+      </a>
+    `;
+  }
+}
+//
+  populateSOA(m.ledgerCode);
+  box.style.display="none";
+}
+
+// --- 5) Show SOA
+function populateSOA(ledgerCode, fromDate="", toDate="") {
+  const rows = table ? Array.from(table.querySelectorAll("tr")) : [];
+  const headerMapping = [
+    {index:0,name:"SNo"},
+    {index:1,name:"User"},
+    {index:2,name:"Voucher"},
+    {index:3,name:"Date"},
+    {index:5,name:"Invoice No."},
+    {index:8,name:"Narration"},
+    {index:9,name:"Vehicle No."},
+    {index:10,name:"GST %"},
+    {index:13,name:"GST Amount"},
+    {index:6,name:"Amt (Dr.)"},
+    {index:7,name:"Amt (Cr.)"}
+  ];
+  
+  soaTable.innerHTML = "";
+
+  // Header Row
+  const headerRow = document.createElement("tr");
+  headerMapping.forEach(h => {
+    const th = document.createElement("th");
+    th.textContent = h.name;
+    headerRow.appendChild(th);
+  });
+  const balanceTh = document.createElement("th");
+  balanceTh.textContent = "Balance";
+  headerRow.appendChild(balanceTh);
+  soaTable.appendChild(headerRow);
+
+  // Map and Filter Rows
+  let matchingRows = rows.map(r => Array.from(r.querySelectorAll("td")).map(td => td.innerText.trim()))
+                         .filter(cells => cells[14] === ledgerCode);
+
+  if(fromDate || toDate){
+    let from = fromDate ? new Date(fromDate) : null;
+    let to = toDate ? new Date(toDate) : null;
+    if(from) from.setHours(0,0,0,0);
+    if(to) to.setHours(23,59,59,999);
+
+    matchingRows = matchingRows.filter(cells => {
+      const rowDate = parseCustomDate(cells[3]);
+      if(!rowDate) return false;
+      rowDate.setHours(12,0,0,0); 
+      if(from && rowDate < from) return false;
+      if(to && rowDate > to) return false;
+      return true;
+    });
+  }
+
+  // --- Sort by SNo desc + reverse (bottom-to-top)
+  matchingRows.sort((a, b) => (parseFloat(b[3]) || 0) - (parseFloat(a[3]) || 0));
+ // matchingRows.reverse();
+
+  // //  running balance start
+ let runningBalance = 0;
+
+// ✅ rows को reverse करो (नीचे से ऊपर calculation के लिए)
+const reversedRows = [...matchingRows].reverse();
+
+const rowsWithBalance = reversedRows.map(cells => {
+  const dr = parseFloat(cells[6] || 0) || 0;
+  const cr = parseFloat(cells[7] || 0) || 0;
+  runningBalance += dr - cr;
+  return {cells, balance: runningBalance};
+});
+
+// ✅ अब rows को फिर reverse करो ताकि display ऊपर से नीचे हो
+rowsWithBalance.reverse().forEach(({cells, balance}) => {
+  const tr = document.createElement("tr");
+  headerMapping.forEach(h => {
+    const td = document.createElement("td");
+    td.textContent = cells[h.index] || "";
+    if (h.index === 6) td.style.color = "green"; // Dr
+    if (h.index === 7) td.style.color = "red";   // Cr
+    tr.appendChild(td);
+  });
+  const balanceTd = document.createElement("td");
+  balanceTd.textContent = balance.toFixed();
+  tr.appendChild(balanceTd);
+  soaTable.appendChild(tr);
+});
+//  running balance stop
+}
+
+// --- Date filter trigger
+function applySOADateFilter(){
+  const fromDate=document.getElementById("fromDate").value;
+  const toDate=document.getElementById("toDate").value;
+  if(currentLedgerCode) populateSOA(currentLedgerCode,fromDate,toDate);
+}
+
+// --- Print
+document.getElementById("soaPrintBtn").addEventListener("click",()=>{
+  const companyHtml = document.getElementById("companyProfile").outerHTML;
+  const summaryHtml = document.getElementById("summaryBox").innerHTML;
+  const tableHtml = document.getElementById("soa").outerHTML;
+
+  const printWindow = window.open("", "", "width=900,height=600");
+  printWindow.document.write(`
+    <html>
+      <head>
+        <title>Ledger Statement</title>
+        <style>
+          body { font-family: Arial, sans-serif; padding:20px; }
+          h2 { text-align:center; margin-bottom:20px; }
+          table { width:100%; border-collapse: collapse; margin-top:10px; }
+          table, th, td { border: 1px solid #333; }
+          th, td { padding:8px; text-align:center; }
+          th { background:#f3f3f3; }
+          td.dr { color:green; }
+          td.cr { color:BLUE; }
+          hr { margin:15px 0; }
+          #companyProfile { margin-bottom:15px; padding:10px; border:1px solid #ccc; background:#f8f9fa; border-radius:8px; }
+        </style>
+      </head>
+      <body>
+        <h2>
+          <span style="color:rgb(246, 156, 156);font-size:100%;font-family:Magneto;">eS |</span> 
+          <span style="color:#a0d0f0;font-size:100%;font-family:Magneto;">MTally</span>  
+          <span style="color:black;font-size:100%;font-family:Bahnschrift;">(Ledger Statement)</span></h2>
+        ${companyHtml}
+        <div>${summaryHtml}</div>
+        <div>${tableHtml}</div>
+      </body>
+    </html>
+  `);
+  printWindow.document.close();
+  printWindow.focus();
+  printWindow.print();
+});
+
+// --- Event listeners
+if(input){
+  input.addEventListener("input", ()=> searchLedger(input.value));
+}
+if(reportInput){
+  reportInput.addEventListener("input", ()=> searchLedgerReport(reportInput.value));
+}
+</script>
+
+
+</body>
+</html>
+
+<!-- ****************************************** party ledger report with poup box and print script stop ************************************************************ -->
+
+
+
+
+<!-- ****************************************** vouvher tab summrry start ************************************************************ -->
+
+  <style>
+    :root {
+      --card-bg: #ffffff;
+      --border: #e5e7eb;
+      --ring: #3b82f6;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; background:#f7f7f8; }
+
+  
+
+    /* modalvcr (अब normal box की तरह काम करेगा) */
+    .modalvcr { 
+      width: min(1850px, 100%); max-height: 110vh; background: var(--card-bg); 
+      border-radius: 20px; overflow: hidden; border:1px solid var(--border);
+      box-shadow: 0 12px 30px rgba(0,0,0,.15);
+      display:flex; flex-direction: column;
+      margin: 5px auto;
+    }
+    .modalvcr-header { display:flex; align-items:center; justify-content:space-between; padding:16px 18px; border-bottom:1px solid var(--border);background-color: #f7d9ca; }
+    .modalvcr-title { font-size: 1.05rem; font-weight:700; }
+
+    /* Sections */
+    .modalvcr-body { 
+      display: grid; 
+      grid-template-rows: 15vh 55vh;
+      min-height: 60vh; 
+    }
+    .panelvcr { padding: 16px; overflow:auto; }
+    .panelvcr + .panelvcr { border-top:1px solid var(--border); }
+
+    .panelvcr h3 { margin: 4px 0 12px; font-size: 1rem; }
+    .muted { color:#6b7280; font-size: .9rem; }
+
+    /* Footer */
+    .modalvcr-footer { display:flex; justify-content:flex-start; gap:5px; padding:12px 16px; border-top:1px solid var(--border);background-color: #ccf7ca; }
+    .secondaryvcr { background:#e5e7eb; color:#111827; }
+
+  </style>
+
+<!-- ****************************************** VOUCHER tab summrry stop ************************************************************ -->
+
+
+
+
+<!-- ****************************************** DAYBOOK tab summrry start ************************************************************ -->
+
+  <style>
+    :root {
+      --card-bg: #ffffff;
+      --border: #e5e7eb;
+      --ring: #3b82f6;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; background:#f7f7f8; }
+
+  
+
+    /* modalDAYBOOK (अब normal box की तरह काम करेगा) */
+    .modalDAYBOOK { 
+      width: min(1850px, 100%); max-height: 110vh; background: var(--card-bg); 
+      border-radius: 20px; overflow: hidden; border:1px solid var(--border);
+      box-shadow: 0 12px 30px rgba(0,0,0,.15);
+      display:flex; flex-direction: column;
+      margin: 5px auto;
+    }
+    .modalDAYBOOK-header { display:flex; align-items:center; justify-content:space-between; padding:16px 18px; border-bottom:1px solid var(--border);background-color: #f7cadf; }
+    .modalDAYBOOK-title { font-size: 1.05rem; font-weight:700; }
+
+    /* Sections */
+    .modalDAYBOOK-body { 
+      display: grid; 
+      grid-template-rows: 15vh 60vh;
+      min-height: 60vh; 
+    }
+    .panelDAYBOOK { padding: 16px; overflow:auto; }
+    .panelDAYBOOK + .panelDAYBOOK { border-top:1px solid var(--border); }
+
+    .panelDAYBOOK h3 { margin: 4px 0 12px; font-size: 1rem; }
+    .muted { color:#6b7280; font-size: .9rem; }
+
+    /* Footer */
+    .modalDAYBOOK-footer { display:flex; justify-content:flex-start; gap:5px; padding:12px 16px; border-top:1px solid var(--border);background-color: #ccf7ca; }
+    .secondaryDAYBOOK { background:#e5e7eb; color:#111827; }
+
+  </style>
+
+<!-- ****************************************** DAYBOOK tab summrry stop ************************************************************ -->
+
+
+
+
+
+
+
+<!-- ****************************************** login tab summrry start ************************************************************ -->
+
+  <style>
+    :root {
+      --card-bg: #ffffff;
+      --border: #e5e7eb;
+      --ring: #3b82f6;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; background:#f7f7f8; }
+
+  
+
+    /* modallogin (अब normal box की तरह काम करेगा) */
+    .modallogin { 
+      width: min(1850px, 100%); max-height: 110vh; background: var(--card-bg); 
+      border-radius: 20px; overflow: hidden; border:1px solid var(--border);
+      box-shadow: 0 12px 30px rgba(0,0,0,.15);
+      display:flex; flex-direction: column;
+      margin: 5px auto;
+    }
+    .modallogin-header { display:flex; align-items:center; justify-content:space-between; padding:16px 18px; border-bottom:1px solid var(--border);background-color: #f7cadf; }
+    .modallogin-title { font-size: 1.05rem; font-weight:700; }
+
+    /* Sections */
+    .modallogin-body { 
+      display: grid; 
+      grid-template-rows: 15vh 60vh;
+      min-height: 60vh; 
+    }
+    .panellogin { padding: 16px; overflow:auto; }
+    .panellogin + .panellogin { border-top:1px solid var(--border); }
+
+    .panellogin h3 { margin: 4px 0 12px; font-size: 1rem; }
+    .muted { color:#6b7280; font-size: .9rem; }
+
+    /* Footer */
+    .modallogin-footer { display:flex; justify-content:flex-start; gap:5px; padding:12px 16px; border-top:1px solid var(--border);background-color: #ccf7ca; }
+    .secondarylogin { background:#e5e7eb; color:#111827; }
+
+  </style>
+
+<!-- ****************************************** login tab summrry stop ************************************************************ -->
+
