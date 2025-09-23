@@ -213,17 +213,17 @@ th {
     <h3>📊 Smart Loan Calculator</h3>
 
       <div class="form-row">
-  <label>Loan Name:</label>
-   <textarea id="loanName" placeholder="Enter Loan Name" rows="2" style="width:100%; resize:vertical;"></textarea></div>
+  <label>Customer Details:</label>
+   <textarea id="loanName" placeholder="Enter Customer Details, Loan Type ..... " rows="2" style="width:100%; resize:vertical;"></textarea></div>
 
 
-      <div class="form-row"> <label>Loan Type:</label>
-    <input type="text" id="loanType" placeholder="Enter Loan Type"> </div>
+      <div class="form-row"> <label>Financier Details:</label>
+    <input type="text" id="loanType" placeholder="Enter Bank Name, Loan No......"> </div>
 
-   <div class="form-row">  <label>Loan Amount (₹):</label>
+   <div class="form-row">  <label>Loan Amount (₹)*:</label>
     <input type="number" id="loan" placeholder="Enter loan amount"> </div>
 
-   <div class="form-row">  <label>Rate of Interest:</label>
+   <div class="form-row">  <label>Rate of Interest*:</label>
    <div class="rate-row">
   <input type="number" step="0.01" id="rate" placeholder="Enter rate"> 
   <select id="rateType">
@@ -235,13 +235,13 @@ th {
 
 
 
-    <div class="form-row"> <label>EMI (₹):</label>
+    <div class="form-row"> <label>EMI (₹)*:</label>
     <input type="number" id="emi" placeholder="Enter EMI"> </div>
 
-    <div class="form-row"><label>No. of Months:</label>
+    <div class="form-row"><label>No. of Months*:</label>
     <input type="number" id="months" placeholder="Enter number of months"></div>
 
-    <div class="form-row"><label>Installment Start Date:</label>
+    <div class="form-row"><label>Installment Start Date*:</label>
     <input type="date" id="startDate"></div>
 
     <div class="btn-row">
@@ -675,7 +675,8 @@ function showDiv(id){
         <p><b>Loan Type:</b> ${loanType || "-"}</p>
         <span><b>Loan Amount:</b> ₹${formatNum(P)}</span>
         <span><b>EMI:</b> ₹${formatNum(E)}</span>
-        <span><b>Tenure:</b> ${N} months</span>  <br/>
+        <span><b>Tenure:</b> ${N} months</span>  
+         <span><b>Rate of Interest:</b> ${formatNum(R)} %</span> <br/>
         <span><b>Total Interest:</b> ₹${formatNum(totalInterest)}</span>
         <span><b>Total Payment:</b> ₹${formatNum(totalPayment)}</span>
       `;
