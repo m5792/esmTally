@@ -1,0 +1,808 @@
+
+
+
+
+  <!-- Button to open EMS -->
+<button onclick="opentoolsEMS()">Office Tools</button>
+
+<!-- ------------------  my office tools code start hare -------------------------------------- -->
+
+<style>
+  :root {
+    --card-bg: #ffffff;
+    --border: #e5e7eb;
+  }
+  body {
+    font-family: system-ui, Arial, sans-serif;
+    margin: 0;
+    background:#f7f7f8;
+  }
+
+  /* Background overlay */
+  .EMS-overlay {
+    display: none; /* hidden by default */
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.5);
+    z-index: 999;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* EMS box */
+  .EMSapps { 
+    width: min(1950px, 95%);
+    max-height: 90vh;
+    background: var(--card-bg); 
+    border-radius: 20px;
+    border:1px solid var(--border);
+    box-shadow: 0 12px 30px rgba(0,0,0,.25);
+    display:flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .EMSapps-header { 
+    display:flex; 
+    align-items:center; 
+    justify-content:space-between; 
+    padding:16px 18px; 
+    border-bottom:1px solid var(--border);
+    background-color: #caf7e9; 
+  }
+  .EMSapps-title { font-size: 1.05rem; font-weight:700; }
+
+.EMSapps-body { 
+  display: grid; 
+  grid-template-columns: 3fr 7fr; 
+  min-height: 70vh; 
+  grid-template-areas: 
+    "left right";
+}
+
+.panel-left {
+  grid-area: left;
+}
+.panel-right {
+  grid-area: right;
+}
+
+.panelapps {
+  padding: 16px;
+  overflow: auto;
+  border-right: 1px solid var(--border); /* बीच में लाइन */
+}
+.panelapps:last-child {
+  border-right: none; /* आखिरी panel पर border हटाओ */
+}
+
+  .panelapps + .panelapps { border-top:1px solid var(--border); }
+  .panelapps h3 { margin: 4px 0 12px; font-size: 1rem; }
+
+  .EMSapps-footer { 
+    display:flex; justify-content:flex-start; 
+    padding:12px 16px; 
+    border-top:1px solid var(--border);
+    background-color: #cadff7; 
+    height: 2vh;
+  }
+
+
+
+
+  /* Table container */
+table{
+     width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 14px;
+  }
+
+  /* Table border & cell style */
+th, 
+ td {
+    border: 1px solid #dcdcdc;
+    padding: 8px 10px;
+    text-align: left;
+    white-space: nowrap;     /* wrap disable */
+    overflow: hidden;
+    text-overflow: ellipsis; /* show ... if text overflow */
+    vertical-align: middle;
+    font-size: clamp(10px, 1vw, 14px); /* auto shrink text */
+  }
+
+  /* Header design */
+th {
+    background: linear-gradient(135deg, #070707, #616161);
+    color: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+  }
+
+  tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+  /* Row hover effect */
+  tr:hover td {
+    background: #fce303;
+    transition: background 0.2s ease-in-out;  }
+    
+    table tr:hover {
+  background-color: #f81404;
+  color: rgb(1, 20, 37);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+ 
+
+   input,select {
+    padding:8px;
+    border-radius:6px;
+    border:1px solid #d1d5db;
+    margin:6px 0;
+    width: 4in;
+    background:#f0f1d4;
+  }
+      
+      
+      .rate-row input,
+.rate-row select {
+  width: 1in;   /* सिर्फ इसी div के input और select की width fix होगी */
+}
+</style>
+
+
+<!-- Button to open EMS -->
+
+
+
+<!-- EMS overlay -->
+<div id="toolsEMS" class="EMS-overlay">
+  <div class="EMSapps">   
+    <div class="EMSapps-header">
+      <div>
+        <div class="EMSapps-title">
+          <span class="CMNYNAME" style="color: rgb(0, 48, 46); font-weight: bold;">eS|MTally</span>
+        </div>
+        <div class="muted">My office tools</div>
+      </div>
+      <button onclick="closetoolsEMS()" style="background:none;border:none;font-size:20px;cursor:pointer;">❌</button>
+    </div>
+
+    <div class="EMSapps-body">
+
+       <div class="panelapps panel-left">
+    
+        <h3>User:- Mukhtiyar Ahamad</h3>
+        <label style="font-size: 16px; font-weight: bold;">Select Option:</label>
+        <select onchange="show123Div(this.value)" style="width: 4in; height: 4vh;">
+          <option value="">Select an option</option>
+          
+           <option value="1"> UPCL Bill Calculator</option>
+           <option value="2"> Loan Calculator</option>
+        </select>
+
+
+    <br/>  <br/>
+ 
+
+ <!-- Panel 1a -->
+<div id="1a" class="contentEMS">
+
+  
+
+  <label>Enter Your  Units: </label>
+  <input type="number" id="units" placeholder="Enter units">
+  <button onclick="calculateBill()">Calculate</button>
+  <button onclick="resetDefaults()">Reset Defaults</button>
+
+ </div>
+
+ <!-- Panel 2a -->
+<div id="2a" class="contentEMS">
+
+  
+          <div class="container">
+    <h3>📊 Smart Loan Calculator</h3>
+
+      <div class="form-row">
+  <label>Loan Name:</label>
+   <textarea id="loanName" placeholder="Enter Loan Name" rows="2" style="width:100%; resize:vertical;"></textarea></div>
+
+
+      <div class="form-row"> <label>Loan Type:</label>
+    <input type="text" id="loanType" placeholder="Enter Loan Type"> </div>
+
+   <div class="form-row">  <label>Loan Amount (₹):</label>
+    <input type="number" id="loan" placeholder="Enter loan amount"> </div>
+
+   <div class="form-row">  <label>Rate of Interest:</label>
+   <div class="rate-row">
+  <input type="number" step="0.01" id="rate" placeholder="Enter rate"> 
+  <select id="rateType">
+    <option value="annual">Annual</option>
+    <option value="monthly">Monthly</option>
+  </select>
+</div></div>
+
+
+
+
+    <div class="form-row"> <label>EMI (₹):</label>
+    <input type="number" id="emi" placeholder="Enter EMI"> </div>
+
+    <div class="form-row"><label>No. of Months:</label>
+    <input type="number" id="months" placeholder="Enter number of months"></div>
+
+    <div class="form-row"><label>Installment Start Date:</label>
+    <input type="date" id="startDate"></div>
+
+    <div class="btn-row">
+      <button onclick="autoCalculate()">🔄 Calculate</button>
+      <button class="reset-btn" onclick="resetAll()">♻ Reset</button>
+      <button onclick="generateSchedule()">📑 Show Repayment Schedule</button>
+    </div>
+
+    <div class="error" id="error"></div>
+
+   
+  </div>
+
+
+</div></div>
+
+      <!-- Lower panelapps -->
+   <div class="panelapps panel-right">
+    
+
+
+        <!-- Panel 1 -->
+        <div id="1" class="contentEMS">
+          
+ <span style="max-width:300px; text-align:center; margin:10px 0 20px; font-size:22px; line-height:1.5; color: rgb(7, 7, 7);">
+   Uttarakhand Power Corporation Ltd. Energy Charge Calculator
+    </span>
+<br/>
+   <span style="max-width:300px; text-align:center; margin:10px 0 20px; font-size:16px; line-height:1.5; color: rgb(13, 2, 173);">
+     *All Rate & Amt only educational and calculation purpose. 
+    </span>
+<br/><br/>
+           <!-- ===== VALUE KO EDITABLE BANANE KE LYE <td> "contenteditable="true" class="editable"" add kro ===== -->
+  <table>
+    <tr>
+      <th>Description</th>
+      <th>Units</th>
+      <th>Rate</th>
+      <th>Amount</th>
+    </tr>
+    <tr>
+      <td>S1 (0–98.63)</td>
+      <td id="s1u">0</td>
+      <td contenteditable="true" class="editable" id="r1">3.65</td>
+      <td id="s1c">0</td>
+    </tr>
+    <tr>
+      <td>S2 (98.63–197.26)</td>
+      <td id="s2u">0</td>
+      <td contenteditable="true" class="editable" id="r2">5.25</td>
+      <td id="s2c">0</td>
+    </tr>
+    <tr>
+      <td>S3 (197.26–394.52)</td>
+      <td id="s3u">0</td>
+      <td contenteditable="true" class="editable" id="r3">7.15</td>
+      <td id="s3c">0</td>
+    </tr>
+    <tr>
+      <td>S4 (Above 394.52)</td>
+      <td id="s4u">0</td>
+      <td contenteditable="true" class="editable" id="r4">7.8</td>
+      <td id="s4c">0</td>
+    </tr>
+    <tr class="total">
+      <td colspan="3">Total Energy Charge</td>
+      <td id="totalEnergy">0</td>
+    </tr>
+    <tr>
+      <td>Fixed Charge (₹/kW) × Load</td>
+      
+      <td contenteditable="true" class="editable" id="fixedLoad" style="background-color: rgb(248, 202, 202);">3</td>
+      <td  id="fixedRate">85</td>
+      <td id="fixedAmt">0</td>
+    </tr>
+    <tr>
+      <td>Electricity Duty (/kWh)</td>
+      <td id="dutyUnits">0</td>
+      <td  id="dutyRate">0.15</td>
+      <td id="dutyAmt">0</td>
+    </tr>
+    <tr>
+      <td>Fuel Adjustment (/kWh)</td>
+      <td id="fuelUnits">0</td>
+      <td  id="fuelRate">0.14</td>
+      <td id="fuelAmt">0</td>
+    </tr>
+    <tr class="total">
+      <td colspan="3">TOTAL BILL AMOUNT</td>
+      <td id="grandTotal">0</td>
+    </tr>
+  </table>
+
+   <p style="max-width:300px; text-align:center; margin:10px 0 20px; font-size:14px; line-height:1.5; color: red;">
+     *All Rate as per Uttarakhand Power Corporation ltd Monthly Bill August 2025 
+    </p>
+        </div>
+
+
+         <!-- Panel 2 -->
+        <div id="2" class="contentEMS">
+
+ <div class="summary" id="summary"></div>
+
+<div style="height: 70vh; overflow: auto;">
+    <div class="schedule" id="schedule">
+
+       <span style="color:rgb(246, 156, 156);font-size:130%;font-family:Magneto;">eS |</span> 
+  <span style="color:#a0d0f0;font-size:130%;font-family:Magneto;">MTally</span>
+  <br/>
+      <span style="color: rgb(0, 29, 41); font-size: 22px; font-weight: bold;">📑 Repayment Schedule</span>
+
+       <button class="print-btn" onclick="printSchedule()">🖨 Print Schedule</button>
+      <div id="scheduleTable"></div>
+    </div>
+</div>
+
+ </div> </div> </div>
+
+    <div class="EMSapps-footer">
+
+ Near PNB Bank, KUndeshwari Kashipur U.S.Nagar
+   
+   
+  </div> 
+  </div> </div>
+
+
+<script>
+function opentoolsEMS() {
+  document.getElementById("toolsEMS").style.display = "flex";
+}
+function closetoolsEMS() {
+  document.getElementById("toolsEMS").style.display = "none";
+}
+function showDiv(id){
+  document.querySelectorAll(".contentEMS").forEach(div => div.style.display="none");
+  if(id) document.getElementById(id).style.display="block";
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- multi div selection script start -->
+<style>
+    .contentEMS {
+        display: none;
+    }
+</style>
+
+<script>
+    function show123Div(selectedValue) {
+        // पहले सभी content div hide कर दो
+        const divs = document.querySelectorAll('.contentEMS');
+        divs.forEach(div => div.style.display = 'none');
+
+        if (selectedValue) {
+            // जिन divs का id selected value से शुरू होता है (जैसे "2", "2a", "2b" ...)
+            const relatedDivs = document.querySelectorAll(`.contentEMS[id^="${selectedValue}"]`);
+            
+            relatedDivs.forEach(div => {
+                div.style.display = 'block';
+            });
+        }
+    }
+</script>
+
+
+
+ <!-- multi div selection script stop -->
+
+
+
+
+
+<!-- ------------------  upcl bill calculator start -------------------------------------- -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Energy Charge Calculator</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background:#f4f6f9; }
+    h2 { color:#333; }
+    table { border-collapse: collapse; width: 75%; background:#fff; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
+    th, td { border:1px solid #ccc; padding:8px; text-align:center; }
+    th { background:#007bff; color:#fff; }
+    input { padding:5px; width:200px; }
+    .total { font-weight:bold; background:#e6f7ff; }
+    .editable { background:#fff8dc; }
+  </style>
+</head>
+<body>
+
+<script>
+  // Default Values
+  const defaults = {
+    r1: 3.65,
+    r2: 5.25,
+    r3: 7.15,
+    r4: 7.80,
+    fixedRate: 85,
+    fixedLoad: 3,
+    dutyRate: 0.15,
+    fuelRate: 0.14
+  };
+
+  // Reset function
+  function resetDefaults() {
+    for (let key in defaults) {
+      document.getElementById(key).innerText = defaults[key];
+    }
+    document.getElementById("units").value = "";
+    document.querySelectorAll("td[id$='u'], td[id$='c'], #totalEnergy, #grandTotal, #fixedAmt, #dutyAmt, #fuelAmt, #dutyUnits, #fuelUnits")
+      .forEach(el => el.innerText = "0");
+    document.getElementById("fixedLoad").innerText = defaults.fixedLoad;
+  }
+
+  // Calculation
+  function calculateBill() {
+    let units = parseFloat(document.getElementById("units").value) || 0;
+
+    let rate1 = parseFloat(document.getElementById("r1").innerText) || defaults.r1;
+    let rate2 = parseFloat(document.getElementById("r2").innerText) || defaults.r2;
+    let rate3 = parseFloat(document.getElementById("r3").innerText) || defaults.r3;
+    let rate4 = parseFloat(document.getElementById("r4").innerText) || defaults.r4;
+
+    let fixedRate = parseFloat(document.getElementById("fixedRate").innerText) || defaults.fixedRate;
+    let fixedLoad = parseFloat(document.getElementById("fixedLoad").innerText) || defaults.fixedLoad;
+    let dutyRate = parseFloat(document.getElementById("dutyRate").innerText) || defaults.dutyRate;
+    let fuelRate = parseFloat(document.getElementById("fuelRate").innerText) || defaults.fuelRate;
+
+    // Slabs
+    let s1 = Math.min(units, 98.63);
+    let s2 = (units > 98.63) ? Math.min(units - 98.63, 98.63) : 0;
+    let s3 = (units > 197.26) ? Math.min(units - 197.26, 197.26) : 0;
+    let s4 = (units > 394.52) ? (units - 394.52) : 0;
+
+    let c1 = s1 * rate1;
+    let c2 = s2 * rate2;
+    let c3 = s3 * rate3;
+    let c4 = s4 * rate4;
+
+    let totalEnergy = c1 + c2 + c3 + c4;
+    let fixed = fixedRate * fixedLoad;
+    let duty = units * dutyRate;
+    let fuel = units * fuelRate;
+    let grandTotal = totalEnergy + fixed + duty + fuel;
+
+    // Update table
+    document.getElementById("s1u").innerText = s1.toFixed(2);
+    document.getElementById("s2u").innerText = s2.toFixed(2);
+    document.getElementById("s3u").innerText = s3.toFixed(2);
+    document.getElementById("s4u").innerText = s4.toFixed(2);
+
+    document.getElementById("s1c").innerText = c1.toFixed(2);
+    document.getElementById("s2c").innerText = c2.toFixed(2);
+    document.getElementById("s3c").innerText = c3.toFixed(2);
+    document.getElementById("s4c").innerText = c4.toFixed(2);
+
+    document.getElementById("totalEnergy").innerText = totalEnergy.toFixed(2);
+
+    document.getElementById("fixedAmt").innerText = fixed.toFixed(2);
+    document.getElementById("dutyUnits").innerText = units.toFixed(2);
+    document.getElementById("dutyAmt").innerText = duty.toFixed(2);
+    document.getElementById("fuelUnits").innerText = units.toFixed(2);
+    document.getElementById("fuelAmt").innerText = fuel.toFixed(2);
+
+    document.getElementById("grandTotal").innerText = grandTotal.toFixed(2);
+  }
+
+  // Use DOMContentLoaded instead of window.onload
+  document.addEventListener("DOMContentLoaded", resetDefaults);
+</script>
+
+
+</body>
+</html>
+<!-- ------------------  upcl bill calculator stop -------------------------------------- -->
+
+
+
+<!-- ------------------  loan calculator script and code start -------------------------------------- -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Loan Calculator</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin:20px; background:#f5f7fa; color:#222; }
+    h2 { text-align:center; }
+    .container { max-width:900px; margin:auto; background:white; padding:20px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1); }
+    label { display:block; margin-top:12px; font-weight:bold; }
+   
+    button { margin-top:15px; padding:10px 16px; border:none; border-radius:8px; cursor:pointer; background:#007bff; color:white; font-weight:bold; }
+    button:hover { background:#0056b3; }
+    .btn-row { display:flex; gap:10px; flex-wrap:wrap; }
+    .summary { margin-top:20px; background:#e9f1ff; padding:12px; border-radius:8px; display:none; }
+    .summary h3 { margin:0 0 10px 0; }
+    .schedule { margin-top:25px; display:none; }
+   
+    tfoot td { font-weight:bold; background:#e9f1ff; }
+    .error { color:red; font-weight:bold; margin-top:10px; }
+    .print-btn { background:#28a745; margin-top:10px; }
+    .print-btn:hover { background:#1e7e34; }
+    .reset-btn { background:#dc3545; }
+    .reset-btn:hover { background:#a71d2a; }
+
+    /* 🔹 Print settings */
+    @media print {
+      body { background:white; }
+      .container { box-shadow:none; border:none; }
+      .container > *:not(.summary):not(.schedule) { display:none !important; }
+      .summary, .schedule { display:block !important; }
+      .print-btn, .reset-btn, .btn-row { display:none !important; }
+    }
+
+
+
+    /* Form row style */
+.form-row {
+  display: flex;
+  align-items: center;   /* vertical center */
+  gap: 12px;             /* label और input के बीच space */
+  margin-top: 12px;
+}
+
+/* label fixed width */
+.form-row label {
+  flex: 0 0 150px;       /* label की चौड़ाई (adjust कर सकते हो) */
+  font-weight: bold;
+  margin: 0;
+}
+
+/* input / textarea full width */
+.form-row input,
+.form-row select,
+.form-row textarea {
+  flex: 1;               /* input बाकी space ले */
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+    
+  </style>
+</head>
+<body>
+ 
+
+<script>
+  function formatNum(num) {
+    return Number(num).toFixed(2);
+  }
+
+  function resetAll() {
+    ["loan","rate","emi","months","loanName","loanType","startDate"].forEach(id => document.getElementById(id).value="");
+    document.getElementById("error").textContent = "";
+    document.getElementById("summary").style.display = "none";
+    document.getElementById("schedule").style.display = "none";
+  }
+
+  function autoCalculate() {
+    let P = parseFloat(document.getElementById("loan").value);
+    let R = parseFloat(document.getElementById("rate").value);
+    const rateType = document.getElementById("rateType").value;
+    let E = parseFloat(document.getElementById("emi").value);
+    let N = parseFloat(document.getElementById("months").value);
+    const loanName = document.getElementById("loanName").value;
+    const loanType = document.getElementById("loanType").value;
+    const err = document.getElementById("error");
+    const summary = document.getElementById("summary");
+    err.textContent = "";
+    summary.style.display = "none";
+
+    let filled = [!isNaN(P), !isNaN(R), !isNaN(E), !isNaN(N)].filter(Boolean).length;
+    if (filled < 3) {
+      err.textContent = "⚠️ Please enter any 3 values.";
+      return;
+    }
+    if (filled > 3) {
+      alert("⚠️ Only any 3 inputs allowed. Please clear one field.");
+      return;
+    }
+
+    let monthlyRate = 0;
+    try {
+      if (isNaN(E)) { 
+        monthlyRate = (rateType === "annual") ? R/12/100 : R/100;
+        E = P * monthlyRate * Math.pow(1 + monthlyRate, N) / (Math.pow(1 + monthlyRate, N) - 1);
+        document.getElementById("emi").value = formatNum(E);
+
+      } else if (isNaN(P)) {
+        monthlyRate = (rateType === "annual") ? R/12/100 : R/100;
+        P = E * ((Math.pow(1+monthlyRate, N) - 1) / (monthlyRate * Math.pow(1+monthlyRate, N)));
+        document.getElementById("loan").value = formatNum(P);
+
+      } else if (isNaN(N)) {
+        monthlyRate = (rateType === "annual") ? R/12/100 : R/100;
+        N = Math.log(E / (E - P * monthlyRate)) / Math.log(1 + monthlyRate);
+        document.getElementById("months").value = Math.round(N);
+
+      } else if (isNaN(R)) {
+        let low = 0.000001, high = 1, guess = 0;
+        for (let i = 0; i < 100; i++) {
+          guess = (low + high) / 2;
+          let calcEMI = P * guess * Math.pow(1 + guess, N) / (Math.pow(1 + guess, N) - 1);
+          if (calcEMI > E) high = guess;
+          else low = guess;
+        }
+        monthlyRate = guess;
+        R = (rateType === "annual") ? monthlyRate * 12 * 100 : monthlyRate * 100;
+        document.getElementById("rate").value = formatNum(R);
+      }
+
+      const totalPayment = E * N;
+      const totalInterest = totalPayment - P;
+      summary.innerHTML = `
+        <h3>📌 Loan Summary</h3>
+        <p><b>Loan Name:</b> ${loanName || "-"}</p>
+        <p><b>Loan Type:</b> ${loanType || "-"}</p>
+        <span><b>Loan Amount:</b> ₹${formatNum(P)}</span>
+        <span><b>EMI:</b> ₹${formatNum(E)}</span>
+        <span><b>Tenure:</b> ${N} months</span>  <br/>
+        <span><b>Total Interest:</b> ₹${formatNum(totalInterest)}</span>
+        <span><b>Total Payment:</b> ₹${formatNum(totalPayment)}</span>
+      `;
+      summary.style.display = "block";
+
+    } catch (e) {
+      err.textContent = "⚠️ Calculation error. Please check inputs.";
+    }
+  }
+
+  function generateSchedule() {
+    const P = parseFloat(document.getElementById("loan").value);
+    let R = parseFloat(document.getElementById("rate").value);
+    const rateType = document.getElementById("rateType").value;
+    const E = parseFloat(document.getElementById("emi").value);
+    const N = parseFloat(document.getElementById("months").value);
+    const startDate = document.getElementById("startDate").value;
+    const err = document.getElementById("error");
+    err.textContent = "";
+
+    if (isNaN(P) || isNaN(R) || isNaN(E) || isNaN(N) || !startDate) {
+      err.textContent = "⚠️ Please calculate values and enter Start Date first.";
+      return;
+    }
+
+    let monthlyRate = (rateType === "annual") ? R/12/100 : R/100;
+    let balance = P, cumInt=0, cumPrin=0;
+    let html = `<table><thead>
+      <tr>
+        <th>Month</th>
+        <th>Date</th>
+        <th>Opening Balance (₹)</th>
+        <th>Interest (₹)</th>
+        <th>Principal (₹)</th>
+        <th>EMI (₹)</th>
+        <th>Closing Balance (₹)</th>
+        <th>Cum. Principal (₹)</th>
+        <th>Cum. Interest (₹)</th>
+      </tr></thead><tbody>`;
+
+    let currentDate = new Date(startDate);
+
+    for (let m=1; m<=N; m++) {
+      let interest = balance * monthlyRate;
+      let principal = E - interest;
+      if (principal > balance) principal = balance; 
+      let closing = balance - principal;
+      cumInt += interest;
+      cumPrin += principal;
+
+      let payDate = currentDate.toLocaleDateString("en-GB");
+      html += `<tr>
+        <td>${m}</td>
+        <td>${payDate}</td>
+        <td>${formatNum(balance)}</td>
+        <td>${formatNum(interest)}</td>
+        <td>${formatNum(principal)}</td>
+        <td>${formatNum(E)}</td>
+        <td>${formatNum(closing)}</td>
+        <td>${formatNum(cumPrin)}</td>
+        <td>${formatNum(cumInt)}</td>
+      </tr>`;
+
+      balance = closing;
+      currentDate.setMonth(currentDate.getMonth()+1);
+      if (balance <= 0) break;
+    }
+
+    html += `</tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3">TOTAL</td>
+          <td>${formatNum(cumInt)}</td>
+          <td>${formatNum(cumPrin)}</td>
+          <td>${formatNum(cumPrin+cumInt)}</td>
+          <td>0.00</td>
+          <td>${formatNum(cumPrin)}</td>
+          <td>${formatNum(cumInt)}</td>
+        </tr>
+      </tfoot></table>`;
+
+    document.getElementById("scheduleTable").innerHTML = html;
+    document.getElementById("schedule").style.display="block";
+  }
+
+  function printSchedule() {
+  const summary = document.getElementById("summary").innerHTML;
+  const schedule = document.getElementById("scheduleTable").innerHTML;
+
+  if (!summary.trim() || !schedule.trim()) {
+    alert("⚠️ Please generate summary and schedule before printing.");
+    return;
+  }
+
+  const newWin = window.open("", "_blank", "width=900,height=650");
+  newWin.document.write(`
+    <html>
+      <head>
+        <title>Loan Statement</title>
+        <style>
+          body { font-family: Arial, sans-serif; margin:20px; }
+          h3 { margin-top:0; }
+          table { width:100%; border-collapse:collapse; margin-top:15px; }
+          th, td { border:1px solid #ccc; padding:6px; text-align:right; }
+          th { background:#f2f2f2; }
+          tfoot td { font-weight:bold; background:#e9f1ff; }
+          .summary { margin-bottom:20px; padding:10px; border:1px solid #ccc; border-radius:6px; background:#f9f9f9; }
+        </style>
+      </head>
+      <body>
+          <span style="color:rgb(246, 156, 156);font-size:130%;font-family:Magneto;">eS |</span> 
+  <span style="color:#a0d0f0;font-size:130%;font-family:Magneto;">MTally</span>
+        <div class="summary">${summary}</div>
+        <div class="schedule"><table>${schedule}</table></div>
+        <script>window.print(); window.close();<\/script>
+      </body>
+    </html>
+  `);
+  newWin.document.close();
+}
+</script>
+
+</body>
+</html>
+<!-- ------------------  loan calculator script and code stop -------------------------------------- -->
+
+
+<!-- ------------------  my office tools code stop hare -------------------------------------- -->
+
+
