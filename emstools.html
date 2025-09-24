@@ -1,10 +1,6 @@
 
 
 
-
-  <!-- Button to open EMS -->
-<button onclick="opentoolsEMS()">Office Tools</button>
-
 <!-- ------------------  my office tools code start hare -------------------------------------- -->
 
 <style>
@@ -20,7 +16,7 @@
 
   /* Background overlay */
   .EMS-overlay {
-    display: none; /* hidden by default */
+    /* display: none;*/
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,.5);
@@ -164,7 +160,7 @@ th {
 
 
 <!-- EMS overlay -->
-<div id="toolsEMS" class="EMS-overlay">
+<div id="toolsEMS" >
   <div class="EMSapps">   
     <div class="EMSapps-header">
       <div>
@@ -173,7 +169,7 @@ th {
         </div>
         <div class="muted">My office tools</div>
       </div>
-      <button onclick="closetoolsEMS()" style="background:none;border:none;font-size:20px;cursor:pointer;">❌</button>
+     
     </div>
 
     <div class="EMSapps-body">
@@ -369,19 +365,6 @@ th {
   </div> 
   </div> </div>
 
-
-<script>
-function opentoolsEMS() {
-  document.getElementById("toolsEMS").style.display = "flex";
-}
-function closetoolsEMS() {
-  document.getElementById("toolsEMS").style.display = "none";
-}
-function showDiv(id){
-  document.querySelectorAll(".contentEMS").forEach(div => div.style.display="none");
-  if(id) document.getElementById(id).style.display="block";
-}
-</script>
 
 
 
