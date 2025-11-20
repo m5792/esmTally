@@ -13,10 +13,10 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    background: #035b67;
+    background: #024a54;
     color: rgb(2, 64, 118);
     text-align: center;
-    padding: 12px 0;
+    padding: 4px 0;
     font-size: 14px;
     box-shadow: 0 -2px 6px rgba(0,0,0,0.3);
     z-index: 999;
@@ -47,9 +47,9 @@
 
     <p style="margin:6px 0;"><strong>🏢 Propriter:</strong> Mukhtar Ahamad</p>
     <p style="margin:6px 0;"><strong>📍 Address:</strong> Near PNB Bank Kundeshwari, Kashipur U.S.Nagar, Uttarakhand-244713</p>
-    <p style="margin:6px 0;"><strong>📞 Contact:</strong> +91 9756735792, 8057925792 |
-    <strong>📧 Email:</strong> eservicesksp@gmail.com</p>
-    <p style="margin:6px 0;"><strong>💼 DL No:</strong> UA-UDH-143538 | UA-UDH-14539  (Exp. 07-Nov-2030)</p>
+    <p style="margin:6px 0;"><strong>📞 Contact:</strong> +91 9756735792, 8057925792</p>
+    <p style="margin:6px 0;"><strong>📧 Email:</strong> eservicesksp@gmail.com</p>
+    <p style="margin:6px 0;"><strong>💼 DL No:</strong> UA-UDH-143538 | UA-UDH-143539  (Exp. 07-Nov-2030)</p>
 
     <hr style="margin:10px 0; border:0; border-top:1px solid #ddd;">
 
@@ -86,9 +86,10 @@
 </head>
 <body>
 
+  <div style="text-align: left;">
  <label style="color: #f6fead;"> Google Sheet Links</label>
     <select id="linkDropdown" onchange="handleDropdownChange()">
-        <option value="">--Google Sheet Links --</option>
+        <option value="">-- Select a Url/Link --</option>
 
 	<option value="https://www.google.com/android/find/">	Find My Device</option>
 	<option value="https://docs.google.com/spreadsheets/d/1wvsPdAQA57HxhTxA3cCcQvUEz93IWkBre_Ix-qvzwss/edit?gid=627393391#gid=627393391">	Store Database SHeet*</option>
@@ -101,17 +102,16 @@
      <option value="https://docs.google.com/spreadsheets/d/1ECwXrxs8_FDWw1qAC6_qxEwP_HE3SGMM4qNKVZHlIS0/edit?gid=0#gid=0">	Cash Management Sheet*</option>
      <option value="https://docs.google.com/spreadsheets/d/1h3uC_0Ji4-NUhqrN0aIR-XwLZL5VdgilCBlIzC--SDA/edit?gid=0#gid=0">	Imprest Voucher Sheet*</option>
       <option value="https://docs.google.com/spreadsheets/d/1B6dyXPay3Tyl_7RzGuL9Rg8AhkzdBNhJNRu-T-3kmvI/edit?pli=1&gid=207048997#gid=207048997">	MIPL Party Weight REport*</option>
-     <option value="https://docs.google.com/spreadsheets/d/1C4EeSbCDaVGmJjU3QY2VNfI_IEZn0tZsqXw0ss3G58k/edit?gid=809921823#gid=809921823">	A.F.I Google Index Sheet</option>
-      <option value="MULTITECH V.2023.html">	MIPL DASHBOARD OLD</option>
-     <option value="MULTITECH2023.html">MIPL Old Dashboard</option>
+     <option value="https://docs.google.com/spreadsheets/d/1C4EeSbCDaVGmJjU3QY2VNfI_IEZn0tZsqXw0ss3G58k/edit?gid=809921823#gid=809921823">	A.F.I Google Index Sheet*</option>
+      <option value="https://m5792.github.io/esm/">	MIPL DASHBOARD</option>
+     <option value="https://m5792.github.io/esm/MULTITECH2023.html">MIPL Old Dashboard</option>
      <option value="https://github.com/">	github (mukhtarahamadksp@gmail.com)</option>
-     <option value="eTally.html">	eTally Dashboard</option>
-		<option value="DAYBOOK.html">Daybook</option>
+     <option value="https://m5792.github.io/esm/eTally.html">	eTally Dashboard</option>
+
     </select>
 </body>
 </html>
-
-
+</div>
   </div>  <!-- footer stop hare -->
 
 
@@ -124,7 +124,7 @@
 <!-- ===============================
      AFI STOCK UI (BUTTON MODE)
 ================================== -->
-<div style="text-align:center; background-color: #013647; color: #c9eef8; font-weight: bold;"> <strong>A.F.I Cure Medical - Dishplay Report</strong></div> <br/>
+<div style="text-align:center; background-color: #002630; color: #ebf7fa; font-weight: bold;"> <strong>A.F.I Cure Medical Store</strong></div> <br/>
 
 <style>
 
@@ -153,7 +153,7 @@ table{
   table{
   overflow-x: auto;
   display: block;
-  max-height: 550px; /* Optional scrolling */
+  max-height: 500px; /* Optional scrolling */
   }
 
   /* Table border & cell style */
@@ -226,6 +226,9 @@ th {
     <button class="filter-btn" data-mode="DNAME">SEARCH BY DRUG NAME</button>
     <button class="filter-btn" data-mode="SALT">SEARCH BY DRUG SALT</button>
     <button class="filter-btn" id="pswBtn" data-mode="PSW">📘 ID/PASSWORD</button>
+
+    <button onclick="print2011Report()" style="border: none; color: rgb(0, 27, 37); font-weight: bold;  cursor: pointer; background-color: white;">🖨️ Print Report</button>
+
   <br><br>
 </div>
 
@@ -680,6 +683,53 @@ function showPSWTable(rows) {
   box.innerHTML = html;
 }
 
+
+function print2011Report() {
+    // जिस DIV को प्रिंट करना है
+    const printContent = document.getElementById('afiTableContainer').innerHTML;
+
+    // नई Window खोलना
+    const printWindow = window.open('', '', 'width=900,height=700');
+
+    // Print Window में HTML लिखना
+    printWindow.document.write(`
+        <html>
+        <head>
+            <title>Report Print</title>
+
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    padding: 20px;
+                }
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+                table, th, td {
+                    border: 1px solid #444;
+                    padding: 8px;
+                    text-align: left;
+                }
+                th {
+                    background: #f0f0f0;
+                }
+            </style>
+        </head>
+        <body>
+            ${printContent}
+        </body>
+        </html>
+    `);
+
+    printWindow.document.close();
+
+    // थोड़ी देर इंतजार → फिर प्रिंट प्रीव्यू खोलना
+    setTimeout(() => {
+        printWindow.print();
+        printWindow.close();
+    }, 300);
+}
 /* ============================================================
    LOAD ALL DATA
 ============================================================ */
