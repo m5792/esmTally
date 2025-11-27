@@ -9,17 +9,18 @@
 
   /* 🔹 Fixed Footer */
   .fixed-footer {
-    position: fixed;
+      position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    background: #024a54;
-    color: rgb(2, 64, 118);
+    background-color: #a7a8a8;
+    color: rgb(1, 49, 77);
+
     text-align: center;
-    padding: 4px 0;
+    padding: 2px 2px; /* Top-Bottom = 0, Left-Right = 10px gap */
     font-size: 14px;
-    box-shadow: 0 -2px 6px rgba(0,0,0,0.3);
-    z-index: 999;
+    z-index: 1000;
+    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.3);
   }
 </style>
 
@@ -27,24 +28,26 @@
   <div class="fixed-footer">
 
     <!-- Current Time -->
-  <div id="currentDateTime" style="padding: 1px 1px; white-space: nowrap; font-size: 16; font-weight: bold; color: rgb(248, 244, 244);"></div>
+ <div style="display: flex; justify-content: center; align-items: center; background-color: #f7f8fa; color: rgb(1, 1, 1); font-size: 12px; font-weight: bold;  border: 5px solid #003444; ">
+  <div id="currentDateTime" style="padding: 5px 10px; white-space: nowrap; font-size: 16px; "></div>
+</div>
 
 <!-- ================================================================================================================================== -->
     <div style="
     max-width: 100%;
     margin: 15px auto;
-    padding: 15px;
+
     border-radius: 12px;
-    background: #f8f9fa;
+    background: #e7e8e9;
     box-shadow: 0 3px 10px rgba(0,0,0,0.15);
     font-family: Arial, sans-serif;
 ">
 
-    <h2 style="margin:0; color:#035b67; text-align:center;">
+    <h2 style="margin:0; color:#004750; text-align:center;">
          A.F.I Cure Medical Store
     </h2>
 
-    <hr style="margin:6px 0; border:0; border-top:1px solid #ddd;">
+    <hr style="margin:6px 0; border:0; border-top:1px solid #cfcfcf;">
 
     <p style="margin:6px 0;"><strong>🏢 Propriter:</strong> Mukhtar Ahamad</p>
     <p style="margin:6px 0;"><strong>📍 Address:</strong> Near PNB Bank Kundeshwari, Kashipur U.S.Nagar, Uttarakhand-244713</p>
@@ -52,7 +55,7 @@
     <p style="margin:6px 0;"><strong>📧 Email:</strong> eservicesksp@gmail.com</p>
     <p style="margin:6px 0;"><strong>💼 DL No:</strong> UA-UDH-143538 | UA-UDH-143539  (Exp. 07-Nov-2030)</p>
 
-    <hr style="margin:5px 0; border:0; border-top:1px solid #ddd;">
+   <hr style="margin:6px 0; border:0; border-top:5px solid #860303;">
 
  
 </div>
@@ -64,20 +67,20 @@
 
 
 <!-- ============ website open navgation buttan code start hare  ========= -->
-  <style>
-    :root{ --gap:12px; --btn-bg:#034154; --btn-border:#0384ab; --radius:10px;  font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; }
+<style>
+    :root{ --gap:5px; --btn-bg:#1e1d1d; --btn-border:#6a6a6a; --radius:10px; font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; }
+  
+    .rownav{ display:flex; gap:var(--gap); align-items:center; flex-wrap:wrap; justify-content: center;}
 
-    .row{ display:flex; gap:var(--gap); align-items:center; flex-wrap:wrap; }
+    .item{ display:flex; align-items:center; gap:10px; padding:4px 12px; background:var(--btn-bg); border:1px solid var(--btn-border); border-radius:var(--radius); box-shadow:0 6px 18px rgba(0,0,0,0.05); text-decoration:none; color:#111; }
+    .item img{ width:25px; height:25px; object-fit:cover; border-radius:8px; }
+    .name{ font-weight:700; font-size:14px; color: white;}
 
-    .item{ display:flex; align-items:center; gap:10px; padding:8px 12px;  background:var(--btn-bg); border:1px solid var(--btn-border); border-radius:var(--radius); box-shadow:0 6px 18px rgba(0,0,0,0.05); text-decoration:none; color:#111; }
-    .item img{ width:30px; height:30px; object-fit:cover; border-radius:8px; }
-    .name{ font-weight:700; font-size:14px; color: #f0eeee;}
-
-    @media (max-width:560px){ .row{ width:100%; flex-direction:column; align-items:stretch; } .item{ width:100%; } }
+    @media (max-width:560px){ .rownav{ width:100%; flex-direction:column; align-items:stretch; } .item{ width:100%; } }
   </style>
 </head>
 <body>
-  <nav class="row" aria-label="Quick image links">
+  <nav class="rownav" aria-label="Quick image links" style=" border: 3px solid #03495a; padding: 5px 10px;background-color: black;">
 
 
      <!-- Google (favicon used as image) -->
@@ -193,8 +196,9 @@
      <option value="https://docs.google.com/spreadsheets/d/1ECwXrxs8_FDWw1qAC6_qxEwP_HE3SGMM4qNKVZHlIS0/edit?gid=0#gid=0">	Cash Management Sheet*</option>
      <option value="https://docs.google.com/spreadsheets/d/1h3uC_0Ji4-NUhqrN0aIR-XwLZL5VdgilCBlIzC--SDA/edit?gid=0#gid=0">	Imprest Voucher Sheet*</option>
       <option value="https://docs.google.com/spreadsheets/d/1B6dyXPay3Tyl_7RzGuL9Rg8AhkzdBNhJNRu-T-3kmvI/edit?pli=1&gid=207048997#gid=207048997">	MIPL Party Weight REport*</option>
-     <option value="https://docs.google.com/spreadsheets/d/1C4EeSbCDaVGmJjU3QY2VNfI_IEZn0tZsqXw0ss3G58k/edit?gid=809921823#gid=809921823">	A.F.I Google Index Sheet*</option>
-      <option value="https://m5792.github.io/esm/">	MIPL DASHBOARD</option>
+     <option value="https://docs.google.com/spreadsheets/d/1C4EeSbCDaVGmJjU3QY2VNfI_IEZn0tZsqXw0ss3G58k/edit?gid=809921823#gid=809921823">	ESS Google Index Sheet*</option>
+      <option value="https://docs.google.com/spreadsheets/d/1g_hAVEIFZRnRNFFQWF275Y_AXKBTw0UIP0xiH4_C2V0/edit?gid=0#gid=0">	A.F.I Google Index Sheet*</option> 
+     <option value="https://m5792.github.io/esm/">	MIPL DASHBOARD</option>
      <option value="https://m5792.github.io/esm/MULTITECH2023.html">MIPL Old Dashboard</option>
      <option value="https://github.com/">	github (mukhtarahamadksp@gmail.com)</option>
      <option value="https://m5792.github.io/esm/eTally.html">	eTally Dashboard</option>
@@ -315,6 +319,9 @@ th {
 <div id="mipl2011Buttons" style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 10px;">
 
   <!-- BUTTONS -->
+
+  <button class="filter-btn" id="openAFICMBtn" data-value="AFICM">➕ Create Purchase/Sale</button>
+
     <button class="filter-btn" id="searchBtn" data-mode="afisearch">🔍 Searchbar</button>
     <button class="filter-btn" data-mode="DNAME">SEARCH BY DRUG NAME</button>
     <button class="filter-btn" data-mode="SALT">SEARCH BY DRUG SALT</button>
@@ -423,10 +430,10 @@ th {
 /* ============================================================
    API + SHEET CONFIG
 ============================================================ */
-const api2011Key = "AIzaSyBe-AlG9lpyXyC7KV-AavR6tbqOc75iYdM";
-const sheet2011Id = "1C4EeSbCDaVGmJjU3QY2VNfI_IEZn0tZsqXw0ss3G58k";
+const api2011Key = "AIzaSyBe-AlG9lpyXyC7KV-AavR6tbqOc75iYdM";  // ESERVICESKSP@GMAIL.COM API KEY
+const sheet2011Id = "1g_hAVEIFZRnRNFFQWF275Y_AXKBTw0UIP0xiH4_C2V0";
 
-const rangeAFI = "AFI!A:M";
+const rangeAFI = "FORM!A:M";
 const rangeAFIPSW = "PASSWORD!A:M";
 
 
@@ -962,4 +969,477 @@ displayCurrentDateTime();
 setInterval(displayCurrentDateTime, 1000);
 </script>
 <!-- Current date and time will be displayed Stop -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ------------------------------ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+
+
+<!-- ----------------------------------------------------- POPUP OPEN AND CLOSE WITH FORM CODE START HARE ------------------------------------------------------- -->
+<!-- ================= POPUP ================= -->
+<div id="AFICMPopup" class="popupAFICM-overlay" >
+  <div class="popupAFICM-content" style="border: 5px solid #0a0a0a; background-color: #f5f9fb; ">
+    <span id="closeAFICMBtn" class="close-btn">&times;</span>
+
+    <h2 style="margin-top:0; color:#035b67;">A.F.I Medicine Entry</h2>
+
+    <form id="mainAFICMForm" class="AFICM-form">
+
+         <input type="hidden" name="SNo" id="sNo" />
+
+          <input type="hidden" name="Timestamp" id="TimestampAFICM" />
+
+      <!-- ROW 1 -->
+      <div class="row" style="background-color: #f5f9d5; padding: 5px 10px;">
+        <label>Type:</label>
+        <select id="afi01" name="Type" required>
+          <option value="">Select</option>
+          <option value="DNAME">Purchase Voucher</option>
+          <option value="SALE">Sale Voucher</option>
+        </select>
+
+        <label>Date:</label>
+        <input type="date" id="afi02" name="esmK" required>
+
+         <label>Ledger:</label>
+        <select id="afi03" name="esmM"  required> </select>
+        <input type="text" id="afi03_manual" placeholder="Type manually..." style="display:none;margin:5px 0;">
+
+      </div>
+
+      <!-- ROW 2 -->
+      <div class="row" style="background-color: #d5f5f9; padding: 5px 10px;">
+       
+
+        <label>Drug/Item Name:</label>
+         <!--   <input type="text" id="afi04" name="esmC" placeholder="🔍 Type Drug Name..."> -->
+         <select id="afi04" name="esmC" required > </select>
+
+         <label>Salt Name:</label>
+          <!--  <input type="text" id="afi05" name="esmD" placeholder="🔍 Type Drug Name..."> -->
+
+         <select id="afi05" name="esmD"> </select>
+      </div>
+
+      <!-- ROW 3 -->
+      <div class="row" style="background-color: rgb(244, 200, 200); padding: 5px 10px;">
+        <label>Qty:</label>
+        <input type="number" id="afi06" name="esmE" placeholder="Enter Qty" style="width:1.2in;" required>
+        
+
+
+        <label>Unit:</label>
+        <select id="afi07" name="esmH" style="width:1in;" required>
+          <option value="">Select</option>
+          <option>S</option>
+          <option>B</option>
+          <option>Box</option>
+          <option>NA</option>
+        </select>
+
+        <label>Net Amt:</label>
+        <input type="number" id="afi08" name="esmG" placeholder="Enter Amount" style="width:1.8in;" required>
+
+         <label>Rate:</label>
+        <input type="number" id="afi10" name="esmF" readonly placeholder="Auto Rate">
+      </div>
+
+      <!-- ROW 4 -->
+      <div class="row">
+       
+
+        <label>MRP:</label>
+        <input type="number" id="afi11" name="esmI" placeholder="Enter MRP">
+
+        <label>Exp Date:</label>
+        <input type="date" id="afi12" name="esmL" >
+
+            <label>/Unit Details:</label>
+        <input type="text" id="afi13" name="esmJ" placeholder="Enter Medicine Details">
+
+      </div>
+
+
+
+
+   <input type="submit" id="submitAFICMButton" value="Submit" style="padding:8px 16px; background:#035b67; color:white; border:none; border-radius:6px; cursor:pointer;">
+ 
+
+      <div id="waitAFIMessage" style="display:none; color:red; font-size:16px; font-weight:bold; margin-top:10px;"></div>
+    </form>
+  </div>
+</div>
+
+<!-- ================= CSS ================= -->
+<style>
+.filter-btn {
+  background: #035b67;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+}
+.filter-btn:hover { background: #058a9b; }
+
+.popupAFICM-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(253, 249, 249, 0.45);
+  display: none;
+
+  justify-content: center;
+  z-index: 999;
+top: 150px;
+height: 40vh;
+}
+
+.popupAFICM-content {
+  width: 80%;
+  max-width: 1100px;
+  background: white;
+  padding: 20px 30px;
+  border-radius: 14px;
+  box-shadow: 0 8px 25px rgba(91, 0, 0, 0.3);
+  animation: slideDown 0.3s ease;
+  position: relative;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-40px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  cursor: pointer;
+  color: #035b67;
+  font-size: 25px;
+}
+
+.close-btn:hover {
+  color: #db0a03;
+}
+.AFICM-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: auto 1fr auto 1fr auto 1fr auto 1fr;
+  gap: 16px;
+  align-items: center;
+}
+
+.row input,
+.row select {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.submit-btn {
+  background: #035b67;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 160px;
+  font-size: 15px;
+  margin: auto;
+}
+.submit-btn:hover {
+  background: #048093;
+}
+</style>
+<!-- ================= JS ================= -->
+<script>
+document.getElementById("openAFICMBtn").onclick = () => {
+  document.getElementById("AFICMPopup").style.display = "flex";
+};
+
+document.getElementById("closeAFICMBtn").onclick = () => {
+  document.getElementById("AFICMPopup").style.display = "none";
+};
+
+/* ❌ Popup outside click function हटाया गया
+window.onclick = function(e){
+  if(e.target.id === "AFICMPopup"){
+    document.getElementById("AFICMPopup").style.display = "none";
+  }
+};
+*/
+
+/* ================= Auto afi10 Calculator ================= */
+function calculateafi10() {
+  let afi06 = parseFloat(document.getElementById("afi06").value);
+  let net = parseFloat(document.getElementById("afi08").value);
+
+  if (!isNaN(afi06) && afi06 > 0 && !isNaN(net)) {
+    document.getElementById("afi10").value = (net / afi06).toFixed(2);
+  }
+}
+
+document.getElementById("afi06").addEventListener("input", calculateafi10);
+document.getElementById("afi08").addEventListener("input", calculateafi10);
+</script>
+
+
+<!-- ----------------------------------------------------- POPUP OPEN AND CLOSE WITH FORM CODE STOP HARE ------------------------------------------------------- -->
+
+
+
+
+<!-- ================= FORM DROPDOWN SCRIPT START HARE ================= -->
+
+<script>
+/* ============================================================
+   GOOGLE SHEET API CONFIG
+============================================================ */
+const apiAFICMKey = "AIzaSyBe-AlG9lpyXyC7KV-AavR6tbqOc75iYdM";
+const sheetAFICMId = "1g_hAVEIFZRnRNFFQWF275Y_AXKBTw0UIP0xiH4_C2V0";
+const rangeAFICM = "FORM!A:M";
+
+/* ============================================================
+   STORE DATA
+============================================================ */
+let storeAFIData = [];
+
+/* ============================================================
+   DOM READY
+============================================================ */
+document.addEventListener("DOMContentLoaded", () => {
+
+    fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetAFICMId}/values/${rangeAFICM}?key=${apiAFICMKey}`)
+        .then(res => res.json())
+        .then(data => {
+            if (!data.values || data.values.length < 2) return;
+
+            storeAFIData = data.values.slice(1);
+
+            const filtered = storeAFIData.filter(r => r[1] === "DNAME");
+
+            fillUniqueSortedOptions(filtered);
+        })
+        .catch(err => console.error("Fetch Error:", err));
+});
+
+/* ============================================================
+   UNIQUE + SORTED + MANUAL ENTRY OPTION
+============================================================ */
+function fillUniqueSortedOptions(rows) {
+
+    const selects = [
+        { element: document.getElementById("afi03"), index: 12 }, // Column M
+        { element: document.getElementById("afi04"), index: 2 },  // Column C
+        { element: document.getElementById("afi05"), index: 3 }   // Column D
+    ];
+
+    selects.forEach(sel => {
+        const colSet = new Set();
+
+        rows.forEach(r => {
+            if (r[sel.index]) colSet.add(r[sel.index].trim());
+        });
+
+        const sortedValues = Array.from(colSet).sort();
+
+        // Reset select
+        sel.element.innerHTML = `
+            <option value="">Select</option>
+            <option value="__manual__">➕ Create New Entry</option>
+        `;
+
+        // Add sorted values
+        sortedValues.forEach(v => {
+            sel.element.innerHTML += `<option value="${v}">${v}</option>`;
+        });
+
+        // Attach manual entry handler
+        sel.element.addEventListener("change", function () {
+            if (this.value === "__manual__") {
+                let val = prompt("Enter new Details:");
+
+                if (val && val.trim() !== "") {
+                    val = val.trim();
+
+                    // Add new option dynamically
+                    const newOption = document.createElement("option");
+                    newOption.value = val;
+                    newOption.textContent = val;
+
+                    this.appendChild(newOption);
+                    this.value = val; // auto select new value
+                } else {
+                    this.value = ""; // reset to default
+                }
+            }
+        });
+    });
+}
+</script>
+
+
+<!-- ================= FORM DROPDOWN SCRIPT STOP HARE ================= -->
+
+
+
+<!--  
+
+APP SCRIPT FOR FORM"  https://script.google.com/macros/s/AKfycbzaRa0UsJlWtTRyWxOttKhhvNmMYBN8KjiOonHece4PEvQ0Mo1hvJ--YupQP-0bh6Nx/exec
+<script>
+/* ============================================================
+   GOOGLE SHEET API CONFIG
+============================================================ */
+const apiAFICMKey = "AIzaSyBe-AlG9lpyXyC7KV-AavR6tbqOc75iYdM";
+const sheetAFICMId = "1C4EeSbCDaVGmJjU3QY2VNfI_IEZn0tZsqXw0ss3G58k";
+const rangeAFICM = "AFI!A:M";
+
+/* ============================================================
+   STORE DATA HERE
+============================================================ */
+let storeAFIData = [];
+
+/* ============================================================
+   FETCH + STORE + FILL SELECTS
+============================================================ */
+document.addEventListener("DOMContentLoaded", () => {
+
+    fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetAFICMId}/values/${rangeAFICM}?key=${apiAFICMKey}`)
+        .then(res => res.json())
+        .then(data => {
+            if (!data.values || data.values.length < 2) return;
+
+            storeAFIData = data.values.slice(1);
+
+            // Column B = "DNAME" वाली rows
+            const filteredRows = storeAFIData.filter(row => row[1] === "DNAME");
+
+            fillUniqueSortedOptions(filteredRows);
+        })
+        .catch(err => console.error("Fetch Error:", err));
+});
+
+/* ============================================================
+   FILLING SELECT BOXES (UNIQUE + SORTED)
+============================================================ */
+function fillUniqueSortedOptions(rows) {
+
+    const afi03 = document.getElementById("afi03"); // Column M
+    const afi04 = document.getElementById("afi04"); // Column C
+    const afi05 = document.getElementById("afi05"); // Column D
+
+    afi03.innerHTML = `<option value="">Select</option>`;
+    afi04.innerHTML = `<option value="">Select</option>`;
+    afi05.innerHTML = `<option value="">Select</option>`;
+
+    // Unique + Sorted values निकालना
+    const colMSet = new Set();
+    const colCSet = new Set();
+    const colDSet = new Set();
+
+    rows.forEach(r => {
+        if (r[12]) colMSet.add(r[12].trim()); // Column M
+        if (r[2])  colCSet.add(r[2].trim());  // Column C
+        if (r[3])  colDSet.add(r[3].trim());  // Column D
+    });
+
+    // Convert to sorted arrays
+    const sortedM = Array.from(colMSet).sort();
+    const sortedC = Array.from(colCSet).sort();
+    const sortedD = Array.from(colDSet).sort();
+
+    // Fill select options
+    sortedM.forEach(v => afi03.innerHTML += `<option value="${v}">${v}</option>`);
+    sortedC.forEach(v => afi04.innerHTML += `<option value="${v}">${v}</option>`);
+    sortedD.forEach(v => afi05.innerHTML += `<option value="${v}">${v}</option>`);
+}
+
+</script>
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ================ FORM SUBMITEED SCRIPT START HARE ===============================-->
+<script>
+// ✅ Google Apps Script URL
+const scriptAFICMURL = 'https://script.google.com/macros/s/AKfycbzaRa0UsJlWtTRyWxOttKhhvNmMYBN8KjiOonHece4PEvQ0Mo1hvJ--YupQP-0bh6Nx/exec';
+
+// ✅ Submit popup form
+document.addEventListener("submit", async function (e) {
+  const form = e.target;
+  if (form.id !== "mainAFICMForm") return;
+  e.preventDefault();
+
+  const submitBtn = document.getElementById("submitAFICMButton");
+  const waitMsg = document.getElementById("waitAFIMessage");
+
+  submitBtn.disabled = true;
+  submitBtn.value = "Please wait...";
+  waitMsg.innerText = "Submitting...";
+  waitMsg.style.display = "block";
+
+  // ✅ Timestamp add karo
+  const now = new Date();
+  document.getElementById('TimestampAFICM').value =
+    `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+
+  try {
+    const formData = new FormData(form);
+    const response = await fetch(scriptAFICMURL, { method: 'POST', body: formData });
+    const result = await response.json();
+
+    if (result.result === 'success') {
+      alert('✅ Success Have a Nice Day!');
+      form.reset();
+  
+    } else {
+      alert(`❌ Error: ${result.error || 'Unknown error occurred.'}`);
+    }
+  } catch (err) {
+    alert(`❌ Error submitting form: ${err.message}`);
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.value = "Submit";
+    setTimeout(() => (waitMsg.style.display = 'none'), 2000);
+  }
+});
+
+
+</script>
+
+<!-- ================ FORM SUBMITEED SCRIPT STOP HARE ===============================-->
+
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ------------------------------ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+
+
+
 
