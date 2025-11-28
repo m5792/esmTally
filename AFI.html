@@ -182,7 +182,7 @@
 
   <div style="text-align: left;">
  <label style="color: #f6fead;"> Google Sheet Links</label>
-    <select id="linkDropdown" onchange="handleDropdownChange()">
+    <select id="linkDropdown" onchange="handleDropdownChange()" style="border-radius: 8px; background-color: #414040; color: white;">
         <option value="">-- Select a Url/Link --</option>
 
 	<option value="https://www.google.com/android/find/">	Find My Device</option>
@@ -322,12 +322,16 @@ th {
 
   <button class="filter-btn" id="openAFICMBtn" data-value="AFICM">➕ Create Purchase/Sale</button>
 
+ 
+
     <button class="filter-btn" id="searchBtn" data-mode="afisearch">🔍 Searchbar</button>
     <button class="filter-btn" data-mode="DNAME">SEARCH BY DRUG NAME</button>
     <button class="filter-btn" data-mode="SALT">SEARCH BY DRUG SALT</button>
     <button class="filter-btn" id="pswBtn" data-mode="PSW">📘 ID/PASSWORD</button>
 
     <button onclick="print2011Report()" style="border: none; color: rgb(0, 27, 37); font-weight: bold;  cursor: pointer; background-color: white;">🖨️ Print Report</button>
+
+  
 
   <br><br>
 </div>
@@ -991,7 +995,7 @@ setInterval(displayCurrentDateTime, 1000);
   <div class="popupAFICM-content" style="border: 5px solid #0a0a0a; background-color: #f5f9fb; ">
     <span id="closeAFICMBtn" class="close-btn">&times;</span>
 
-    <h2 style="margin-top:0; color:#035b67;">A.F.I Medicine Entry</h2>
+    <h3 style="margin-top:0; color:#035b67;">A.F.I Medicine Entry</h3>  
 
     <form id="mainAFICMForm" class="AFICM-form">
 
@@ -1043,12 +1047,14 @@ setInterval(displayCurrentDateTime, 1000);
           <option value="">Select</option>
           <option>S</option>
           <option>B</option>
+          <option>No</option>
+          <option>Pc</option>
           <option>Box</option>
           <option>NA</option>
         </select>
 
         <label>Net Amt:</label>
-        <input type="number" id="afi08" name="esmG" placeholder="Enter Amount" style="width:1.8in;" required>
+        <input type="number" id="afi08" name="esmG" placeholder="Enter Amount" style="width:1.8in;" required step="any">
 
          <label>Rate:</label>
         <input type="number" id="afi10" name="esmF" readonly placeholder="Auto Rate">
@@ -1075,7 +1081,12 @@ setInterval(displayCurrentDateTime, 1000);
    <input type="submit" id="submitAFICMButton" value="Submit" style="padding:8px 16px; background:#035b67; color:white; border:none; border-radius:6px; cursor:pointer;">
  
 
-      <div id="waitAFIMessage" style="display:none; color:red; font-size:16px; font-weight:bold; margin-top:10px;"></div>
+    <strong> <button id="openMODIFYBtn" data-value="AFICM" style="width: 2in; color: #002044; cursor: pointer; font-weight: bold; background-color: #f8f9fa; border: none; cursor: yes;">🏢 Click to Modify</button>   
+     Fetched Sr No: <span id="fetchedSRNo" style="color: rgb(150, 3, 3);"></span></strong>
+
+     <strong id="waitAFIMessage" style="display:none;  color:rgb(184, 3, 3); font-size:16px;text-align: center; font-weight:bold; margin-top:10px;"></strong>
+
+   
     </form>
   </div>
 </div>
@@ -1102,7 +1113,7 @@ setInterval(displayCurrentDateTime, 1000);
   justify-content: center;
   z-index: 999;
 top: 150px;
-height: 40vh;
+height: 45vh;
 }
 
 .popupAFICM-content {
@@ -1211,9 +1222,7 @@ document.getElementById("afi08").addEventListener("input", calculateafi10);
 <!-- ================= FORM DROPDOWN SCRIPT START HARE ================= -->
 
 <script>
-/* ============================================================
-   GOOGLE SHEET API CONFIG
-============================================================ */
+
 const apiAFICMKey = "AIzaSyBe-AlG9lpyXyC7KV-AavR6tbqOc75iYdM";
 const sheetAFICMId = "1g_hAVEIFZRnRNFFQWF275Y_AXKBTw0UIP0xiH4_C2V0";
 const rangeAFICM = "FORM!A:M";
@@ -1223,9 +1232,6 @@ const rangeAFICM = "FORM!A:M";
 ============================================================ */
 let storeAFIData = [];
 
-/* ============================================================
-   DOM READY
-============================================================ */
 document.addEventListener("DOMContentLoaded", () => {
 
     fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetAFICMId}/values/${rangeAFICM}?key=${apiAFICMKey}`)
@@ -1265,7 +1271,7 @@ function fillUniqueSortedOptions(rows) {
         // Reset select
         sel.element.innerHTML = `
             <option value="">Select</option>
-            <option value="__manual__">➕ Create New Entry</option>
+            <option value="__manual__" style="color: blue;">➕ Create New Entry</option>
         `;
 
         // Add sorted values
@@ -1295,6 +1301,40 @@ function fillUniqueSortedOptions(rows) {
         });
     });
 }
+
+
+
+/* ============================================================
+   REFRESH FUNCTION (CALLS API AGAIN + RELOADS DROPDOWNS)
+============================================================ */
+function refreshAFIData() {
+
+    // Optionally loading indicator
+    console.log("Refreshing Google Sheet data...");
+
+    fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetAFICMId}/values/${rangeAFICM}?key=${apiAFICMKey}`)
+        .then(res => res.json())
+        .then(data => {
+            if (!data.values || data.values.length < 2) {
+                alert("No data found!");
+                return;
+            }
+
+            storeAFIData = data.values.slice(1);
+
+            const filtered = storeAFIData.filter(r => r[1] === "DNAME");
+
+            // Refill all dropdowns
+            fillUniqueSortedOptions(filtered);
+
+          //  alert("✔ Data & Dropdown Refreshed Successfully");
+        })
+        .catch(err => {
+            console.error("Refresh Error:", err);
+            alert("Error refreshing data!");
+        });
+}
+
 </script>
 
 
@@ -1388,7 +1428,7 @@ function fillUniqueSortedOptions(rows) {
 
 
 
-<!-- ================ FORM SUBMITEED SCRIPT START HARE ===============================-->
+<!-- ================ FORM SUBMITEED SCRIPT START HARE ===============================-
 <script>
 // ✅ Google Apps Script URL
 const scriptAFICMURL = 'https://script.google.com/macros/s/AKfycbzaRa0UsJlWtTRyWxOttKhhvNmMYBN8KjiOonHece4PEvQ0Mo1hvJ--YupQP-0bh6Nx/exec';
@@ -1420,6 +1460,9 @@ document.addEventListener("submit", async function (e) {
     if (result.result === 'success') {
       alert('✅ Success Have a Nice Day!');
       form.reset();
+      refreshAFIData();
+      loadAFIData();
+      loadPSWData();
   
     } else {
       alert(`❌ Error: ${result.error || 'Unknown error occurred.'}`);
@@ -1434,7 +1477,7 @@ document.addEventListener("submit", async function (e) {
 });
 
 
-</script>
+</script>     -->
 
 <!-- ================ FORM SUBMITEED SCRIPT STOP HARE ===============================-->
 
@@ -1442,4 +1485,148 @@ document.addEventListener("submit", async function (e) {
 
 
 
+<script>
+// ================= CONFIG =================
+const scriptAFICMURL = 'https://script.google.com/macros/s/AKfycbzaRa0UsJlWtTRyWxOttKhhvNmMYBN8KjiOonHece4PEvQ0Mo1hvJ--YupQP-0bh6Nx/exec';
 
+// ================= SR NO POPUP LOGIC =================
+function openSrNoPopup() {
+    const srNo = prompt("Enter Serial No. to Fetch Data:");
+    if (!srNo || srNo.trim() === "") {
+        alert("Serial No. Required!");
+        return null;
+    }
+    return srNo.trim();
+}
+
+// ================= MODIFY BUTTON CLICK =================
+document.getElementById("openMODIFYBtn").onclick = async () => {
+    const sr = openSrNoPopup();
+    if (!sr) return;
+
+    // show wait message
+    const waitMsg = document.getElementById("waitAFIMessage");
+    waitMsg.innerText = "Please wait fetching data...";
+    waitMsg.style.display = "block";
+
+    const url = scriptAFICMURL + "?sNo=" + sr;
+    try {
+        let res = await fetch(url);
+        let data = await res.json();
+
+        if (data.result === "error" || !data.SNo) {
+            alert("SR NO NOT FOUND!");
+            waitMsg.style.display = "none";
+            return;
+        }
+
+        // fill form
+        fillAFICMForm(data);
+
+        // show fetched SR NO in span
+        const srSpan = document.getElementById("fetchedSRNo");
+        if(srSpan) srSpan.innerText = data.SNo;
+
+        // set hidden sNo for modify
+        document.getElementById("sNo").value = data.SNo;
+
+        // hide wait message
+        waitMsg.style.display = "none";
+
+        // open form popup
+        document.getElementById("AFICMPopup").style.display = "flex";
+
+    } catch (err) {
+        console.log(err);
+        alert("ERROR FETCHING DATA");
+        waitMsg.style.display = "none";
+    }
+};
+
+// ================= AUTO-FILL FORM FUNCTION =================
+function fillAFICMForm(d) {
+    const map = {
+        "sNo": "SNo",
+        "TimestampAFICM": "Timestamp",
+        "afi01": "Type",
+        "afi02": "esmK",
+        "afi03": "esmM",
+        "afi04": "esmC",
+        "afi05": "esmD",
+        "afi06": "esmE",
+        "afi07": "esmH",
+        "afi08": "esmG",
+        "afi10": "esmF",
+        "afi11": "esmI",
+        "afi12": "esmL",
+        "afi13": "esmJ"
+    };
+    Object.keys(map).forEach(id => {
+        const col = map[id];
+        if (document.getElementById(id)) {
+            document.getElementById(id).value = d[col] ?? "";
+        }
+    });
+}
+
+// ================= CLOSE FORM POPUP =================
+document.getElementById("closeAFICMBtn").onclick = () => {
+    document.getElementById("AFICMPopup").style.display = "none";
+};
+
+
+
+// ================= FORM SUBMIT =================
+document.addEventListener("submit", async function(e) {
+    const form = e.target;
+    if (form.id !== "mainAFICMForm") return;
+    e.preventDefault();
+
+    const submitBtn = document.getElementById("submitAFICMButton");
+    const waitMsg = document.getElementById("waitAFIMessage");
+
+    submitBtn.disabled = true;
+    submitBtn.value = "Please wait...";
+    waitMsg.innerText = "Submitting...";
+    waitMsg.style.display = "block";
+
+    // Timestamp add
+    const now = new Date();
+    document.getElementById('TimestampAFICM').value =
+        `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+
+    try {
+        const formData = new FormData(form);
+        const response = await fetch(scriptAFICMURL, { method: 'POST', body: formData });
+        const result = await response.json();
+
+        if (result.result === 'success') {
+            alert('✅ Success! Form submitted.');
+
+            // reset form
+            form.reset();
+
+            // clear SR NO display
+            const srSpan = document.getElementById("fetchedSRNo");
+            if(srSpan) srSpan.innerText = "";
+
+            // reset hidden sNo for new entries
+            document.getElementById("sNo").value = "";
+
+            // reload data functions
+            if (typeof refreshAFIData === "function") refreshAFIData();
+            if (typeof loadAFIData === "function") loadAFIData();
+            if (typeof loadPSWData === "function") loadPSWData();
+
+        } else {
+            alert(`❌ Error: ${result.error || 'Unknown error occurred.'}`);
+        }
+    } catch (err) {
+        alert(`❌ Error submitting form: ${err.message}`);
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.value = "Submit";
+        setTimeout(() => (waitMsg.style.display = 'none'), 2000);
+    }
+});
+</script>
