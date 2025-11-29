@@ -30,6 +30,9 @@
     <!-- Current Time -->
  <div style="display: flex; justify-content: center; align-items: center; background-color: #f7f8fa; color: rgb(1, 1, 1); font-size: 12px; font-weight: bold;  border: 5px solid #003444; ">
   <div id="currentDateTime" style="padding: 5px 10px; white-space: nowrap; font-size: 16px; "></div>
+
+  
+  <span id="todayEvent" style="color: rgb(0, 65, 69);font-weight: bold;font-size: 14px; "></span>
 </div>
 
 <!-- ================================================================================================================================== -->
@@ -196,8 +199,9 @@
      <option value="https://docs.google.com/spreadsheets/d/1ECwXrxs8_FDWw1qAC6_qxEwP_HE3SGMM4qNKVZHlIS0/edit?gid=0#gid=0">	Cash Management Sheet*</option>
      <option value="https://docs.google.com/spreadsheets/d/1h3uC_0Ji4-NUhqrN0aIR-XwLZL5VdgilCBlIzC--SDA/edit?gid=0#gid=0">	Imprest Voucher Sheet*</option>
       <option value="https://docs.google.com/spreadsheets/d/1B6dyXPay3Tyl_7RzGuL9Rg8AhkzdBNhJNRu-T-3kmvI/edit?pli=1&gid=207048997#gid=207048997">	MIPL Party Weight REport*</option>
-     <option value="https://docs.google.com/spreadsheets/d/1C4EeSbCDaVGmJjU3QY2VNfI_IEZn0tZsqXw0ss3G58k/edit?gid=809921823#gid=809921823">	ESS Google Index Sheet*</option>
-      <option value="https://docs.google.com/spreadsheets/d/1g_hAVEIFZRnRNFFQWF275Y_AXKBTw0UIP0xiH4_C2V0/edit?gid=0#gid=0">	A.F.I Google Index Sheet*</option> 
+     <option value="https://docs.google.com/spreadsheets/d/1C4EeSbCDaVGmJjU3QY2VNfI_IEZn0tZsqXw0ss3G58k/edit?gid=809921823#gid=809921823" style="color: rgb(175, 219, 246);">	ESS Google Index Sheet*</option>
+       <option value="https://docs.google.com/spreadsheets/d/1EOO0QzwNaPhwIfZN_DCLlhQB9yeC-j-GpmtM_6JMRmw/edit?gid=2031012173#gid=2031012173" style="color: rgb(246, 175, 175);">	Password  Google  Sheet*</option> 
+     <option value="https://docs.google.com/spreadsheets/d/1g_hAVEIFZRnRNFFQWF275Y_AXKBTw0UIP0xiH4_C2V0/edit?gid=0#gid=0" style="color: rgb(239, 246, 175);">	A.F.I Google Index Sheet*</option> 
      <option value="https://m5792.github.io/esm/">	MIPL DASHBOARD</option>
      <option value="https://m5792.github.io/esm/MULTITECH2023.html">MIPL Old Dashboard</option>
      <option value="https://github.com/">	github (mukhtarahamadksp@gmail.com)</option>
@@ -975,11 +979,61 @@ setInterval(displayCurrentDateTime, 1000);
 <!-- Current date and time will be displayed Stop -->
 
 
+<!-- =============== today events script strat ===================== -->
+
+<script>
+const apiEVENTKey = "AIzaSyBe-AlG9lpyXyC7KV-AavR6tbqOc75iYdM";
+const sheetEVENTId = "1cXqnV7kKebvzk6-BAuuBNSmDnpJOyCqh7LRVB6sHiL4";
+const rangeEVENT = 'HOLIDAY!A:D';
+
+async function loadTodayEvent() {
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetEVENTId}/values/${rangeEVENT}?key=${apiEVENTKey}`;
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const rows = data.values || [];
+
+        const today = new Date();
+        const todayStr = today.toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "short",
+            year: "2-digit"
+        }).replace(/ /g, "-"); 
+        // Format → 14-Feb-25
+
+        let eventsToday = [];
+
+        rows.forEach(row => {
+            if (row[0] === "Event") {      // Column A = "Event"
+                let eventName = row[1];   // Column B
+                let eventDate = row[2];   // Column C
+
+                if (eventDate === todayStr) {
+                    eventsToday.push(eventName);
+                }
+            }
+        });
+
+        const displayBox = document.getElementById("todayEvent");
+
+        if (eventsToday.length > 0) {
+            displayBox.innerHTML = `(<b>Today:</b> ${eventsToday.join(" * ")})`;
+        } else {
+            displayBox.innerHTML = `Today: No Events`;
+        }
+
+    } catch (error) {
+        console.error("Error:", error);
+        document.getElementById("todayEvent").innerHTML = "Error loading events";
+    }
+}
+
+loadTodayEvent();
+</script>
 
 
-
-
-
+<!-- =============== today events script stop ===================== -->
 
 
 
@@ -995,7 +1049,7 @@ setInterval(displayCurrentDateTime, 1000);
   <div class="popupAFICM-content" style="border: 5px solid #0a0a0a; background-color: #f5f9fb; ">
     <span id="closeAFICMBtn" class="close-btn">&times;</span>
 
-    <h3 style="margin-top:0; color:#035b67;">A.F.I Medicine Entry</h3>  
+    <h3 style="margin-top:0; color:#00282e; display: flex; justify-content: center; ">A.F.I Medicine Entry</h3>  
 
     <form id="mainAFICMForm" class="AFICM-form">
 
@@ -1004,18 +1058,20 @@ setInterval(displayCurrentDateTime, 1000);
           <input type="hidden" name="Timestamp" id="TimestampAFICM" />
 
       <!-- ROW 1 -->
-      <div class="row" style="background-color: #f5f9d5; padding: 5px 10px;">
-        <label>Type:</label>
+      <div class="row" style="background-color: #f5f9d5; padding: 5px 10px; ">
+
+        
+        <label>Type:*</label>
         <select id="afi01" name="Type" required>
           <option value="">Select</option>
           <option value="DNAME">Purchase Voucher</option>
           <option value="SALE">Sale Voucher</option>
         </select>
 
-        <label>Date:</label>
+        <label>Date:*</label>
         <input type="date" id="afi02" name="esmK" required>
 
-         <label>Ledger:</label>
+         <label>Ledger:*</label>
         <select id="afi03" name="esmM"  required> </select>
         <input type="text" id="afi03_manual" placeholder="Type manually..." style="display:none;margin:5px 0;">
 
@@ -1025,7 +1081,7 @@ setInterval(displayCurrentDateTime, 1000);
       <div class="row" style="background-color: #d5f5f9; padding: 5px 10px;">
        
 
-        <label>Drug/Item Name:</label>
+        <label>Drug/Item Name:*</label>
          <!--   <input type="text" id="afi04" name="esmC" placeholder="🔍 Type Drug Name..."> -->
          <select id="afi04" name="esmC" required > </select>
 
@@ -1037,12 +1093,12 @@ setInterval(displayCurrentDateTime, 1000);
 
       <!-- ROW 3 -->
       <div class="row" style="background-color: rgb(244, 200, 200); padding: 5px 10px;">
-        <label>Qty:</label>
+        <label>Qty:*</label>
         <input type="number" id="afi06" name="esmE" placeholder="Enter Qty" style="width:1.2in;" required>
         
 
 
-        <label>Unit:</label>
+        <label>Unit:*</label>
         <select id="afi07" name="esmH" style="width:1in;" required>
           <option value="">Select</option>
           <option>S</option>
@@ -1053,7 +1109,7 @@ setInterval(displayCurrentDateTime, 1000);
           <option>NA</option>
         </select>
 
-        <label>Net Amt:</label>
+        <label>Net Amt:*</label>
         <input type="number" id="afi08" name="esmG" placeholder="Enter Amount" style="width:1.8in;" required step="any">
 
          <label>Rate:</label>
@@ -1156,6 +1212,7 @@ height: 45vh;
   grid-template-columns: auto 1fr auto 1fr auto 1fr auto 1fr;
   gap: 16px;
   align-items: center;
+  
 }
 
 .row input,
