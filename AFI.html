@@ -324,11 +324,11 @@ th {
 
   <!-- BUTTONS -->
 
-  <button class="filter-btn" id="openAFICMBtn" data-value="AFICM">➕ Create Purchase/Sale</button>
+  <button class="filter-btn" id="openAFICMBtn" data-value="AFICM">➕ Create Purchase/Sale (<span style="color: rgb(245, 183, 158); font-weight: bold;">F4</span>)</button>
 
  
 
-    <button class="filter-btn" id="searchBtn" data-mode="afisearch">🔍 Searchbar</button>
+    <button class="filter-btn" id="searchBtn" data-mode="afisearch">🔍 Searchbar (<span style="color: rgb(245, 183, 158); font-weight: bold;">F3</span>)</button>
     <button class="filter-btn" data-mode="DNAME">SEARCH BY DRUG NAME</button>
     <button class="filter-btn" data-mode="SALT">SEARCH BY DRUG SALT</button>
     <button class="filter-btn" id="pswBtn" data-mode="PSW">📘 ID/PASSWORD</button>
@@ -410,7 +410,7 @@ th {
 
 <div id="search2011Bar">
  <!-- SEARCH INPUT -->
-<input type="text" id="afiSearchInput" placeholder="Search..."
+<input type="text" id="afiSearchInput" placeholder="🔍 Search Bar on Slected Buttan ...."
        style="display:none; padding:6px; width:100%; border-radius:6px; border:1px solid #ccc;" />
 
 <!-- DROPDOWN (ONLY FOR DNAME + SALT) -->
@@ -995,21 +995,29 @@ async function loadTodayEvent() {
         const rows = data.values || [];
 
         const today = new Date();
-        const todayStr = today.toLocaleDateString("en-GB", {
+
+        // Today format in 2 variants
+        const todayStr1 = today.toLocaleDateString("en-GB", {
             day: "2-digit",
             month: "short",
             year: "2-digit"
-        }).replace(/ /g, "-"); 
-        // Format → 14-Feb-25
+        }).replace(/ /g, "-");   // 01-Dec-25
+
+        const todayStr2 = today.toLocaleDateString("en-GB", {
+            day: "numeric",
+            month: "short",
+            year: "2-digit"
+        }).replace(/ /g, "-");   // 1-Dec-25
 
         let eventsToday = [];
 
         rows.forEach(row => {
-            if (row[0] === "Event") {      // Column A = "Event"
-                let eventName = row[1];   // Column B
-                let eventDate = row[2];   // Column C
+            if (row[0] === "Event") {
+                let eventName = row[1];
+                let eventDate = row[2];
 
-                if (eventDate === todayStr) {
+                // Match ANY valid format
+                if (eventDate === todayStr1 || eventDate === todayStr2) {
                     eventsToday.push(eventName);
                 }
             }
@@ -1103,7 +1111,10 @@ loadTodayEvent();
           <option value="">Select</option>
           <option>S</option>
           <option>B</option>
-          <option>No</option>
+          <option>SYP</option>
+          <option>CPS</option>
+          <option>INJ</option>
+          <option>TUBE</option>
           <option>Pc</option>
           <option>Box</option>
           <option>NA</option>
@@ -1121,7 +1132,7 @@ loadTodayEvent();
        
 
         <label>MRP:</label>
-        <input type="number" id="afi11" name="esmI" placeholder="Enter MRP">
+        <input type="number" id="afi11" name="esmI" placeholder="Enter MRP"  step="any">
 
         <label>Exp Date:</label>
         <input type="date" id="afi12" name="esmL" >
@@ -1538,7 +1549,6 @@ document.addEventListener("submit", async function (e) {
 
 <!-- ================ FORM SUBMITEED SCRIPT STOP HARE ===============================-->
 
-<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ------------------------------ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 
 
 
@@ -1687,3 +1697,53 @@ document.addEventListener("submit", async function(e) {
     }
 });
 </script>
+
+
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ------------------------------ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+
+
+<!-- ==================================== buttan shorcut by function key script start hare ======================== -->
+
+<script>
+document.addEventListener("keydown", function (e) {
+
+    /* --------------------  F4 FUNCTION  -------------------- */
+    if (e.key === "F4") {
+        e.preventDefault();
+
+        // 1. openAFICMBtn button activate
+        const openBtn = document.getElementById("openAFICMBtn");
+        if (openBtn) openBtn.click();
+
+        // 2. afi01 input focus + select
+        const afiInput = document.getElementById("afi01");
+        if (afiInput) {
+            afiInput.focus();
+            afiInput.select();   // पुराना data select
+        }
+    }
+
+    /* --------------------  F3 FUNCTION  -------------------- */
+    if (e.key === "F3") {
+        e.preventDefault();
+
+        // 1. closeAFICMBtn button activate
+        const closeBtn = document.getElementById("closeAFICMBtn");
+        if (closeBtn) closeBtn.click();
+
+        // 2. searchBtn button activate
+        const searchBtn = document.getElementById("searchBtn");
+        if (searchBtn) searchBtn.click();
+
+        // 3. afiSearchInput focus + clear (delete old value)
+        const searchInput = document.getElementById("afiSearchInput");
+        if (searchInput) {
+            searchInput.focus();
+            searchInput.value = "";   // पुरानी value delete
+        }
+    }
+
+});
+
+</script>
+<!-- ==================================== buttan shorcut by function key script stop hare ======================== -->
