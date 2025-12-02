@@ -979,12 +979,19 @@ setInterval(displayCurrentDateTime, 1000);
 <!-- Current date and time will be displayed Stop -->
 
 
-<!-- =============== today events script strat ===================== -->
 
+
+
+
+
+
+
+<!-- =============== today events script strat ===================== -->
+<!--
 <script>
-const apiEVENTKey = "AIzaSyBe-AlG9lpyXyC7KV-AavR6tbqOc75iYdM";
-const sheetEVENTId = "1cXqnV7kKebvzk6-BAuuBNSmDnpJOyCqh7LRVB6sHiL4";
-const rangeEVENT = 'HOLIDAY!A:D';
+const apiEVENTKey = "AIzaSyBe-AlG9lpyXyC7KV-AavR6tbqOc75iYdM";  // ESERVICESKSP@GMAIL.COM API KEY
+const sheetEVENTId = "1EOO0QzwNaPhwIfZN_DCLlhQB9yeC-j-GpmtM_6JMRmw";
+const rangeEVENT = 'EVENT!A:D';
 
 async function loadTodayEvent() {
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetEVENTId}/values/${rangeEVENT}?key=${apiEVENTKey}`;
@@ -1039,8 +1046,106 @@ async function loadTodayEvent() {
 
 loadTodayEvent();
 </script>
+-->
 
+<script>
+const apiEVENTKey = "AIzaSyBe-AlG9lpyXyC7KV-AavR6tbqOc75iYdM";
+const sheetEVENTId = "1EOO0QzwNaPhwIfZN_DCLlhQB9yeC-j-GpmtM_6JMRmw";
+const rangeEVENT = "EVENT!A:D";
 
+function convertToDate(str) {
+    const [d, m, y] = str.split("-");
+    const mon = {
+        Jan:0, Feb:1, Mar:2, Apr:3, May:4, Jun:5,
+        Jul:6, Aug:7, Sep:8, Oct:9, Nov:10, Dec:11
+    }[m];
+    return new Date(2000 + Number(y), mon, Number(d)); 
+}
+
+async function loadTodayEvent() {
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetEVENTId}/values/${rangeEVENT}?key=${apiEVENTKey}`;
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const rows = data.values || [];
+
+        let todayEvents = [];      // All Today events merge
+        let yearlyRemaining = [];  // Yearly 1–2 days remaining
+
+        const today = new Date();
+        today.setHours(0,0,0,0);       // Fix early/late time issue
+        const today_dd = today.getDate();
+        const today_mm = today.getMonth();
+
+        rows.forEach(row => {
+            const type = row[0]; 
+            const name = row[1];
+            const dateStr = row[2];
+
+            if (!dateStr || !name) return;
+
+            let eventDate = convertToDate(dateStr);
+            eventDate.setHours(0,0,0,0);
+
+            // YEARLY → override year first
+            if (type === "Yearly") {
+                eventDate.setFullYear(today.getFullYear());
+            }
+
+            const diffDays = Math.floor(
+                (eventDate - today) / (1000 * 60 * 60 * 24)
+            );
+
+            // EVENT (today match by day & month)
+            if (type === "Event") {
+                if (
+                    eventDate.getDate() === today_dd &&
+                    eventDate.getMonth() === today_mm
+                ) {
+                    todayEvents.push(name);
+                }
+            }
+
+            // YEARLY TODAY EVENT
+            if (type === "Yearly" && diffDays === 0) {
+                todayEvents.push(name);
+            }
+
+            // YEARLY REMAINING 1–2 DAYS
+            if (type === "Yearly" && (diffDays === 1 || diffDays === 2)) {
+                yearlyRemaining.push(
+                    `<span style="color:red"> ✸ ${diffDays} Days Left – ${name}</span>`
+                );
+            }
+        });
+
+        let final = [];
+
+        // TODAY EVENTS (merged, single Today – )
+        if (todayEvents.length > 0) {
+            final.push(
+                `<span >✭  <strong>Today: </strong>  ${todayEvents.join(" ✨ ")} ✭</span>`
+            );
+        }
+
+        // ADD YEARLY REMAINING EVENTS
+        if (yearlyRemaining.length > 0) {
+            final = final.concat(yearlyRemaining);
+        }
+
+        document.getElementById("todayEvent").innerHTML =
+            final.length > 0 ? final.join(" | ") : "No Events";
+
+    } catch (err) {
+        console.error(err);
+        document.getElementById("todayEvent").innerHTML = "Error loading events";
+    }
+}
+
+loadTodayEvent();
+</script>
+ <strong></strong>
 <!-- =============== today events script stop ===================== -->
 
 
