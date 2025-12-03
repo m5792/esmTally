@@ -159,6 +159,7 @@
 <!-- यह एक नोट है, Dropdown URL  Script Start Heare -->
 <!DOCTYPE html>
 <html>
+  <title> AFI Cure Medical</title>
 <head>
 
     <script>
@@ -225,7 +226,7 @@
 <!-- ===============================
      AFI STOCK UI (BUTTON MODE)
 ================================== -->
-<div style="text-align:center; background-color: #002630; color: #ebf7fa; font-weight: bold;"> <strong>A.F.I Cure Medicine Serch Report</strong></div> <br/>
+
 
 <style>
 
@@ -259,16 +260,17 @@ table{
 
   /* Table border & cell style */
 th {
-   background: #01305c;
+   background: #272727;
   color: #ffffff;
-  padding: 10px;
+  padding: 7px;
   border: 1px solid #b5b5b5;
   text-align: left;
-  font-weight: 600;
+  font-weight: 14px;
   position: sticky;
   top: 0;
   z-index: 1;
   white-space: nowrap;
+  border-bottom:5px solid #decf02;
   }
 
 
@@ -297,7 +299,7 @@ th {
 
 
 .filter-btn {
-  background: #035b67;
+  background: #002044;
   color: white;
   border: none;
   padding: 6px 12px;
@@ -309,18 +311,21 @@ th {
   text-align: center;
 }
 .filter-btn:hover {
-  background: #058091;
+  background: #025bc2;
 }
 .filter-btn.active {
-  background: #f6b400;
+  background: #0390e1;
   color: rgb(252, 250, 250);
   font-weight: bold;
 }
 
 
 </style>
+ 
 
-<div id="mipl2011Buttons" style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 10px;">
+   <h3 style="text-align:center; background-color: #002630; color: #ebf7fa; font-weight: bold;width: 100%; border-bottom:5px solid #840a01;">A.F.I Cure Medicine Serch Report</h3> 
+ 
+<div id="mipl2011Buttons" style="display: flex; gap: 10px; border-bottom:5px solid #02821e; flex-wrap: wrap; justify-content: center; margin-bottom: 5px; background-color: #002044;  padding: 5px 5px;">
 
   <!-- BUTTONS -->
 
@@ -329,22 +334,20 @@ th {
  
 
     <button class="filter-btn" id="searchBtn" data-mode="afisearch">🔍 Searchbar (<span style="color: rgb(245, 183, 158); font-weight: bold;">F3</span>)</button>
-    <button class="filter-btn" data-mode="DNAME">SEARCH BY DRUG NAME</button>
-    <button class="filter-btn" data-mode="SALT">SEARCH BY DRUG SALT</button>
-    <button class="filter-btn" id="pswBtn" data-mode="PSW">📘 ID/PASSWORD</button>
+    <button class="filter-btn" data-mode="DNAME"> Search By Drug Name</button>
+    <button class="filter-btn" data-mode="SALT">Search By Salt</button>
+    <button class="filter-btn" id="pswBtn" data-mode="PSW">📘 ID/Password</button>
 
-    <button onclick="print2011Report()" style="border: none; color: rgb(0, 27, 37); font-weight: bold;  cursor: pointer; background-color: white;">🖨️ Print Report</button>
+    <button onclick="print2011Report()" style="border: none; color: rgb(248, 209, 209); font-weight: bold;  cursor: pointer; background-color: #002044;">🖨️ Print Report</button>
 
-  
+  <button id="refreshAFIDATABtn" style="border: none; color: rgb(206, 246, 206); font-weight: bold;  cursor: pointer; background-color: #002044;"> 🔄 Refresh</button>
 
-  <br><br>
+
 </div>
-
-
 
 <style>
   #search2011Bar {
-    background-color: #027175; /* blue */
+    background-color: #013570; /* blue */
     width: 100%;
     height: 20px;
     display: flex;
@@ -409,6 +412,7 @@ th {
 
 
 <div id="search2011Bar">
+
  <!-- SEARCH INPUT -->
 <input type="text" id="afiSearchInput" placeholder="🔍 Search Bar on Slected Buttan ...."
        style="display:none; padding:6px; width:100%; border-radius:6px; border:1px solid #ccc;" />
@@ -846,11 +850,93 @@ function print2011Report() {
         printWindow.close();
     }, 300);
 }
+
+
+//refresh afidata ===================================
+
+
+// ye function refresh के बाद जो भी mode चल रहा है वही वापस dikhane ke lye hai .
+
+function applyfreshdataview() {
+  if (!currentMode) return;
+
+  afiTableContainer.innerHTML = "";
+  afiDropdown.style.display = "none";
+
+  // Global AFI Search
+  if (currentMode === "afisearch") {
+    startAFISearchMode();
+    afiSearchInput.dispatchEvent(new Event("input"));
+    return;
+  }
+
+  // Password Search
+  if (currentMode === "PSW") {
+    startPSWSearchMode();
+    afiSearchInput.dispatchEvent(new Event("input"));
+    return;
+  }
+
+  // DNAME / SALT modes
+  let filtered = afiData.filter(r => (r[colB] || "").trim().toUpperCase() === currentMode);
+
+  let uniqueList = [...new Set(filtered.map(r => r[colC]).filter(Boolean))]
+    .sort((a, b) => a.localeCompare(b));
+
+  showAFITable(filtered);
+
+  if (currentMode === "DNAME" || currentMode === "SALT") {
+    createAFIDropdown(uniqueList, filtered);
+  }
+}
+
+
+
+/* ============================================================
+   REFRESH AFI DATA FUNCTION
+============================================================ */
+function refreshAFIData() {
+  const btn = document.getElementById("refreshAFIDATABtn");
+  if (!btn) return;  // Button missing? Avoid crash.
+
+  btn.disabled = true;
+  btn.textContent = "⏳ Refreshing...";
+
+  // Re-fetch AFI sheet data
+  loadAFIData()
+    .then(() => {
+      // Re-apply active mode filtering
+      applyfreshdataview();
+
+      btn.textContent = "🔄 Refresh";
+      btn.disabled = false;
+
+      alert("✅ Data refreshed successfully!");
+    })
+    .catch((err) => {
+      console.error("Refresh Error:", err);
+
+      btn.textContent = "🔄 Refresh";
+      btn.disabled = false;
+
+      alert("❌ Failed to refresh data. Check console for details.");
+    });
+}
+
+/* Refresh button click handler */
+document.getElementById("refreshAFIDATABtn") ?.addEventListener("click", refreshAFIData);
+// refresh afidata code stop =====================
+
+
+
 /* ============================================================
    LOAD ALL DATA
 ============================================================ */
 loadAFIData();
 loadPSWData();
+
+
+
 </script>
 
 <!-- ==========  afi data table script code stop ========================== -->
@@ -1135,7 +1221,7 @@ async function loadTodayEvent() {
         }
 
         document.getElementById("todayEvent").innerHTML =
-            final.length > 0 ? final.join(" | ") : "No Events";
+            final.length > 0 ? final.join(" | ") : "";  // " type massage if no event"
 
     } catch (err) {
         console.error(err);
@@ -1265,16 +1351,7 @@ loadTodayEvent();
 
 <!-- ================= CSS ================= -->
 <style>
-.filter-btn {
-  background: #035b67;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 15px;
-}
-.filter-btn:hover { background: #058a9b; }
+
 
 .popupAFICM-overlay {
   position: fixed;
@@ -1805,6 +1882,16 @@ document.addEventListener("submit", async function(e) {
 
 
 <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ------------------------------ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+
+
+
+
+
+
+
+
+
+
 
 
 <!-- ==================================== buttan shorcut by function key script start hare ======================== -->
