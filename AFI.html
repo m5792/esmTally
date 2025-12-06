@@ -41,7 +41,7 @@
     margin: 15px auto;
 
     border-radius: 12px;
-    background: #e7e8e9;
+    background: #dbf7f2;
     box-shadow: 0 3px 10px rgba(0,0,0,0.15);
     font-family: Arial, sans-serif;
 ">
@@ -1147,13 +1147,24 @@ const apiEVENTKey = "AIzaSyBe-AlG9lpyXyC7KV-AavR6tbqOc75iYdM";
 const sheetEVENTId = "1EOO0QzwNaPhwIfZN_DCLlhQB9yeC-j-GpmtM_6JMRmw";
 const rangeEVENT = "EVENT!A:D";
 
+
+
 function convertToDate(str) {
     const [d, m, y] = str.split("-");
+
     const mon = {
         Jan:0, Feb:1, Mar:2, Apr:3, May:4, Jun:5,
         Jul:6, Aug:7, Sep:8, Oct:9, Nov:10, Dec:11
     }[m];
-    return new Date(2000 + Number(y), mon, Number(d)); 
+
+    if (mon === undefined) return null;
+
+    let year = Number(y);
+
+    // allow "yy" and "yyyy"
+    if (year < 100) year = 2000 + year;
+
+    return new Date(year, mon, Number(d));
 }
 
 async function loadTodayEvent() {
@@ -1164,13 +1175,15 @@ async function loadTodayEvent() {
         const data = await response.json();
         const rows = data.values || [];
 
-        let todayEvents = [];      // All Today events merge
-        let yearlyRemaining = [];  // Yearly 1–2 days remaining
+        let todayEvents = [];
+        let yearlyRemaining = [];
+        let monthlyRemaining = [];
 
         const today = new Date();
-        today.setHours(0,0,0,0);       // Fix early/late time issue
+        today.setHours(0,0,0,0);
         const today_dd = today.getDate();
         const today_mm = today.getMonth();
+        const today_yy = today.getFullYear();
 
         rows.forEach(row => {
             const type = row[0]; 
@@ -1180,56 +1193,67 @@ async function loadTodayEvent() {
             if (!dateStr || !name) return;
 
             let eventDate = convertToDate(dateStr);
+            if (!eventDate) return;
+
             eventDate.setHours(0,0,0,0);
 
-            // YEARLY → override year first
+            // --- YEARLY EVENTS ---
             if (type === "Yearly") {
-                eventDate.setFullYear(today.getFullYear());
+                eventDate.setFullYear(today_yy);
+                const diffDays = Math.floor((eventDate - today) / (1000*60*60*24));
+
+                if (diffDays === 0) todayEvents.push(name);
+                if (diffDays === 1 || diffDays === 2) {
+                    yearlyRemaining.push(
+                        `<span style="color:grey"> ✨ <span style="color:red">${diffDays} Days Left –</span> ${name}</span>`
+                    );
+                }
             }
 
-            const diffDays = Math.floor(
-                (eventDate - today) / (1000 * 60 * 60 * 24)
-            );
+            // --- MONTHLY EVENTS ---
+            if (type === "Monthly") {
+                const eventDay = eventDate.getDate();
+                let diffDays = eventDay - today_dd;
 
-            // EVENT (today match by day & month)
+                if (diffDays < 0)
+                    diffDays += new Date(today_yy, today_mm + 1, 0).getDate();
+
+                if (diffDays === 0) todayEvents.push(name);
+                if (diffDays === 1 || diffDays === 2) {
+                    monthlyRemaining.push(
+                        `<span style="color:#026c96"> ✦ <span style="color:red">${diffDays} Days Left –</span> ${name}</span>`
+                    );
+                }
+            }
+
+            // --- SINGLE EVENT (Exact Date: dd-mm-yyyy) ---
             if (type === "Event") {
                 if (
                     eventDate.getDate() === today_dd &&
-                    eventDate.getMonth() === today_mm
+                    eventDate.getMonth() === today_mm &&
+                    eventDate.getFullYear() === today_yy     // FIX Added
                 ) {
                     todayEvents.push(name);
                 }
             }
-
-            // YEARLY TODAY EVENT
-            if (type === "Yearly" && diffDays === 0) {
-                todayEvents.push(name);
-            }
-
-            // YEARLY REMAINING 1–2 DAYS
-            if (type === "Yearly" && (diffDays === 1 || diffDays === 2)) {
-                yearlyRemaining.push(
-                    `<span style="color:red"> ✸ ${diffDays} Days Left – ${name}</span>`
-                );
-            }
         });
 
-        let final = [];
+        let finalOutput = [];
 
-        // TODAY EVENTS (merged, single Today – )
         if (todayEvents.length > 0) {
-            final.push(
-                `<span >✭  <strong>Today: </strong>  ${todayEvents.join(" ✨ ")} ✭</span>`
+            finalOutput.push(
+                `<span>✭ <strong>Today: </strong> ${todayEvents.join(" ✨ ")} ✭</span>`
             );
         }
 
-        // ADD YEARLY REMAINING EVENTS
-        if (yearlyRemaining.length > 0) {
-            final = final.concat(yearlyRemaining);
-        }
+        if (yearlyRemaining.length > 0) 
+            finalOutput = finalOutput.concat(yearlyRemaining);
+
+        if (monthlyRemaining.length > 0) 
+            finalOutput = finalOutput.concat(monthlyRemaining);
 
         document.getElementById("todayEvent").innerHTML =
-            final.length > 0 ? final.join(" | ") : "";  // " type massage if no event"
+            finalOutput.length > 0 ? finalOutput.join(" | ") : "";
 
     } catch (err) {
         console.error(err);
@@ -1238,6 +1262,8 @@ async function loadTodayEvent() {
 }
 
 loadTodayEvent();
+
+
 </script>
  <strong></strong>
 <!-- =============== today events script stop ===================== -->
