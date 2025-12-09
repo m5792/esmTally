@@ -282,7 +282,7 @@ th {
  
 
     <button class="filter-btn" id="searchBtn" data-mode="afisearch">🔍 Searchbar (<span style="color: rgb(245, 183, 158); font-weight: bold;">F3</span>)</button>
-    <button class="filter-btn" data-mode="DNAME"> Search By Drug Name</button>
+    <button class="filter-btn" id="searchDRUG" data-mode="DNAME"> Search By Drug Name (<span style="color: rgb(245, 183, 158); font-weight: bold;">F6</span>)</button>
     <button class="filter-btn" data-mode="SALT">Search By Salt</button>
     <button class="filter-btn" id="pswBtn" data-mode="PSW">📘 ID/Password</button>
 
@@ -327,7 +327,8 @@ th {
     <select id="linkDropdown" onchange="handleDropdownChange()" style="border-radius: 8px; border: none; background-color: #002044; color: white;">
         <option value=""  style="text-align: center; font-weight: bold; "> Select Other Menu </option>
 
-	<option value="https://www.google.com/android/find/">	Find My Device</option>
+  	<option value="https://m5792.github.io/esm/mdashboard.html">	Daybook MIPL</option>
+    	<option value="https://www.google.com/android/find/">	Find My Device</option>
 	<option value="https://docs.google.com/spreadsheets/d/1wvsPdAQA57HxhTxA3cCcQvUEz93IWkBre_Ix-qvzwss/edit?gid=627393391#gid=627393391">	Store Database Sheet*</option>
 	<option value="https://docs.google.com/spreadsheets/d/1U_jwvZNtFuP91Gljjrbz_cpmb1OIkeDHnKa7aDe7F20/edit?gid=1511450281#gid=1511450281">	Clint List Sheet*</option>
 	<option value="https://docs.google.com/spreadsheets/d/17GZv2O6uupdA5r6p7-zqKZ8AQgZozbGQf2aXPlUzhDA/edit?gid=1122888223#gid=1122888223">	Mipl Office</option>
@@ -453,7 +454,7 @@ th {
 const api2011Key = "AIzaSyBe-AlG9lpyXyC7KV-AavR6tbqOc75iYdM";  // ESERVICESKSP@GMAIL.COM API KEY
 const sheet2011Id = "1g_hAVEIFZRnRNFFQWF275Y_AXKBTw0UIP0xiH4_C2V0";
 
-const rangeAFI = "FORM!A:M";
+const rangeAFI = "FORM!A:N";
 const rangeAFIPSW = "PASSWORD!A:M";
 
 
@@ -472,16 +473,16 @@ let currentMode = "";
 ============================================================ */
 const tableConfig = {
   DNAME: { 
-    headers: ["Sr No","Type","Drug Name","Salt","Qty","Rate","Amt","Unit","MRP","Q/U","P.Date","E.Date","Ledger"],
-    cols:[0,1,2,3,4,5,6,7,8,9,10,11,12]
+    headers: ["Sr No","Type","Drug Name","Salt","Qty","Rate","Amt","Unit","MRP","Q/U","P.Date","E.Date","Ledger","I. Type"],
+    cols:[0,1,2,3,4,5,6,7,8,9,10,11,12,13]
   },
   SALT: { 
     headers: ["Sr No","TYPE","SALT","Use / Kis mein hota hai","Drug Name","Category"],
     cols:[0,1,2,3,4,5]
   },
   afisearch: { 
-    headers: ["Sr No","TYPE","SALT","Use / Kis mein hota hai","Drug Name","Category"],
-    cols:[0,1,2,3,4,5]
+    headers: ["Sr No","TYPE","SALT","Use / Kis mein hota hai","Drug Name","Category","MRP","Q/U","P.Date","E.Date","Ledger","I. Type"],
+    cols:[0,1,2,3,4,5,8,9,10,11,12,13]
   },
   PSW: { 
     headers: ["Sr No","TYPE","ID","PASSWORD","OTHER"],
@@ -1294,7 +1295,7 @@ loadTodayEvent();
       <div class="row" style="background-color: #f5f9d5; padding: 5px 10px; ">
 
         
-        <label>Type:*</label>
+        <label>V.Type:*</label>
         <select id="afi01" name="Type" required>
           <option value="">Select</option>
           <option value="DNAME">Purchase Voucher</option>
@@ -1348,16 +1349,21 @@ loadTodayEvent();
         <label>Net Amt:*</label>
         <input type="number" id="afi08" name="esmG" placeholder="Enter Amount" style="width:1.8in;" required step="any">
 
-         <label>Rate:</label>
-        <input type="number" id="afi10" name="esmF" readonly placeholder="Auto Rate">
+         <label>MRP:</label>
+        <input type="number" id="afi11" name="esmI" placeholder="Enter MRP"  step="any">
+
+
+         
       </div>
 
       <!-- ROW 4 -->
       <div class="row">
-       
 
-        <label>MRP:</label>
-        <input type="number" id="afi11" name="esmI" placeholder="Enter MRP"  step="any">
+       
+    
+       
+        <label>Rate:</label>
+        <input type="number" id="afi10" name="esmF" readonly placeholder="Auto Rate">
 
         <label>Exp Date:</label>
         <input type="date" id="afi12" name="esmL" >
@@ -1365,23 +1371,91 @@ loadTodayEvent();
             <label>/Unit Details:</label>
         <input type="text" id="afi13" name="esmJ" placeholder="Enter Medicine Details">
 
+
+
+          <label>I. Type:*</label>
+        <select id="afi14" name="esmN" style="width:1in;" required>
+          <option value="">Select</option>
+          <option>Ethical</option>
+          <option>Generic</option>
+          <option>Gen</option>
+          <option>Sgl</option>
+        </select>
+
       </div>
 
 
 
 
    <input type="submit" id="submitAFICMButton" value="Submit" style="padding:8px 16px; background:#035b67; color:white; border:none; border-radius:6px; cursor:pointer;">
- 
+  
+   <span id="result" style="font-weight:bold; font-size:16px; color: green; text-align: right;"></span>
 
     <strong> <button id="openMODIFYBtn" data-value="AFICM" style="width: 2in; color: #002044; cursor: pointer; font-weight: bold; background-color: #f8f9fa; border: none; cursor: yes;">🏢 Click to Modify</button>   
-     Fetched Sr No: <span id="fetchedSRNo" style="color: rgb(150, 3, 3);"></span></strong>
+     Fetched Sr No: <span id="fetchedSRNo" style="color: rgb(150, 3, 3);"></span> <br/>
+    
+   
+    </strong>
 
      <strong id="waitAFIMessage" style="display:none;  color:rgb(184, 3, 3); font-size:16px;text-align: center; font-weight:bold; margin-top:10px;"></strong>
 
    
     </form>
+
+    
+
   </div>
 </div>
+
+
+
+
+<script>
+
+// -------------------------
+// 1) MRP + Purchase (afi10) → Margin + %
+// -------------------------
+function calculateMargin() {
+    let mrp = parseFloat(document.getElementById("afi11").value);
+    let purchase = parseFloat(document.getElementById("afi10").value); // FIXED as requested
+
+    if (!isNaN(mrp) && !isNaN(purchase) && mrp > 0) {
+        let marginAmt = mrp - purchase;
+        let marginPercent = (marginAmt / mrp) * 100;
+
+        document.getElementById("result").innerHTML =
+            "Margin: ₹" + marginAmt.toFixed(2) +
+            " | Percent Less: " + marginPercent.toFixed(2) + "%";
+    } else {
+        document.getElementById("result").innerHTML = "";
+    }
+}
+
+// realtime calculate
+document.getElementById("afi11").addEventListener("input", calculateMargin);
+document.getElementById("afi10").addEventListener("input", calculateMargin);
+
+
+// -------------------------
+// 2) afi06 + afi08 → afi10
+// -------------------------
+function calculateafi10() {
+  let afi06 = parseFloat(document.getElementById("afi06").value);
+  let net = parseFloat(document.getElementById("afi08").value);
+
+  if (!isNaN(afi06) && afi06 > 0 && !isNaN(net)) {
+    document.getElementById("afi10").value = (net / afi06).toFixed(2);
+
+    // update margin instantly after value comes
+    calculateMargin();
+  }
+}
+
+document.getElementById("afi06").addEventListener("input", calculateafi10);
+document.getElementById("afi08").addEventListener("input", calculateafi10);
+
+</script>
+
 
 <!-- ================= CSS ================= -->
 <style>
@@ -1396,7 +1470,7 @@ loadTodayEvent();
   justify-content: center;
   z-index: 999;
 top: 150px;
-height: 45vh;
+height: 50vh;
 }
 
 .popupAFICM-content {
@@ -1483,18 +1557,8 @@ window.onclick = function(e){
 };
 */
 
-/* ================= Auto afi10 Calculator ================= */
-function calculateafi10() {
-  let afi06 = parseFloat(document.getElementById("afi06").value);
-  let net = parseFloat(document.getElementById("afi08").value);
 
-  if (!isNaN(afi06) && afi06 > 0 && !isNaN(net)) {
-    document.getElementById("afi10").value = (net / afi06).toFixed(2);
-  }
-}
 
-document.getElementById("afi06").addEventListener("input", calculateafi10);
-document.getElementById("afi08").addEventListener("input", calculateafi10);
 </script>
 
 
@@ -1842,7 +1906,8 @@ function fillAFICMForm(d) {
         "afi10": "esmF",
         "afi11": "esmI",
         "afi12": "esmL",
-        "afi13": "esmJ"
+        "afi13": "esmJ",
+        "afi14": "esmN"
     };
     Object.keys(map).forEach(id => {
         const col = map[id];
@@ -1969,7 +2034,220 @@ document.addEventListener("keydown", function (e) {
         }
     }
 
+    /* --------------------  F6 FUNCTION  -------------------- */
+    if (e.key === "F6") {
+        e.preventDefault();
+
+        // 1. closeAFICMBtn button activate
+        const closeBtn = document.getElementById("closeAFICMBtn");
+        if (closeBtn) closeBtn.click();
+
+        // 2. searchDRUG button activate
+        const searchDRUG = document.getElementById("searchDRUG");
+        if (searchDRUG) searchDRUG.click();
+
+        // 3. afiSearchInput focus + clear (delete old value)
+        const searchInput = document.getElementById("afiSearchInput");
+        if (searchInput) {
+            searchInput.focus();
+            searchInput.value = "";   // पुरानी value delete
+        }
+    }
+
+    /* --------------------  F6 FUNCTION  -------------------- */
+  if (e.altKey && (e.key === "m" || e.key === "M")) {
+        e.preventDefault();
+        // direct function call
+        if (typeof openMRGNPrompt === "function") {
+            openMRGNPrompt();
+        }
+    }
+
+
 });
 
 </script>
 <!-- ==================================== buttan shorcut by function key script stop hare ======================== -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ==================================== Margin calculator script start hare ======================== -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Draggable Prompt Margin Calculator</title>
+
+    <style>
+        #promptMRGNBox {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 60%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            width: 400px;
+            padding: 0;
+            border-radius: 8px;
+            box-shadow: 0 0 12px rgba(0,0,0,0.4);
+            font-family: Arial;
+            cursor: move; /* drag cursor */
+        }
+
+        /* Header bar for dragging */
+        #headerMRGNBar {
+            background: #016e60;
+            color: white;
+            padding: 10px;
+            border-radius: 8px 8px 0 0;
+            cursor: grab;
+        }
+#contentMRGN {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+.inputRow {
+    display: flex;
+    gap: 10px;        /* inputs ke beech space */
+    margin-bottom: 10px;
+}
+
+.inputRow div {
+    flex: 1;
+}
+
+.inputRow input {
+    width: 100%;
+    padding: 5px;
+}
+
+        #resultMRGN {
+            margin-top: 10px;
+            font-weight: bold;
+            color: blue;
+        }
+
+        #closeMRGNBtn {
+            margin-top: 10px;
+            padding: 6px 14px;
+        }
+    </style>
+</head>
+<body>
+
+
+<!-- <button onclick="openMRGNPrompt()">Open Prompt</button> -->
+
+<div id="promptMRGNBox">
+    
+    <div id="headerMRGNBar">Margin Calculator</div>
+
+  <div id="contentMRGN">
+
+    <div class="inputRow">
+        <div>
+            Purchase Rate:<br>
+            <input type="number" id="pRate" oninput="calc()" placeholder="Purchase">
+        </div>
+
+        <div>
+            MRP:<br>
+            <input type="number" id="mRate" oninput="calc()" placeholder="MRP">
+        </div>
+    </div>
+
+    <div id="resultMRGN"></div>
+
+    <button id="closeMRGNBtn" onclick="closeMRGNPrompt()">Close</button>
+
+</div>
+
+
+</div>
+
+<script>
+/* ----------------- OPEN / CLOSE ----------------- */
+
+function openMRGNPrompt() {
+    document.getElementById("promptMRGNBox").style.display = "block";
+}
+
+function closeMRGNPrompt() {
+    document.getElementById("promptMRGNBox").style.display = "none";
+}
+
+/* ----------------- CALCULATION ----------------- */
+
+function calc() {
+    let purchase = parseFloat(document.getElementById("pRate").value);
+    let mrp = parseFloat(document.getElementById("mRate").value);
+
+    if (isNaN(purchase) || isNaN(mrp) || mrp === 0) {
+        document.getElementById("resultMRGN").innerHTML = "";
+        return;
+    }
+
+    let margin = mrp - purchase;
+    let percent = (margin / mrp) * 100;
+
+    document.getElementById("resultMRGN").innerHTML =
+        `Margin: ₹${margin.toFixed(2)} | Percent Less: ${percent.toFixed(2)}%`;
+}
+
+/* ----------------- DRAGGABLE POPUP ----------------- */
+
+dragElement(document.getElementById("promptMRGNBox"));
+
+function dragElement(el) {
+    const header = document.getElementById("headerMRGNBar");
+    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+
+    header.onmousedown = dragMouseDown;
+
+    function dragMouseDown(e) {
+        e = e || window.event;
+        e.preventDefault();
+
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+
+        document.onmouseup = closeDrag;
+        document.onmousemove = drag;
+    }
+
+    function drag(e) {
+        e = e || window.event;
+        e.preventDefault();
+
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+
+        el.style.top = (el.offsetTop - pos2) + "px";
+        el.style.left = (el.offsetLeft - pos1) + "px";
+    }
+
+    function closeDrag() {
+        document.onmouseup = null;
+        document.onmousemove = null;
+    }
+}
+</script>
+
+</body>
+</html>
+
+<!-- ==================================== Margin calculator script start hare ======================== -->
