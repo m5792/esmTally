@@ -397,7 +397,7 @@ th {
   background: rgb(254, 255, 255);
   border: 4px solid #012228;
   max-height: 530px;
-  width: 400px;
+  width: 800px;
   overflow-y: auto;
   display: none;
   z-index: 100;
@@ -447,6 +447,9 @@ th {
 
 
 <!-- ==========  afi data table script code start ========================== -->
+
+
+
 <script>
 /* ============================================================
    API + SHEET CONFIG
@@ -577,10 +580,18 @@ document.querySelectorAll("#mipl2011Buttons .filter-btn").forEach(btn => {
     /* DNAME + SALT actual searching */
     let filtered = afiData.filter(r => (r[colB]||"").trim().toUpperCase() === currentMode);
 
-    /* Sorted unique dropdown list */
-    let uniqueList = [...new Set(filtered.map(r => r[colC]).filter(Boolean))]
-                       .sort((a,b)=>a.localeCompare(b));
+    
 
+    /* Sorted unique dropdown list */
+   // let uniqueList = [...new Set(filtered.map(r => r[colC]).filter(Boolean))]
+     //                  .sort((a,b)=>a.localeCompare(b));
+
+
+     /* Sorted unique C list (Dropdown me C+D show hoga) */
+let uniqueList = [...new Set(filtered.map(r => r[colC]).filter(Boolean))]
+                   .sort((a,b)=>a.localeCompare(b));
+
+                   //----
     showAFITable(filtered);
 
     /* dropdown only shown for these two */
@@ -608,27 +619,36 @@ afiSearchInput.addEventListener("click", () => {
 
 function createAFIDropdown(list, filteredRows) {
 
-  // Sort alphabetically always
-  list.sort((a, b) => a.localeCompare(b));
-
   afiSearchInput.style.display = "block";
 
-  // 👉 Input click → Always show full dropdown
-  afiSearchInput.addEventListener("click", () => {
-    renderDropdown(list, filteredRows);
+  // 🔷 SORT C+D ALPHABETICALLY (full dropdown)
+  filteredRows.sort((a, b) => {
+    let textA = `${a[colC] || ""} ${a[colD] || ""}`.toLowerCase();
+    let textB = `${b[colC] || ""} ${b[colD] || ""}`.toLowerCase();
+    return textA.localeCompare(textB);
   });
 
-  // 👉 Typing filter logic
+  // 👉 Input click → show full sorted C+D dropdown
+  afiSearchInput.addEventListener("click", () => {
+    renderDropdown(filteredRows); // full list sorted C+D
+  });
+
+  // 👉 Typing search inside sorted C+D
   afiSearchInput.oninput = () => {
     const v = afiSearchInput.value.toLowerCase().trim();
 
-    let filteredList = (v === "")
-      ? list
-      : list.filter(x => x.toLowerCase().includes(v));
+    let matched = filteredRows.filter(r =>
+      (`${r[colC]} ${r[colD]}`.toLowerCase()).includes(v)  // search C+D
+    );
 
-    filteredList.sort((a, b) => a.localeCompare(b));
+    // 🔷 SORT matched list also alphabetical (C+D)
+    matched.sort((a, b) => {
+      let textA = `${a[colC] || ""} ${a[colD] || ""}`.toLowerCase();
+      let textB = `${b[colC] || ""} ${b[colD] || ""}`.toLowerCase();
+      return textA.localeCompare(textB);
+    });
 
-    renderDropdown(filteredList, filteredRows);
+    renderDropdown(matched);
   };
 
   // 👉 Click outside → Hide dropdown
@@ -643,7 +663,7 @@ function createAFIDropdown(list, filteredRows) {
 /* ============================================================
    RENDER DROPDOWN ITEMS
    ============================================================ */
-function renderDropdown(values, filteredRows) {
+/*function renderDropdown(values, filteredRows) {
 
   // Only show dropdown in DNAME or SALT modes
   if (currentMode !== "DNAME" && currentMode !== "SALT") {
@@ -674,6 +694,49 @@ function renderDropdown(values, filteredRows) {
     afiDropdown.appendChild(item);
   });
 }
+  */
+
+ function renderDropdown(rows) {
+
+  if (currentMode !== "DNAME" && currentMode !== "SALT") {
+    afiDropdown.style.display = "none";
+    return;
+  }
+
+  afiDropdown.innerHTML = "";
+  afiDropdown.style.display = "block";
+
+  rows.forEach(r => {
+    let cValue = r[colC];
+    let dValue = r[colD];
+
+    let html = `
+      <span style="color:red; font-weight:bold;">${cValue}</span>
+      ${dValue ? " 💊 " + dValue : ""}
+    `;
+
+    let item = document.createElement("div");
+    item.innerHTML = html;
+
+    item.onclick = () => {
+      afiDropdown.style.display = "none";
+
+      // Input me sirf C
+      afiSearchInput.value = cValue;
+
+      // Table filter also using only C
+      let rows2 = rows.filter(x => x[colC] === cValue);
+      showAFITable(rows2);
+
+      if (currentMode === "DNAME") {
+        findSaltRowAndShow(dValue);
+      }
+    };
+
+    afiDropdown.appendChild(item);
+  });
+}
+
 
 /* ============================================================
    SALT MATCH BOX
@@ -1072,76 +1135,6 @@ displayCurrentDateTime();
 setInterval(displayCurrentDateTime, 1000);
 </script>
 <!-- Current date and time will be displayed Stop -->
-
-
-
-
-
-
-
-
-
-<!-- =============== today events script strat ===================== -->
-<!--
-<script>
-const apiEVENTKey = "AIzaSyBe-AlG9lpyXyC7KV-AavR6tbqOc75iYdM";  // ESERVICESKSP@GMAIL.COM API KEY
-const sheetEVENTId = "1EOO0QzwNaPhwIfZN_DCLlhQB9yeC-j-GpmtM_6JMRmw";
-const rangeEVENT = 'EVENT!A:D';
-
-async function loadTodayEvent() {
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetEVENTId}/values/${rangeEVENT}?key=${apiEVENTKey}`;
-
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        const rows = data.values || [];
-
-        const today = new Date();
-
-        // Today format in 2 variants
-        const todayStr1 = today.toLocaleDateString("en-GB", {
-            day: "2-digit",
-            month: "short",
-            year: "2-digit"
-        }).replace(/ /g, "-");   // 01-Dec-25
-
-        const todayStr2 = today.toLocaleDateString("en-GB", {
-            day: "numeric",
-            month: "short",
-            year: "2-digit"
-        }).replace(/ /g, "-");   // 1-Dec-25
-
-        let eventsToday = [];
-
-        rows.forEach(row => {
-            if (row[0] === "Event") {
-                let eventName = row[1];
-                let eventDate = row[2];
-
-                // Match ANY valid format
-                if (eventDate === todayStr1 || eventDate === todayStr2) {
-                    eventsToday.push(eventName);
-                }
-            }
-        });
-
-        const displayBox = document.getElementById("todayEvent");
-
-        if (eventsToday.length > 0) {
-            displayBox.innerHTML = `(<b>Today:</b> ${eventsToday.join(" * ")})`;
-        } else {
-            displayBox.innerHTML = `Today: No Events`;
-        }
-
-    } catch (error) {
-        console.error("Error:", error);
-        document.getElementById("todayEvent").innerHTML = "Error loading events";
-    }
-}
-
-loadTodayEvent();
-</script>
--->
 
 <script>
 const apiEVENTKey = "AIzaSyBe-AlG9lpyXyC7KV-AavR6tbqOc75iYdM";
@@ -1689,143 +1682,6 @@ function refreshAFIData() {
 <!-- ================= FORM DROPDOWN SCRIPT STOP HARE ================= -->
 
 
-
-<!--  
-
-APP SCRIPT FOR FORM"  https://script.google.com/macros/s/AKfycbzaRa0UsJlWtTRyWxOttKhhvNmMYBN8KjiOonHece4PEvQ0Mo1hvJ--YupQP-0bh6Nx/exec
-<script>
-/* ============================================================
-   GOOGLE SHEET API CONFIG
-============================================================ */
-const apiAFICMKey = "AIzaSyBe-AlG9lpyXyC7KV-AavR6tbqOc75iYdM";
-const sheetAFICMId = "1C4EeSbCDaVGmJjU3QY2VNfI_IEZn0tZsqXw0ss3G58k";
-const rangeAFICM = "AFI!A:M";
-
-/* ============================================================
-   STORE DATA HERE
-============================================================ */
-let storeAFIData = [];
-
-/* ============================================================
-   FETCH + STORE + FILL SELECTS
-============================================================ */
-document.addEventListener("DOMContentLoaded", () => {
-
-    fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetAFICMId}/values/${rangeAFICM}?key=${apiAFICMKey}`)
-        .then(res => res.json())
-        .then(data => {
-            if (!data.values || data.values.length < 2) return;
-
-            storeAFIData = data.values.slice(1);
-
-            // Column B = "DNAME" वाली rows
-            const filteredRows = storeAFIData.filter(row => row[1] === "DNAME");
-
-            fillUniqueSortedOptions(filteredRows);
-        })
-        .catch(err => console.error("Fetch Error:", err));
-});
-
-/* ============================================================
-   FILLING SELECT BOXES (UNIQUE + SORTED)
-============================================================ */
-function fillUniqueSortedOptions(rows) {
-
-    const afi03 = document.getElementById("afi03"); // Column M
-    const afi04 = document.getElementById("afi04"); // Column C
-    const afi05 = document.getElementById("afi05"); // Column D
-
-    afi03.innerHTML = `<option value="">Select</option>`;
-    afi04.innerHTML = `<option value="">Select</option>`;
-    afi05.innerHTML = `<option value="">Select</option>`;
-
-    // Unique + Sorted values निकालना
-    const colMSet = new Set();
-    const colCSet = new Set();
-    const colDSet = new Set();
-
-    rows.forEach(r => {
-        if (r[12]) colMSet.add(r[12].trim()); // Column M
-        if (r[2])  colCSet.add(r[2].trim());  // Column C
-        if (r[3])  colDSet.add(r[3].trim());  // Column D
-    });
-
-    // Convert to sorted arrays
-    const sortedM = Array.from(colMSet).sort();
-    const sortedC = Array.from(colCSet).sort();
-    const sortedD = Array.from(colDSet).sort();
-
-    // Fill select options
-    sortedM.forEach(v => afi03.innerHTML += `<option value="${v}">${v}</option>`);
-    sortedC.forEach(v => afi04.innerHTML += `<option value="${v}">${v}</option>`);
-    sortedD.forEach(v => afi05.innerHTML += `<option value="${v}">${v}</option>`);
-}
-
-</script>
--->
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- ================ FORM SUBMITEED SCRIPT START HARE ===============================-
-<script>
-// ✅ Google Apps Script URL
-const scriptAFICMURL = 'https://script.google.com/macros/s/AKfycbzaRa0UsJlWtTRyWxOttKhhvNmMYBN8KjiOonHece4PEvQ0Mo1hvJ--YupQP-0bh6Nx/exec';
-
-// ✅ Submit popup form
-document.addEventListener("submit", async function (e) {
-  const form = e.target;
-  if (form.id !== "mainAFICMForm") return;
-  e.preventDefault();
-
-  const submitBtn = document.getElementById("submitAFICMButton");
-  const waitMsg = document.getElementById("waitAFIMessage");
-
-  submitBtn.disabled = true;
-  submitBtn.value = "Please wait...";
-  waitMsg.innerText = "Submitting...";
-  waitMsg.style.display = "block";
-
-  // ✅ Timestamp add karo
-  const now = new Date();
-  document.getElementById('TimestampAFICM').value =
-    `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
-
-  try {
-    const formData = new FormData(form);
-    const response = await fetch(scriptAFICMURL, { method: 'POST', body: formData });
-    const result = await response.json();
-
-    if (result.result === 'success') {
-      alert('✅ Success Have a Nice Day!');
-      form.reset();
-      refreshAFIData();
-      loadAFIData();
-      loadPSWData();
-  
-    } else {
-      alert(`❌ Error: ${result.error || 'Unknown error occurred.'}`);
-    }
-  } catch (err) {
-    alert(`❌ Error submitting form: ${err.message}`);
-  } finally {
-    submitBtn.disabled = false;
-    submitBtn.value = "Submit";
-    setTimeout(() => (waitMsg.style.display = 'none'), 2000);
-  }
-});
-
-
-</script>     -->
 
 <!-- ================ FORM SUBMITEED SCRIPT STOP HARE ===============================-->
 
