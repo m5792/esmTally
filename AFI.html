@@ -328,6 +328,7 @@ th {
         <option value=""  style="text-align: center; font-weight: bold; "> Select Other Menu </option>
 
   	<option value="https://m5792.github.io/esm/mdashboard.html">	Daybook MIPL</option>
+    <option value="mcalculator">	Margin Calculator</option>
     	<option value="https://www.google.com/android/find/">	Find My Device</option>
 	<option value="https://docs.google.com/spreadsheets/d/1wvsPdAQA57HxhTxA3cCcQvUEz93IWkBre_Ix-qvzwss/edit?gid=627393391#gid=627393391">	Store Database Sheet*</option>
 	<option value="https://docs.google.com/spreadsheets/d/1U_jwvZNtFuP91Gljjrbz_cpmb1OIkeDHnKa7aDe7F20/edit?gid=1511450281#gid=1511450281">	Clint List Sheet*</option>
@@ -348,6 +349,45 @@ th {
      <option value="https://m5792.github.io/esm/eTally.html">	eTally Dashboard</option>
 
     </select>
+
+
+    <script>
+function handleDropdownChange() {
+    const dropdown = document.getElementById("linkDropdown");
+    const val = dropdown.value;
+
+    // -------- 1️⃣ Function Option (Margin Calculator) --------
+    if (val === "mcalculator") {
+        if (typeof openMRGNPrompt === "function") {
+            openMRGNPrompt();
+
+            // After running — focus pRate & clear
+            setTimeout(() => {
+                const pRate = document.getElementById("pRate");
+                if (pRate) {
+                    pRate.focus();
+                    pRate.value = "";
+                }
+            }, 50);
+        }
+
+        dropdown.value = ""; // reset dropdown
+        return;
+    }
+
+    // -------- 2️⃣ All URL options open in NEW TAB --------
+    if (val && val.startsWith("http")) {
+        window.open(val, "_blank"); // open new tab
+        dropdown.value = "";        // reset dropdown
+        return;
+    }
+
+    // Otherwise nothing
+}
+
+    </script>
+
+
 </body>
 </html>
 </div>
@@ -616,21 +656,33 @@ afiSearchInput.addEventListener("click", () => {
 /* ============================================================
    CREATE DROPDOWN
 ============================================================ */
-
 function createAFIDropdown(list, filteredRows) {
 
   afiSearchInput.style.display = "block";
 
-  // 🔷 SORT C+D ALPHABETICALLY (full dropdown)
+  // 🔷 UTILITY: remove duplicates by C+D
+  function uniqueRows(rows) {
+    const map = new Map();
+    rows.forEach(r => {
+      const key = `${r[colC] || ""} ${r[colD] || ""}`.trim().toLowerCase();
+      if (!map.has(key)) map.set(key, r);
+    });
+    return Array.from(map.values());
+  }
+
+  // 🔷 Make full list unique FIRST
+  filteredRows = uniqueRows(filteredRows);
+
+  // 🔷 SORT full list alphabetically (C+D)
   filteredRows.sort((a, b) => {
     let textA = `${a[colC] || ""} ${a[colD] || ""}`.toLowerCase();
     let textB = `${b[colC] || ""} ${b[colD] || ""}`.toLowerCase();
     return textA.localeCompare(textB);
   });
 
-  // 👉 Input click → show full sorted C+D dropdown
+  // 👉 Input click → show FULL UNIQUE sorted dropdown
   afiSearchInput.addEventListener("click", () => {
-    renderDropdown(filteredRows); // full list sorted C+D
+    renderDropdown(filteredRows);
   });
 
   // 👉 Typing search inside sorted C+D
@@ -638,10 +690,13 @@ function createAFIDropdown(list, filteredRows) {
     const v = afiSearchInput.value.toLowerCase().trim();
 
     let matched = filteredRows.filter(r =>
-      (`${r[colC]} ${r[colD]}`.toLowerCase()).includes(v)  // search C+D
+      (`${r[colC]} ${r[colD]}`.toLowerCase()).includes(v)
     );
 
-    // 🔷 SORT matched list also alphabetical (C+D)
+    // 🔷 make matched list unique too
+    matched = uniqueRows(matched);
+
+    // 🔷 sort matched alphabetical
     matched.sort((a, b) => {
       let textA = `${a[colC] || ""} ${a[colD] || ""}`.toLowerCase();
       let textB = `${b[colC] || ""} ${b[colD] || ""}`.toLowerCase();
@@ -658,6 +713,7 @@ function createAFIDropdown(list, filteredRows) {
     }
   });
 }
+
 
 
 /* ============================================================
@@ -1911,13 +1967,24 @@ document.addEventListener("keydown", function (e) {
     }
 
     /* --------------------  F6 FUNCTION  -------------------- */
-  if (e.altKey && (e.key === "m" || e.key === "M")) {
-        e.preventDefault();
-        // direct function call
-        if (typeof openMRGNPrompt === "function") {
-            openMRGNPrompt();
-        }
+/* --------------------  F6 FUNCTION  -------------------- */
+if (e.altKey && (e.key === "m" || e.key === "M")) {
+    e.preventDefault();
+
+    // direct function call
+    if (typeof openMRGNPrompt === "function") {
+        openMRGNPrompt();
+
+        // ---- After function run → focus & clear pRate ----
+        setTimeout(() => {
+            const pRate = document.getElementById("pRate");
+            if (pRate) {
+                pRate.focus();      // Focus set
+                pRate.value = "";   // Old value delete
+            }
+        }, 50); // थोड़ा delay ताकि popup load हो जाए
     }
+}
 
 
 });
