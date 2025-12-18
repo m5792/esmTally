@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>4x6 Inch Div</title>
+
+<style>
+body{
+  margin:0;
+  padding:20px;
+  display:flex;
+  flex-direction:column;   /* ✅ IMPORTANT */
+  justify-content:flex-start;
+  align-items:center;
+  min-height:100vh;
+  background:#f2f2f2;
+}
+
+/* ===== 4x6 inch container ===== */
+.card-4x6{
+  width:7in;
+  height:10in;
+  background:#ffffff;
+  border:5px solid #002044;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.2);
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+/* ===== inner sections ===== */
+.section{
+  flex:1;
+  padding:12px;
+  border-bottom:1px solid #ddd;
+}
+
+.section:last-child{
+  border-bottom:none;
+}
+
+/* ===== table container ===== */
+.table-wrap{
+  width:4in;
+  margin-top:12px;
+  background:#fffde7;
+  padding:8px;
+  border-radius:8px;
+}
+
+/* ===== mobile ===== */
+@media (max-width:480px){
+  .card-4x6,
+  .table-wrap{
+    width:95vw;
+  }
+}
+</style>
+
+
+
+
+<style>
+/* ===== FORM CARD ===== */
+#mainIVCRForm{
+  max-width:360px;
+  margin:20px auto;
+  padding:16px;
+  background:#ffffff;
+  border-radius:12px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.15);
+  font-family:Segoe UI, Arial, sans-serif;
+}
+
+/* ===== INPUT COMMON ===== */
+#mainIVCRForm input,
+#mainIVCRForm select{
+  width:100%;
+  padding:8px 10px;
+  margin-top:8px;
+  border:1px solid #ccc;
+  border-radius:8px;
+  font-size:14px;
+  box-sizing:border-box;
+}
+
+/* READONLY LOOK */
+#mainIVCRForm input[readonly]{
+  background:#f3f6f8;
+  color:#333;
+}
+
+/* ===== SEARCH BOX ===== */
+#empSearch{
+  border:2px solid #035b67;
+  font-weight:500;
+}
+
+/* ===== DROPDOWN ===== */
+#empDropdown{
+  border-radius:8px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* ===== SUBMIT BUTTON ===== */
+#submitPYLButton{
+  margin-top:14px;
+  width:100%;
+  padding:10px;
+  background:linear-gradient(135deg,#035b67,#048c9e);
+  color:#fff;
+  font-size:15px;
+  font-weight:600;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+#submitPYLButton:hover{
+  background:linear-gradient(135deg,#024650,#036d7a);
+}
+
+/* DISABLED STATE */
+#submitPYLButton:disabled{
+  background:#999;
+  cursor:not-allowed;
+}
+
+/* ===== SMALL SCREEN ===== */
+@media(max-width:480px){
+  #mainIVCRForm{
+    margin:10px;
+  }
+}
+</style>
+
+
+</head>
+
+<body>
+
+<div class="card-4x6">
+
+  <div class="section" style="background:#e3f2fd;">
+
+      
+
+<span>Salect Entry Type :-</span>
+        <select id="inout" onchange="handleInOutChange()" style="background-color: #f6efce;">
+  <option value="">--Select--</option>
+  <option value="IN">IN</option>
+  <option value="OUT">OUT</option>
+</select>
+
+
+
+   
+   <form id="mainIVCRForm">
+
+
+    <div style="position:relative;width:260px;">
+
+         <label style="color: red;"> Serch Emp. Name & Code*</label>
+  <input type="text" id="empSearch"
+         placeholder="Search name or ID..."
+         autocomplete="off"
+         style="width:100%;padding:6px;">
+
+  <div id="empDropdown"
+       style="
+        position:absolute;
+        top:100%;
+        left:0;
+        right:0;
+        max-height:180px;
+        overflow-y:auto;
+        border:1px solid #ccc;
+        background:#fff;
+        display:none;
+        z-index:999;
+       ">
+  </div>
+</div>
+
+        <input type="hidden" name="SNo" id="sNo" />
+
+       
+        <input type="hidden" name="User" readonly value="PYL">
+         <input type="hidden" id="ipBox" name="cl4" readonly placeholder="IP Loading..." style="padding:8px; width:250px; border:1px solid #aaa; border-radius:6px;">
+         
+         <label> User Code.</label>
+
+         <input id="userPYLID" name="Date" readonly></input>
+
+         <!--   <input id="username" name="Date" readonly></input>
+         Input where value will show -->
+         <label> In/Out</label>
+        <input type="text" id="inoutValue" name="Ledger" readonly>
+        
+        <label> Today</label>
+        <input id="todaydate" type="date" name="cl1" style="padding:4px 6px; border-radius:6px; border:1px solid #ccc;" readonly>
+
+         <input  type="time" id="pyltime" name="cl5" style="padding:4px 6px; border-radius:6px; border:1px solid #ccc;" readonly required>
+
+        <label> Emp. Namae</label>
+        <input type="text" id="empname" name="cl2" readonly required>
+
+        <label> Emp. Code.</label>
+        <select id="empid" name="cl3" required ></select>
+         <input type="hidden" id="timePYLstamp" name="cl6">
+
+<input type="submit" id="submitPYLButton" value="Submit" style="padding:6px 14px; background:#035b67; color:white; border:none; border-radius:6px; cursor:pointer;">
+
+
+
+
+
+<script>
+function initIVCRForm() {
+
+  /* =====================================================
+     🔁 IN / OUT Logic (Select → Input Sync)
+  ===================================================== */
+  const inoutSelect = document.getElementById("inout");
+  const inoutInput  = document.getElementById("inoutValue");
+
+  if (inoutSelect && inoutInput) {
+
+    function syncInOut() {
+      const val = inoutSelect.value || "";
+      inoutInput.value = val;
+      localStorage.setItem("inoutValue", val);
+    }
+
+    const savedValue = localStorage.getItem("inoutValue");
+    if (savedValue) inoutSelect.value = savedValue;
+    syncInOut();
+
+    inoutSelect.addEventListener("change", syncInOut);
+  }
+
+  /* =====================================================
+     📅 TODAY DATE AUTO SET
+  ===================================================== */
+  const todayDateInput = document.getElementById("todaydate");
+  if (todayDateInput) {
+    const d = new Date();
+    todayDateInput.value =
+      d.getFullYear() + "-" +
+      String(d.getMonth() + 1).padStart(2, "0") + "-" +
+      String(d.getDate()).padStart(2, "0");
+  }
+
+  /* =====================================================
+     ⏰ CURRENT TIME AUTO (pyltime)
+  ===================================================== */
+  const timeInput = document.getElementById("pyltime");
+  if (timeInput) {
+    function setCurrentTime() {
+      const n = new Date();
+      timeInput.value =
+        String(n.getHours()).padStart(2, "0") + ":" +
+        String(n.getMinutes()).padStart(2, "0");
+    }
+    setCurrentTime();
+    setInterval(setCurrentTime, 60000);
+  }
+
+  /* =====================================================
+     🔐 STRICT MODIFY MODE (ASYNC VALUE SAFE)
+     ONLY G101 → EDITABLE
+  ===================================================== */
+  const userPYLID = document.getElementById("userPYLID");
+
+  if (userPYLID) {
+
+    function applyModifyRule() {
+      const val = (userPYLID.value || "").trim();
+      const allowEdit = (val === "G101");
+
+      // 🔐 Lock / Unlock
+      userPYLID.readOnly = !allowEdit;
+      if (timeInput) timeInput.readOnly = !allowEdit;
+    }
+
+    /* 🔄 WAIT for async value (other script) */
+    const waitForValue = setInterval(() => {
+      if (userPYLID.value !== "") {
+        applyModifyRule();
+        clearInterval(waitForValue);
+      }
+    }, 300);
+
+    /* 👀 Future change detect */
+    userPYLID.addEventListener("input", applyModifyRule);
+    userPYLID.addEventListener("change", applyModifyRule);
+  }
+
+  /* =====================================================
+     🌐 PUBLIC IP FETCH
+  ===================================================== */
+  const ipBox = document.getElementById("ipBox");
+  if (ipBox) {
+    fetch("https://api.ipify.org?format=json")
+      .then(r => r.json())
+      .then(d => ipBox.value = d.ip)
+      .catch(() => ipBox.value = "IP error");
+  }
+}
+
+/* =====================================================
+   🚀 PAGE LOAD
+===================================================== */
+document.addEventListener("DOMContentLoaded", initIVCRForm);
+</script>
+
+
+
+
+    </form>
+  </div>
+
+  
+<div class="table-wrap" style="width: 70vh;"> <table id="usertable"></table> </div>
+
+<br/><br/>
+</div>
+
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+<script>
+/* =====================================================
+   ⏰ MANUAL TIME + CURRENT DATE (24H)
+   Example: 14:42 → 12/17/2025 14:42:00
+===================================================== */
+function mergeDateWithTime(timeValue) {
+  if (!timeValue) return "";
+
+  const d = new Date();
+  const MM = String(d.getMonth() + 1).padStart(2, "0");
+  const DD = String(d.getDate()).padStart(2, "0");
+  const YYYY = d.getFullYear();
+
+  return `${MM}/${DD}/${YYYY} ${timeValue}:00`;
+}
+
+/* =====================================================
+   🚀 MAIN SUBMIT SCRIPT
+===================================================== */
+const scriptURL = "https://script.google.com/macros/s/AKfycbxNCtOS7UZu2mw_Zuwkx-KHdORL1DATDoSp0Gv2Q5EQw6CKJOSPowawczVE_7uYHQw_/exec";
+
+document.getElementById("mainIVCRForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const form = document.getElementById("mainIVCRForm");
+  const submitBtn = document.getElementById("submitPYLButton");
+
+  const inoutValue = document.getElementById("inoutValue").value;
+  const userPYLID  = document.getElementById("userPYLID").value.trim();
+  const pyltimeVal = document.getElementById("pyltime").value;
+
+  /* ===== CURRENT SYSTEM TIME ===== */
+  const now = new Date();
+  const minutesNow = now.getHours() * 60 + now.getMinutes();
+
+  /* ===== SHIFT TIME (IN ONLY) ===== */
+  const inShift1Start = 7 * 60 + 45;   // 07:45
+  const inShift1End   = 13 * 60 + 30;  // 13:30
+  const inShift2Start = 15 * 60 + 45;  // 15:45
+  const inShift2End   = 17 * 60;       // 17:00
+
+  /* ===== SHIFT VALIDATION (SKIP FOR G101) ===== */
+  if (userPYLID !== "G101" && inoutValue === "IN") {
+
+    const valid =
+      (minutesNow >= inShift1Start && minutesNow <= inShift1End) ||
+      (minutesNow >= inShift2Start && minutesNow <= inShift2End);
+
+    if (!valid) {
+      alert("❌ Shift Time Not Found");
+      return;
+    }
+  }
+
+  /* ===== LOCK BUTTON ===== */
+  submitBtn.disabled = true;
+  const originalText = submitBtn.value;
+  submitBtn.value = "Please wait...";
+
+  const formData = new FormData(form);
+
+  /* ===== SYSTEM TIMESTAMP (cl6) ===== */
+  const MM = String(now.getMonth() + 1).padStart(2, "0");
+  const DD = String(now.getDate()).padStart(2, "0");
+  const YYYY = now.getFullYear();
+  const H = now.getHours();
+  const MMm = String(now.getMinutes()).padStart(2, "0");
+  const SS = String(now.getSeconds()).padStart(2, "0");
+
+  const systemTimestamp = `${MM}/${DD}/${YYYY} ${H}:${MMm}:${SS}`;
+  formData.set("cl6", systemTimestamp);
+
+  /* ===== MANUAL TIME + CURRENT DATE (cl5) ===== */
+  const mergedTime = mergeDateWithTime(pyltimeVal);
+  formData.set("cl5", mergedTime);
+
+  /* ===== SUBMIT ===== */
+  fetch(scriptURL, {
+    method: "POST",
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
+
+    if (data.result === "success") {
+      alert("✅ Entry Saved Successfully");
+
+      /* 🔒 Preserve userPYLID */
+      const savedUser = userPYLID;
+      form.reset();
+      document.getElementById("userPYLID").value = savedUser;
+
+      refreshATNScript();  // reload table
+      initIVCRForm();      // restore auto fields
+
+      const savedInOut = localStorage.getItem("inoutValue");
+      if (savedInOut) {
+        document.getElementById("inoutValue").value = savedInOut;
+      }
+
+    } else {
+      alert("❌ Error saving entry");
+    }
+  })
+  .catch(err => {
+    alert("❌ Network error");
+    console.error(err);
+  })
+  .finally(() => {
+    submitBtn.disabled = false;
+    submitBtn.value = originalText;
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+/* Container to control table width and responsiveness */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+ 
+ /* Table container ************/
+table{
+    width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  background: #ffffff;
+  border: 1px solid #d0d0d0;
+
+  }
+
+/* Optional heder alwayas fix on top and table scrolling  */
+  table{
+  overflow-x: auto;
+  display: block;
+  max-height: 300px; /* Optional scrolling */
+  }
+
+  /* Table border & cell style */
+th {
+   background: #01305c;
+  color: #ffffff;
+  padding: 10px;
+  border: 1px solid #b5b5b5;
+  text-align: left;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  white-space: nowrap;
+  border-bottom:5px solid #dfc206;
+  }
+
+
+ td {
+   padding: 8px 10px;
+  border: 1px solid #e0e0e0;
+  vertical-align: top;
+  word-wrap: break-word; /* Wrap long text */
+  white-space: normal;
+  }
+
+  /* Header design */
+
+
+  tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+  /* Row hover effect */
+  tr:hover td {
+   background: #fccc49;
+ color: rgb(0, 15, 15);
+  transition: background-color 1s ease, color 1s ease;
+  }
+    
+
+select { padding:6px; font-size:15px; }
+
+.inTime {
+  color: rgb(0, 90, 0);
+  font-weight: bold;
+}
+.outTime {
+  color: rgb(160, 0, 0);
+  font-weight: bold;
+}
+</style>
+
+
+<script>
+const apiKey = "AIzaSyBe-AlG9lpyXyC7KV-AavR6tbqOc75iYdM";
+const sheetId = "1wvsPdAQA57HxhTxA3cCcQvUEz93IWkBre_Ix-qvzwss";
+const range = "ATN!J:R";
+
+let sheetData = [];
+let empSearchList = [];
+let inOutPrepared = false;   // ✅ IMPORTANT FLAG
+
+/* ---------- LOAD SHEET ---------- */
+function fetchSheetData(cb){
+  fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`)
+    .then(r => r.json())
+    .then(d => {
+      sheetData = d.values || [];
+      if (cb) cb();
+    });
+}
+
+fetchSheetData(loadATNTable);
+
+/* ---------- DATE FORMAT ---------- */
+function getTodayDMY() {
+  let d = new Date();
+  let dd = String(d.getDate()).padStart(2,"0");
+  let mon = d.toLocaleString("en-GB",{month:"short"});
+  let yy = d.getFullYear();
+  return `${dd}-${mon}-${yy}`;
+}
+
+/* ---------- LOAD TABLE ---------- */
+function loadATNTable() {
+
+  const table = document.getElementById("usertable");
+  table.innerHTML = `
+    <tr>
+      <th>Sr</th><th>User</th><th>Status</th><th>Date</th>
+      <th>Name</th><th>Code</th><th>Time</th>
+    </tr>`;
+
+  if (!sheetData.length) return;
+
+  let today = getTodayDMY();
+  let prev = getTodayDMY(new Date(Date.now() - 86400000));
+
+  let rows = sheetData.filter((r,i)=>
+    i>0 && r[1]==="PYL" && (r[4]===today)
+  ).sort((a,b)=>(Number(b[0])||0)-(Number(a[0])||0));
+
+  rows.forEach(r=>{
+    let tr = document.createElement("tr");
+    if (r[3]==="OUT") tr.style.background="#ffd6d6";
+
+    [0,2,3,4,5,6,8].forEach(i=>{
+      let td=document.createElement("td");
+      if(i===8 && r[8]){
+        let t=r[8].split(" ")[1];
+        td.textContent=t?t.slice(0,5):"";
+      }else td.textContent=r[i]||"";
+      tr.appendChild(td);
+    });
+    table.appendChild(tr);
+  });
+}
+
+/* ---------- IN / OUT CHANGE ---------- */
+function handleInOutChange() {
+
+  const type = document.getElementById("inout").value;
+  if (!type) return;
+
+  empSearchList = [];
+  inOutPrepared = false;
+
+  document.getElementById("empSearch").value = "";
+  document.getElementById("empDropdown").style.display="none";
+  document.getElementById("empname").value="";
+  document.getElementById("empid").innerHTML="";
+
+  let today = getTodayDMY();
+  let todayIn = new Set();
+  let todayOut = new Set();
+
+  sheetData.forEach(r=>{
+    if(r[4]!==today) return;
+    if(r[3]==="IN") todayIn.add(r[5]);
+    if(r[3]==="OUT") todayOut.add(r[5]);
+  });
+
+  sheetData.forEach(r=>{
+    if(r[1]!=="ENAME") return;
+    let name=r[5], id=r[6];
+    if(!name||!id) return;
+
+    if(
+      (type==="IN" && !todayIn.has(name)) ||
+      (type==="OUT" && todayIn.has(name) && !todayOut.has(name))
+    ){
+      empSearchList.push({name,id});
+    }
+  });
+
+  empSearchList.sort((a,b)=>a.name.localeCompare(b.name));
+  inOutPrepared = true;   // ✅ READY
+}
+
+/* ---------- DROPDOWN ---------- */
+function renderDropdown(query=""){
+
+  const box=document.getElementById("empDropdown");
+  box.innerHTML="";
+
+  let q=query.toLowerCase();
+  let list=empSearchList.filter(e=>
+    e.name.toLowerCase().includes(q) || String(e.id).includes(q)
+  );
+
+  if(!list.length){ box.style.display="none"; return; }
+
+  list.forEach(e=>{
+    let d=document.createElement("div");
+    d.textContent=`${e.name} - ${e.id}`;
+    d.style.padding="6px";
+    d.style.cursor="pointer";
+    d.onmousedown=()=>selectEmployee(e);
+    box.appendChild(d);
+  });
+
+  box.style.display="block";
+}
+
+/* ---------- SEARCH INPUT EVENTS ---------- */
+const searchInput=document.getElementById("empSearch");
+
+searchInput.addEventListener("click",()=>{
+  if(!document.getElementById("inout").value){
+    alert("Please select Entry Type (IN / OUT)");
+    return;
+  }
+  if(!inOutPrepared) handleInOutChange();
+  renderDropdown(searchInput.value);
+});
+
+searchInput.addEventListener("input",()=>{
+  renderDropdown(searchInput.value);
+});
+
+/* ---------- SELECT EMP ---------- */
+function selectEmployee(e){
+  document.getElementById("empSearch").value=`${e.name} - ${e.id}`;
+  document.getElementById("empname").value=e.name;
+  document.getElementById("empid").innerHTML=`<option>${e.id}</option>`;
+  document.getElementById("empDropdown").style.display="none";
+}
+
+/* ---------- CLICK OUTSIDE ---------- */
+document.addEventListener("click",e=>{
+  if(!e.target.closest("#empSearch")&&!e.target.closest("#empDropdown")){
+    document.getElementById("empDropdown").style.display="none";
+  }
+});
+
+/* ---------- REFRESH BUTTON ---------- */
+function refreshATNScript(){
+  empSearchList=[];
+  inOutPrepared=false;
+  document.getElementById("empSearch").value="";
+  document.getElementById("empDropdown").style.display="none";
+  fetchSheetData(loadATNTable);
+}
+</script>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <!-- login code and script start hare ........................................................... -->
+
+
+ <!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sheet Login Example</title>
+  <style>
+    /* Simple modal styling */
+    .overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.45);
+      display:flex; align-items:center; justify-content:center;
+      z-index: 9999;
+    }
+    .modal {
+      background: #fff; padding:20px; border-radius:8px;
+      width: 320px; box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      font-family: Arial, sans-serif;
+    }
+    .modal h2 { margin:0 0 10px; font-size:18px; }
+    .modal label { display:block; margin:8px 0 4px; font-weight:600; }
+    .modal input[type="text"], .modal input[type="password"] {
+      width:100%; padding:8px; box-sizing:border-box; border:1px solid #ccc; border-radius:4px;
+    }
+    .modal .actions { margin-top:12px; display:flex; gap:8px; justify-content:flex-end; }
+    button { padding:8px 12px; border:none; border-radius:6px; cursor:pointer; }
+    button.primary { background:#2563eb; color:white; }
+    button.normal { background:#f59595; }
+    .error { color:#b91c1c; margin-top:8px; font-size:13px; }
+    /* Page content spacing */
+    .content { padding:20px; }
+  </style>
+</head>
+<body>
+
+
+  <!-- Login modal (hidden once logged in) -->
+  <div id="loginOverlay" class="overlay" aria-hidden="false">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+      <h2 id="loginTitle">Login karein</h2>
+
+      <label for="inputUserId">User ID</label>
+      <input id="inputUserId" type="text" autocomplete="userPYLID" />
+
+      <label for="inputPassword">Password</label>
+      <input id="inputPassword" type="password" autocomplete="current-password" />
+
+      <div class="actions">
+        <button id="btnCancel" class="normal" type="button">Cancel</button>
+        <button id="btnLogin" class="primary" type="button">Login</button>
+      </div>
+
+      <div id="loginError" class="error" style="display:none;"></div>
+    </div>
+  </div>
+
+ <script>
+/* ---------------- CONFIG ---------------- */
+const apiloginKey   = "AIzaSyBe-AlG9lpyXyC7KV-AavR6tbqOc75iYdM";
+const sheetloginId  = "1cXqnV7kKebvzk6-BAuuBNSmDnpJOyCqh7LRVB6sHiL4";
+const rangelogin    = "USER!A:N";
+
+/* ---------------- DOM ---------------- */
+const overlay        = document.getElementById("loginOverlay");
+const btnLogin       = document.getElementById("btnLogin");
+const btnCancel      = document.getElementById("btnCancel");
+const inputUserId    = document.getElementById("inputUserId");
+const inputPassword  = document.getElementById("inputPassword");
+const loginError     = document.getElementById("loginError");
+const userInputBox   = document.getElementById("userPYLID");
+
+/* ---------------- DATA ---------------- */
+let sheetRows = [];
+
+/* ---------------- FETCH SHEET ---------------- */
+fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetloginId}/values/${rangelogin}?key=${apiloginKey}`)
+  .then(res => res.json())
+  .then(data => sheetRows = data.values || []);
+
+/* ---------------- LOGIN ---------------- */
+function tryLogin() {
+
+  loginError.style.display = "none";
+
+  const uid = inputUserId.value.trim();
+  const pwd = inputPassword.value.trim();
+
+  if (!uid || !pwd) {
+    loginError.textContent = "User ID aur Password dono bharna zaroori hai";
+    loginError.style.display = "block";
+    return;
+  }
+
+  let rowFound = null;
+
+  for (let i = 1; i < sheetRows.length; i++) {
+    let r = sheetRows[i];
+
+    // ❗ FIRST CONDITION → Column A must be "5"
+    if ((r[0] || "") !== "5") continue;
+
+    // ❗ SECOND → ID + PASSWORD MATCH
+    if ((r[1] || "") === uid && (r[2] || "") === pwd) {
+      rowFound = r;
+      break;
+    }
+  }
+
+  if (!rowFound) {
+    loginError.textContent = "User not available ya credentials galat hai";
+    loginError.style.display = "block";
+    return;
+  }
+
+  /* ✅ SET INPUT ID="userPYLID"
+     value  → Column  (User ID)
+     text   → Column E (Name)
+  */
+  userInputBox.value = rowFound[5] || "";     // Column f
+ // userInputBox.textContent = rowFound[4] || ""; // Column E
+
+  overlay.style.display = "none";
+}
+
+/* ---------------- EVENTS ---------------- */
+btnLogin.onclick = tryLogin;
+
+btnCancel.onclick = () => {
+  inputUserId.value = "";
+  inputPassword.value = "";
+};
+
+inputPassword.addEventListener("keydown", e => {
+  if (e.key === "Enter") tryLogin();
+});
+
+inputUserId.addEventListener("keydown", e => {
+  if (e.key === "Enter") inputPassword.focus();
+});
+
+inputUserId.focus();
+</script>
+
+
+</body>
+</html>
+
+
+ <!-- login code and script start hare ........................................................... -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br/>  <br/>
+
+<!-- 🔒 Attendance Div (start me hidden) -->
+<div id="attendanceDiv" style="display:none;">
+  <h3>Monthly Attendance</h3>
+
+  <select id="monthSelect" onchange="showAttendance()"> </select>
+
+  <div id="attendanceTable"></div>
+</div>
+
+<!-- 🔘 Button -->
+<button onclick="openAttendance()" style="color: red; font-weight: bold;">Click to Open Attendance</button>
+
+<script>
+function openAttendance() {
+  const password = prompt("Enter Password");
+
+  if (password === "1234") {
+    document.getElementById("attendanceDiv").style.display = "block";
+  } else {
+    alert("Wrong Password!");
+    document.getElementById("attendanceDiv").style.display = "none";
+  }
+}
+
+function showAttendance() {
+  const month = document.getElementById("monthSelect").value;
+  document.getElementById("attendanceTable").innerHTML =
+    month ? "Attendance for " + month : "";
+}
+</script>
+
+
+
+
+
+ <!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+table { border-collapse: collapse; width: 100%; margin-top: 10px; }
+th, td { border: 1px solid #999; padding: 6px; text-align: center; }
+th { background:#002044; color:#fff; }
+select { padding:6px; font-size:15px; }
+
+.inTime {
+  color: rgb(0, 90, 0);
+  font-weight: bold;
+}
+.outTime {
+  color: rgb(160, 0, 0);
+  font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+
+
+<script>
+const apiATNKey = "AIzaSyBe-AlG9lpyXyC7KV-AavR6tbqOc75iYdM";
+const sheetATNId = "1wvsPdAQA57HxhTxA3cCcQvUEz93IWkBre_Ix-qvzwss";
+const rangeATN = "ATN!J:R";
+
+let sheetATNData = [];
+
+/* ---------- LOAD SHEET ---------- */
+fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetATNId}/values/${rangeATN}?key=${apiATNKey}`)
+.then(r => r.json())
+.then(d => {
+
+  // ✅ ONLY Column K == "PYL"
+  sheetATNData = (d.values || []).filter(row =>
+    row[1] && row[1].trim() === "PYL"
+  );
+
+  loadMonths();
+});
+
+
+/* ---------- DATE PARSE (DD-MMM-YYYY) ---------- */
+function parseDateDMY(val) {
+  let [dd, mon, yy] = val.trim().split("-");
+  return new Date(`${dd} ${mon} ${yy}`);
+}
+
+
+/* ---------- LOAD MONTHS ---------- */
+function loadMonths() {
+  const sel = document.getElementById("monthSelect");
+  sel.innerHTML = "";
+  const months = new Set();
+
+  sheetATNData.forEach(r => {
+    const dt = r[4]; // DATE
+    if (!dt) return;
+
+    const d = parseDateDMY(dt);
+    if (!isNaN(d)) {
+      months.add(`${d.getFullYear()}-${d.getMonth()+1}`);
+    }
+  });
+
+  const sorted = [...months].sort((a,b)=>{
+    let [ya,ma]=a.split("-").map(Number);
+    let [yb,mb]=b.split("-").map(Number);
+    return yb-ya || mb-ma;
+  });
+
+  const today = new Date();
+  const currentKey = `${today.getFullYear()}-${today.getMonth()+1}`;
+
+  sorted.forEach(m=>{
+    let [y,mo]=m.split("-");
+    let txt = new Date(y,mo-1,1)
+      .toLocaleString("en-GB",{month:"long",year:"numeric"});
+
+    sel.innerHTML += `
+      <option value="${m}" ${m===currentKey?"selected":""}>
+        ${txt}
+      </option>`;
+  });
+
+  showAttendance(); // auto load
+}
+
+
+/* ---------- SHOW ATTENDANCE ---------- */
+function showAttendance() {
+  const v = monthSelect.value;
+  if (!v) return;
+
+  let [year, month] = v.split("-").map(Number);
+  month--;
+
+  const days = new Date(year, month+1, 0).getDate();
+  const emp = {};
+
+  sheetData.forEach(r => {
+    const inout = r[3]; // IN / OUT
+    const dateV = r[4];
+    const name  = r[5];
+    const id    = r[6];
+    const timeV = r[8]; // TIMESTAMP
+
+    if (!inout || !dateV || !name || !timeV) return;
+
+    const d = parseDateDMY(dateV);
+    if (d.getMonth() !== month || d.getFullYear() !== year) return;
+
+    const day = d.getDate();
+    const time = timeV.split(" ")[1].slice(0,5);
+    const label = `${name} (${id})`;
+
+    if (!emp[label]) emp[label] = { days:{}, present:0, ot:0 };
+    if (!emp[label].days[day]) emp[label].days[day] = {};
+
+    emp[label].days[day][inout] = time;
+  });
+
+
+  /* ---------- CALCULATION ---------- */
+  /*    
+  for (let e in emp) {
+    for (let d in emp[e].days) {
+      const r = emp[e].days[d];
+      if (r.IN && r.OUT) {
+        const hrs = (toMin(r.OUT) - toMin(r.IN)) / 60;
+        emp[e].present++;
+        if (hrs > 8) emp[e].ot += (hrs - 8);
+      } else {
+        emp[e].present++;
+      }
+    }
+  }
+*/
+
+
+/* ---------- CALCULATION (FINAL & CORRECT) ---------- */
+for (let e in emp) {
+  for (let d in emp[e].days) {
+    const r = emp[e].days[d];
+
+    // 🟢 CASE 1: Sirf IN → 1 Present
+    if (r.IN && !r.OUT) {
+      emp[e].present += 1;
+      continue;
+    }
+
+    // 🔵 CASE 2 & 3: IN + OUT
+    if (r.IN && r.OUT) {
+      const diffMin = toMin(r.OUT) - toMin(r.IN);
+      if (diffMin <= 0) continue;
+
+      const totalHrs = diffMin / 60;
+
+      // ✅ 8 ghante ya zyada → 1 P + extra OT
+      if (totalHrs >= 8) {
+        emp[e].present += 1;
+        emp[e].ot += (totalHrs - 8);
+      }
+      // ✅ 8 ghante se kam → sirf OT
+      else {
+        emp[e].ot += totalHrs;
+      }
+    }
+  }
+}
+
+
+  /* ---------- BUILD TABLE ---------- */
+  let html = `<table><tr><th>Employee</th>`;
+  for (let d = 1; d <= days; d++) {
+    const dt = new Date(year, month, d);
+    html += `<th>${d}<br>${dt.toLocaleDateString("en-US",{weekday:"short"})}</th>`;
+  }
+  html += `<th>Total P</th><th>Total OT</th></tr>`;
+
+  for (let e in emp) {
+    html += `<tr><td>${e}</td>`;
+    for (let d = 1; d <= days; d++) {
+      const r = emp[e].days[d];
+      html += `<td>${
+        r ? 
+        `${r.IN ? `<span class="inTime">${r.IN}</span>`:""}
+         ${r.IN && r.OUT ? " | ":""}
+         ${r.OUT ? `<span class="outTime">${r.OUT}</span>`:""}`
+        : ""
+      }</td>`;
+    }
+    html += `<td>${emp[e].present}</td><td>${emp[e].ot.toFixed(1)}</td></tr>`;
+  }
+
+  html += `</table>`;
+  document.getElementById("attendanceTable").innerHTML = html;
+}
+
+
+/* ---------- TIME ---------- */
+function toMin(t) {
+  let [h,m] = t.split(":").map(Number);
+  return h*60 + m;
+}
+</script>
+
+</body>
+</html>
