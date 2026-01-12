@@ -2177,3 +2177,125 @@ function dragElement(el) {
 <!-- ==================================== Margin calculator script start hare ======================== -->
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Islamic Calinder Summry poup box start  script start hare +++++++++++++++++++++++++++++++++++++++++++++-->
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>4x6 inch ICSpopup</title>
+  <style>
+    :root{
+      --ICSpopup-bg:#ffffff;
+      --ICSpopup-text:#111827;
+      --ICSpopup-border:#e5e7eb;
+      --ICSpopup-shadow:0 12px 30px rgba(0,0,0,.15);
+      --ICSpopup-radius:14px;
+    }
+
+    .ICSpopup {
+      position: fixed;
+      left: 16px;
+      bottom: 50px;
+      width: 550px;   /* 6 inch */
+      height: 520px;  /* 4 inch */
+      background: var(--ICSpopup-bg);
+      color: var(--ICSpopup-text);
+      border: 5px solid #0f9a00;
+      border-radius: var(--ICSpopup-radius);
+      box-shadow: var(--ICSpopup-shadow);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+      transition: opacity .25s ease, transform .25s ease;
+      z-index: 9999;
+    }
+
+    .ICSpopup.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .ICSpopup__header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:10px 12px;
+      background: #9df4b2;
+      border-bottom:1px solid var(--ICSpopup-border);
+    }
+    .ICSpopup__title{
+      margin:0;
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .ICSpopup__close{
+      border:1px solid var(--ICSpopup-border);
+      background:#fff;
+      border-radius:10px;
+      width:30px;
+      height:30px;
+      cursor:pointer;
+      font-size:18px;
+    }
+    .ICSpopup__close:hover{ background:#f3f4f6; }
+
+    .ICSpopup__body{
+      padding:12px;
+      font-size:14px;
+      height: calc(100% - 52px); /* header ke niche bacha hua area */
+      overflow:auto; /* scroll agar zyada content ho */
+      background-color: #e9eae7;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="bottomLeftICSpopup" class="ICSpopup">
+    <div class="ICSpopup__header">
+      <h3 class="ICSpopup__title">Islamic Calinder Summry</h3>
+      <button class="ICSpopup__close" id="ICSpopupCloseBtn">&times;</button>
+    </div>
+    <div class="ICSpopup__body">
+   
+     
+      
+<iframe style="width: 240px; height: 460px; border: 1px solid #eae7e7;" src="https://www.islamicfinder.org/prayer-widget/1267579/shafi/3/0/18.0/18.0"> </iframe>
+<iframe style="width: 240px; height: 460px; border: 1px solid #eae7e7;" scrolling="no" src="https://www.islamicfinder.org/specialislamicdays"> </iframe>
+
+
+    </div>
+  </div>
+
+  <script>
+    const ICSpopup = document.getElementById('bottomLeftICSpopup');
+    const closeBtn = document.getElementById('ICSpopupCloseBtn');
+
+    window.addEventListener('load', ()=> ICSpopup.classList.add('show'));
+    closeBtn.addEventListener('click', ()=> ICSpopup.classList.remove('show'));
+  </script>
+</body>
+</html>
+
+<!-- Islamic Calinder Summry poup box start  script stop hare +++++++++++++++++++++++++++++++++++++++++++++-->
+
+
+
+
