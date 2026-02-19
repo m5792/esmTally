@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ramzan Calendar & Quran</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{
+  margin:0;
+  font-family:Segoe UI,Arial;
+  background:#f2f2f2;
+  padding-top:120px;
+}
+
+/* ===== FIXED HEADER ===== */
+.header{
+  position:fixed;
+  top:0; left:0; right:0;
+  background:#0b7d3e;
+  color:#fff;
+  text-align:center;
+  padding:14px 10px 8px;
+  box-shadow:0 3px 8px rgba(0,0,0,.25);
+  z-index:1000;
+}
+.header h1{margin:0;font-size:22px}
+.header h2{margin:4px 0 0;font-size:14px;font-weight:400}
+
+/* ===== INFO BAR ===== */
+.infoBar{
+  position:fixed;
+  top:100px; left:0; right:0;
+  background:#1e88e5;
+  color:#fff;
+  text-align:center;
+  padding:8px;
+  font-weight:bold;
+  z-index:999;
+}
+
+/* ===== CONTAINER ===== */
+.container{
+  max-width:1200px;
+  margin:15px auto;
+  background:#fff;
+  padding:15px;
+  border-radius:12px;
+  box-shadow:0 8px 18px rgba(0,0,0,.15);
+}
+
+h3{color:#0b7d3e}
+
+/* ===== PARA PLAYER ===== */
+.para-box{text-align:center;margin:15px 0}
+select{
+  padding:10px;
+  width:100%;
+  max-width:420px;
+  font-size:16px;
+}
+.player{
+  display:none;
+  background:#0b7d3e;
+  padding:15px;
+  border-radius:12px;
+  margin-top:10px;
+  animation:slide .4s ease;
+}
+@keyframes slide{
+  from{opacity:0;transform:translateY(-15px)}
+  to{opacity:1;transform:none}
+}
+.player h3{color:#fff;text-align:center;margin:0 0 8px}
+.player audio{width:100%}
+.player button{
+  margin-top:8px;
+  padding:6px 14px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+/* ===== TABLES ===== */
+.tables{
+  display:flex;
+  gap:20px;
+  flex-wrap:wrap;
+}
+.table-box{flex:1;min-width:320px}
+table{width:100%;border-collapse:collapse}
+th,td{
+  border:1px solid #ddd;
+  padding:8px;
+  text-align:center;
+}
+th{background:#0b7d3e;color:#fff}
+
+/* ===== ROW COLORS ===== */
+.friday{background:#d8f5d8}
+.sunday{background:#ffdede}
+.today{background:#d9ebff !important}
+
+/* ===== DUAS ===== */
+.duas{
+  margin-top:20px;
+  background:#f9fff9;
+  padding:15px;
+  border-radius:10px;
+}
+.dua{
+  background:#fff;
+  padding:10px;
+  margin-bottom:10px;
+  border-left:4px solid #0b7d3e;
+}
+
+/* ===== POPUP ===== */
+.popup{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#0b7d3e;
+  color:#fff;
+  padding:15px;
+  border-radius:12px;
+  width:260px;
+  z-index:1000;
+}
+.popup button{
+  margin-top:8px;
+  padding:6px 12px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===== HEADER ===== -->
+<div class="header">
+  <h1>A.F.I Cure Medical Store</h1>
+  <h2>Near PNB Bank, Kundeshwari, Kashipur, U.S Nagar - Uttarakhand</h2>
+   <h2>Mob: 9756735792, 8057925792, 8057422863</h2>
+</div>
+
+<div class="infoBar" id="infoBar"></div>
+
+<div class="container">
+
+<!-- PARA DROPDOWN -->
+<div class="para-box">
+<select id="paraSelect">
+<option value="">🎧 Select Quran Para and Play with Hindi Tarjuma</option>
+</select>
+</div>
+
+<div class="player" id="player">
+<h3 id="paraTitle"></h3>
+<audio id="audio" controls></audio>
+<button onclick="closePlayer()">Close</button>
+</div>
+
+<!-- RAMZAN TABLES -->
+<div class="tables">
+
+<div class="table-box">
+<h3>Roza 1 – 15 (Kashipur - Uttarakhand 2026)</h3>
+<table>
+<thead>
+<tr>
+<th>Roza</th><th>Date</th><th>Day</th><th>Sehri</th><th>Iftaar</th>
+</tr>
+</thead>
+<tbody id="t1"></tbody>
+</table>
+</div>
+
+<div class="table-box">
+<h3>Roza 16 – 30 (Kashipur - Uttarakhand 2026)</h3>
+<table>
+<thead>
+<tr>
+<th>Roza</th><th>Date</th><th>Day</th><th>Sehri</th><th>Iftaar</th>
+</tr>
+</thead>
+<tbody id="t2"></tbody>
+</table>
+</div>
+
+</div>
+
+<!-- DUAS -->
+<div class="duas">
+<h3>Masnoon Duas</h3>
+<div class="dua"><b>Sehri ki Dua</b><br>وَبِصَوْمِ غَدٍ نَّوَيْتُ مِنْ شَهْرِ رَمَضَانَ <br>
+Wa bisawmi ghadinn nawaitu min shahri ramadan.<br></div>
+
+<div class="dua"><b>Iftaar ki Dua</b><br>اَللّٰهُمَّ اِنِّى لَكَ صُمْتُ وَعَلٰى رِزْقِكَ اَفْطَرْتُ  <br>
+Allahumma laka sumtu wa bika aamantu wa ‘ala rizq-ika aftartu.<br></div>
+
+<div class="dua"><b>Maghfirat ki Dua</b><br>اَللّٰهُمَّ اغْفِرْ لِي ذُنُوبِي وَارْحَمْنِي  <br>
+Allahumma innaka ‘afuwwun tuhibbul ‘afwa fa’fu ‘anni.</div>
+</div>
+
+</div>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+<b>Today's Info</b>
+<div id="todayInfo"></div>
+<button onclick="popup.style.display='none'">Close</button>
+</div>
+
+<script>
+/* ===== RAMZAN BASE ===== */
+const startDate=new Date(2026,1,19);
+const days=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+const today=new Date().toDateString();
+
+const ramzan=[
+{r:1,s:"5:25",i:"6:10"},{r:2,s:"5:25",i:"6:10"},
+{r:3,s:"5:24",i:"6:11"},{r:4,s:"5:24",i:"6:12"},
+{r:5,s:"5:23",i:"6:13"},{r:6,s:"5:22",i:"6:14"},
+{r:7,s:"5:21",i:"6:14"},{r:8,s:"5:21",i:"6:15"},
+{r:9,s:"5:20",i:"6:16"},{r:10,s:"5:19",i:"6:16"},
+{r:11,s:"5:18",i:"6:17"},{r:12,s:"5:17",i:"6:18"},
+{r:13,s:"5:15",i:"6:18"},{r:14,s:"5:14",i:"6:19"},
+{r:15,s:"5:13",i:"6:19"},{r:16,s:"5:12",i:"6:20"},
+{r:17,s:"5:11",i:"6:21"},{r:18,s:"5:10",i:"6:21"},
+{r:19,s:"5:09",i:"6:22"},{r:20,s:"5:08",i:"6:23"},
+{r:21,s:"5:07",i:"6:23"},{r:22,s:"5:06",i:"6:24"},
+{r:23,s:"5:05",i:"6:24"},{r:24,s:"5:04",i:"6:25"},
+{r:25,s:"5:02",i:"6:26"},{r:26,s:"5:01",i:"6:26"},
+{r:27,s:"5:00",i:"6:27"},{r:28,s:"4:59",i:"6:28"},
+{r:29,s:"4:58",i:"6:28"},{r:30,s:"4:57",i:"6:29"}
+];
+
+
+
+let todayIdx=-1;
+
+ramzan.forEach((x,i)=>{
+  const d=new Date(startDate);
+  d.setDate(startDate.getDate()+i);
+
+  if(d.toDateString()===today)todayIdx=i;
+
+  let cls="";
+  if(days[d.getDay()]==="Fri")cls="friday";
+  if(days[d.getDay()]==="Sun")cls="sunday";
+  if(d.toDateString()===today)cls+=" today";
+
+  const row=`<tr class="${cls}">
+  <td>${x.r}</td>
+  <td>${d.getDate()} ${d.toLocaleString("en",{month:"short"})}</td>
+  <td>${days[d.getDay()]}</td>
+  <td>${x.s}</td>
+  <td>${x.i}</td>
+  </tr>`;
+
+  (x.r<=15?t1:t2).innerHTML+=row;
+});
+
+/* ===== INFO BAR + POPUP ===== */
+if(todayIdx>=0){
+infoBar.innerText=
+`Today: Ramzaan - ${ramzan[todayIdx].r} / Iftaar: ${ramzan[todayIdx].i} PM | Tomorrow: Ramzaan - ${ramzan[todayIdx+1]?.r||"-"} / Sehri: ${ramzan[todayIdx+1]?.s||"-"} AM`;
+
+todayInfo.innerHTML=
+`<br>Today: ${ramzan[todayIdx].r}<br>
+Iftaar: ${ramzan[todayIdx].i}<br><br>
+Tomorrow: ${ramzan[todayIdx+1]?.r||"-"}<br>
+Sehri: ${ramzan[todayIdx+1]?.s||"-"}`;
+}
+
+/* ===== QURAN PARA ===== */
+const quran=[
+["1. Alif Lam Meem","http://bit.ly/2qpLHGY"],
+["2. Sayaqool","http://bit.ly/2qnS2Ha"],
+["3. Tilkal Rusull","http://bit.ly/2sbSqoq"],
+["4. Lan Tana Loo","http://bit.ly/2r6TOeq"],
+["5. Wal Mohsanat","http://bit.ly/2qzzsYk"],
+["6. La Yuhibbullah","http://bit.ly/2qI4EE2"],
+["7. Wa Iza Samiu","http://bit.ly/2rW88HS"],
+["8. Wa Lau Annana","http://bit.ly/2qK0aO4"],
+["9. Qalal Malao","http://bit.ly/2rBqzB0"],
+["10. Wa A'lamu","http://bit.ly/2s3dkdd"],
+["11. Yatazeroon","http://bit.ly/2so5po5"],
+["12. Wa Mamin Da'abat","http://bit.ly/2rzgVP9"],
+["13. Wa Ma Ubrioo","http://bit.ly/2rSIJ1l"],
+["14. Rubama","http://bit.ly/2sk5Lid"],
+["15. Subhanallazi","http://bit.ly/2rKJHw3"],
+["16. Qal Alam","http://bit.ly/2sMTr7y"],
+["17. Aqtarabo","http://bit.ly/2r9opp2"],
+["18. Qadd Aflaha","http://bit.ly/2rpK4c8"],
+["19. Wa Qalallazina","http://bit.ly/2rpq1iW"],
+["20. A'man Khalaq","http://bit.ly/2rAX4Mc"],
+["21. Utlu Ma Oohi","http://bit.ly/2rBv2Aa"],
+["22. Wa Manyaqnut","http://bit.ly/2sbmkft"],
+["23. Wa Mali","http://bit.ly/2rtPXpH"],
+["24. Faman Azlam","http://bit.ly/2sfUCOE"],
+["25. Elahe Yuruddo","http://bit.ly/2smfZxF"],
+["26. Ha'a Meem","http://bit.ly/2tLUEvC"],
+["27. Qala Fama Khatbukum","http://bit.ly/2tru5wz"],
+["28. Qadd Sami Allah","http://bit.ly/2rXeW98"],
+["29. Tabarakallazi","http://bit.ly/2s5NLEk"],
+["30. Amma Yatasa'aloon","http://bit.ly/2s1BBB4"]
+];
+
+quran.forEach((p,i)=>{
+paraSelect.innerHTML+=`<option value="${i}">${p[0]}</option>`;
+});
+paraSelect.onchange=()=>{
+if(!paraSelect.value)return;
+paraTitle.innerText=quran[paraSelect.value][0];
+audio.src=quran[paraSelect.value][1];
+player.style.display="block";
+audio.play();
+}
+function closePlayer(){
+audio.pause();
+player.style.display="none";
+paraSelect.value="";
+}
+</script>
+
+</body>
+</html>
