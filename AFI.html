@@ -31,8 +31,9 @@
 
     <!-- Current Time -->
  <div style="display: flex; justify-content: center; align-items: center; background-color: #f7f8fa; color: rgb(1, 1, 1); font-size: 12px; font-weight: bold;  border: 5px solid #003444; ">
+ 
   <div id="currentDateTime" style="padding: 5px 10px; white-space: nowrap; font-size: 16px; "></div>
-
+  <button style="border: none; background-color: #e6f9e4; color: rgb(3, 98, 139);cursor: pointer;" onclick="togglesidebarNotes()" >☰</button>
   
   <span id="todayEvent" style="color: rgb(0, 65, 69);font-weight: bold;font-size: 14px; "></span>
 </div>
@@ -2668,12 +2669,145 @@ function initDocSearch(){
 
 
 
+<!-- ========= Button Configure Details List Start Here ---------- ============ -->
+
+
+
+<div class="sidebarnotes">
+
+<div id="notesBox" class="notes" style="font-size:14px;">
+
+<!-- Close Button -->
+<button class="closesidebarBtn" onclick="togglesidebarNotes()">✖</button>
+<br/><br/>
+
+<!-- ===== BUTTON 1 ===== -->
+<button class="noteBtn" onclick="toggleNote(1)">📑 Button Mapping</button>
+
+<div id="noteContent1" class="noteContent">
+<p style="color:red;">(mfvbtn="1") - Button Mapping</p>
+
+</div>
+
+
+<!-- ===== BUTTON 2 ===== -->
+<button class="noteBtn" onclick="toggleNote(2)">Voucher Buttan</button>
+
+<div id="noteContent2" class="noteContent">
+
+</div>
+
+
+
+</div></div>
+
+<!-- ========= Button Configure Details List Stop Here ---------- ============ -->
+
+
+<style>
+
+.sidebarnotes{
+  position:relative;
+  display:inline-block;
+}
+
+.notes{
+  position:fixed;
+  top:55px;
+  right:-490px;
+  height:88vh;
+  width:420px;
+  background:white;
+  border-left:5px solid red;
+  padding:20px;
+  box-shadow:-5px 0 10px rgba(0,0,0,0.3);
+  transition:right 0.4s ease;
+  overflow-y:auto;
+}
+
+.notes.show{
+  right:0;
+}
+
+.closesidebarBtn{
+  position:absolute;
+  top:10px;
+  right:10px;
+  background:red;
+  color:white;
+  border:none;
+  font-size:16px;
+  cursor:pointer;
+  padding:4px 8px;
+  border-radius:4px;
+}
+
+/* accordion buttons */
+
+.noteBtn{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  border:none;
+  background:#0093A1;
+  color:white;
+  font-weight:bold;
+  text-align:left;
+  cursor:pointer;
+  border-radius:4px;
+}
+
+.noteBtn:hover{
+  background:#001bb3;
+}
+
+/* accordion content */
+
+.noteContent{
+  display:none;
+  padding:10px;
+  border:1px solid #ddd;
+  border-top:none;
+  background:#f9f9f9;
+}
+
+</style>
+
+
+<script>
+
+/* sidebar open close */
+
+function togglesidebarNotes(){
+  var box=document.getElementById("notesBox");
+  box.classList.toggle("show");
+}
+
+
+/* accordion toggle */
+
+function toggleNote(num){
+
+  const content=document.getElementById("noteContent"+num);
+
+  if(content.style.display==="block"){
+    content.style.display="none";
+  }else{
+    content.style.display="block";
+  }
+
+}
+
+</script>
+<!-- ========= Buttan Configure Details List stop Hare  ---------- ============ -->
 
 
 
 
 
 
+
+<!-- ====================  ````````````````````````````RAMZAAN CALENDER WITH QURAN TAJUMA START HARE``````````````````````````` ==================== -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -2777,7 +2911,7 @@ th{background:#0b7d3e;color:#fff}
 /* ===== POPUP ===== */
 .popup{
   position:fixed;
-  bottom:20px;
+  bottom:10px;
   right:20px;
   background:#0b7d3e;
   color:#fff;
@@ -2922,3 +3056,105 @@ paraSelect.value="";
 
 </body>
 </html>
+<!-- ====================  ````````````````````````````RAMZAAN CALENDER WITH QURAN TAJUMA STOP HARE``````````````````````````` ==================== -->
+
+<!-- ====================  ````````````````````````````FLOTTING ANIMATION CODE  START HARE``````````````````````````` ==================== -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Smart Rabbit Follow</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: transparent;
+    }
+
+    #rabbitDiv {
+      position: fixed;
+      bottom: 40px;
+      left: 0;
+      width: 100%;
+      height: 150px;
+      background: transparent;
+      z-index: 9999;
+    }
+
+    #rabbit {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s linear;
+    }
+  </style>
+</head>
+<body>
+
+<div id="rabbitDiv">
+  <img id="rabbit" src="https://png.pngtree.com/png-vector/20250104/ourmid/pngtree-rabbit-cartoon-png-image_15045752.png">
+</div>
+
+<script>
+const rabbit = document.getElementById('rabbit');
+
+let rabbitPos = { x: window.innerWidth/2 };
+let rabbitVel = 2;
+
+let mousePos = null;
+let lastMouseMove = 0;
+
+let walkOffset = 0;
+
+// Track mouse globally
+document.addEventListener('mousemove', e => {
+  mousePos = { x: e.clientX };
+  lastMouseMove = Date.now(); // time store
+});
+
+function animate() {
+  walkOffset += 0.15;
+  let bob = Math.sin(walkOffset) * 5;
+
+  let now = Date.now();
+
+  // 👉 If mouse moved in last 1 second → follow mouse
+  if(mousePos && (now - lastMouseMove < 1000)){
+    let dx = mousePos.x - rabbitPos.x;
+
+    if(Math.abs(dx) > 1){
+      rabbitPos.x += dx * 0.05;
+    }
+
+    // Flip toward mouse
+    rabbit.style.transform = `translate(-50%, -50%) scaleX(${dx < 0 ? -1 : 1})`;
+
+  } else {
+    // 👉 Auto walk mode
+    rabbitPos.x += rabbitVel;
+
+    if(rabbitPos.x < 40 || rabbitPos.x > window.innerWidth - 40){
+      rabbitVel *= -1;
+    }
+
+    rabbit.style.transform = `translate(-50%, -50%) scaleX(${rabbitVel > 0 ? 1 : -1})`;
+  }
+
+  // Keep inside screen
+  rabbitPos.x = Math.max(40, Math.min(window.innerWidth - 40, rabbitPos.x));
+
+  // Apply position
+  rabbit.style.left = rabbitPos.x + 'px';
+  rabbit.style.top = (75 + bob) + 'px';
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+
+</body>
+</html>
+ <!-- ====================  ````````````````````````````FLOTTING ANIMATION CODE  STOP HARE``````````````````````````` ==================== -->
