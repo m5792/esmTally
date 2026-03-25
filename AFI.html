@@ -3059,22 +3059,10 @@ paraSelect.value="";
 <!-- ====================  ````````````````````````````RAMZAAN CALENDER WITH QURAN TAJUMA STOP HARE``````````````````````````` ==================== -->
 
 <!-- ====================  ````````````````````````````FLOTTING ANIMATION CODE  START HARE``````````````````````````` ==================== -->
-
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Smart Rabbit Follow</title>
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background: transparent;
-    }
-
-    #rabbitDiv {
+     #rabbitDiv {
       position: fixed;
-      bottom: 40px;
+      bottom: 50px;
       left: 0;
       width: 100%;
       height: 150px;
@@ -3088,9 +3076,11 @@ paraSelect.value="";
       height: 80px;
       transform: translate(-50%, -50%);
       transition: transform 0.1s linear;
+      pointer-events: none;
     }
   </style>
 </head>
+
 <body>
 
 <div id="rabbitDiv">
@@ -3099,8 +3089,9 @@ paraSelect.value="";
 
 <script>
 const rabbit = document.getElementById('rabbit');
+const rabbitDiv = document.getElementById('rabbitDiv');
 
-let rabbitPos = { x: window.innerWidth/2 };
+let rabbitPos = { x: window.innerWidth / 2 };
 let rabbitVel = 2;
 
 let mousePos = null;
@@ -3108,42 +3099,52 @@ let lastMouseMove = 0;
 
 let walkOffset = 0;
 
-// Track mouse globally
-document.addEventListener('mousemove', e => {
-  mousePos = { x: e.clientX };
-  lastMouseMove = Date.now(); // time store
+// ✅ Mouse tracking ONLY inside rabbitDiv
+rabbitDiv.addEventListener('mousemove', e => {
+  const rect = rabbitDiv.getBoundingClientRect();
+  mousePos = { x: e.clientX - rect.left };
+  lastMouseMove = Date.now();
 });
 
+// ✅ Mouse leave → stop follow
+rabbitDiv.addEventListener('mouseleave', () => {
+  mousePos = null;
+});
+
+// Animation loop
 function animate() {
+
   walkOffset += 0.15;
   let bob = Math.sin(walkOffset) * 5;
 
   let now = Date.now();
 
-  // 👉 If mouse moved in last 1 second → follow mouse
-  if(mousePos && (now - lastMouseMove < 1000)){
+  // 👉 Follow mode
+  if (mousePos && (now - lastMouseMove < 1000)) {
+
     let dx = mousePos.x - rabbitPos.x;
 
-    if(Math.abs(dx) > 1){
+    if (Math.abs(dx) > 1) {
       rabbitPos.x += dx * 0.05;
     }
 
-    // Flip toward mouse
-    rabbit.style.transform = `translate(-50%, -50%) scaleX(${dx < 0 ? -1 : 1})`;
+    rabbit.style.transform =
+      `translate(-50%, -50%) scaleX(${dx < 0 ? -1 : 1})`;
 
   } else {
     // 👉 Auto walk mode
     rabbitPos.x += rabbitVel;
 
-    if(rabbitPos.x < 40 || rabbitPos.x > window.innerWidth - 40){
+    if (rabbitPos.x < 40 || rabbitPos.x > rabbitDiv.offsetWidth - 40) {
       rabbitVel *= -1;
     }
 
-    rabbit.style.transform = `translate(-50%, -50%) scaleX(${rabbitVel > 0 ? 1 : -1})`;
+    rabbit.style.transform =
+      `translate(-50%, -50%) scaleX(${rabbitVel > 0 ? 1 : -1})`;
   }
 
-  // Keep inside screen
-  rabbitPos.x = Math.max(40, Math.min(window.innerWidth - 40, rabbitPos.x));
+  // Keep inside div
+  rabbitPos.x = Math.max(40, Math.min(rabbitDiv.offsetWidth - 40, rabbitPos.x));
 
   // Apply position
   rabbit.style.left = rabbitPos.x + 'px';
@@ -3155,6 +3156,4 @@ function animate() {
 animate();
 </script>
 
-</body>
-</html>
  <!-- ====================  ````````````````````````````FLOTTING ANIMATION CODE  STOP HARE``````````````````````````` ==================== -->
