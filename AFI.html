@@ -1,5 +1,1840 @@
+<!-- ===== BUTTON 1 ===== -->
+<button class="noteBtn" onclick="toggleNote(1)" style="border-bottom:5px solid #d40202;background-color: black;"><strong style="text-align: center; font-size: 14px;">A.F.I Cure Medicine</strong></button>
+<div id="noteContent1" class="noteContent">
+<iframe src="https://bwidget.crictimes.org/" style="width:100%;min-height: 235px;" frameborder="0"  scrolling="yes"></iframe>
+</div>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>A.F.I Cure Medical</title>
+ <style>
+   
+    #container {
+  display: flex;
+  height: 85vh;
+}
+
+#LeftDiv {
+  flex: 1.8;   /* 2 parts */
+  background: #f5f4f4;
+  padding: 5px;  height: 85vh;
+}
+
+#RightDiv {
+  flex: 7.2;   /* 7 parts */
+  background: #ffffff;
+  padding: 5px;height: 85vh;
+}
+
+    #listStockview { height: 60vh; overflow-y: auto; border: 1px solid #ccc; }
+    .itemStockview { padding: 5px; cursor: pointer; }
+    .itemStockview:hover { background: #f7b656; }
+    .box { border: 1px solid #ccc; margin-top: 10px; padding: 10px; }
+
+
+      #stockQuery table{ border-collapse: collapse; font-size: 15px;font-family: Arial, sans-serif;width: 50%;}
+      #stockQuery th {background: #006772;color: #fff;padding: 6px 8px;text-align: center; font-weight: 600; border: 1px solid #ddd;}
+      #table100 table {width: 100%;border-collapse: collapse; font-size: 15px; font-family: Arial, sans-serif;  width: 100%;}
+      #SaltSmry table {width: 100%;border-collapse: collapse; font-size: 15px; font-family: Arial, sans-serif;  width: 25%;}
+
+      #SaltSmry th, #table100 th {background: #006772; color: #fff; padding: 6px 8px; text-align: center; font-weight: 600; border: 1px solid #ddd;}
+      #SaltSmry td, #stockQuery td, #table100 td { padding: 5px 8px; border: 1px solid #ddd; color: #333;}
+      #SaltSmry tr:nth-child(even) , #stockQuery tr:nth-child(even), #table100 tr:nth-child{ background: #f8f9fa;}
+      #SaltSmry tr:hover, #stockQuery tr:hover, #table100 tr:hover {background: #cfe1fa;}
+
+      /* Extra space remove */
+      #SaltSmry th, #SaltSmry td, #stockQuery th, #stockQuery td { line-height: 1.2; white-space: nowrap;}
+      /* Optional: first column bold */
+      #SaltSmry td:first-child {font-weight: 500;}
+
+      /*-----------------------*/
+     .tabBox{
+  border:1px solid #bb0606;
+  padding:10px;
+  margin-top:10px;
+}
+
+.btnRow button{
+  margin:5px;
+  padding:8px 12px;
+  cursor:pointer;
+}
+
+.activeBtn{
+  background:#006772;
+  color:white;
+}
+
+/*------------ filter buttan -------------*/
+.filter-btn {
+  background: #eaeaeb;
+  color: rgb(18, 17, 17);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background 0.2s ease;
+  min-width: 90px;            /* optional: makes buttons uniform width */
+  text-align: center;
+}
+.filter-btn:hover {
+  background: #b4b4b4;
+}
+.filter-btn.active {
+  background: #0390e1;
+  color: rgb(252, 250, 250);
+  font-weight: bold;
+}
+
+/* -------------- Company Details --*/
+#companyDetails{
+  background:#f8f9fa;
+}
+
+#companyDetails h3{
+  margin-top:0;
+  color:#006772;
+}
+
+#companyDetails p{
+  margin:5px 0;
+  font-size:14px;
+}
+
+/*---------------------*/
+#pswResult tr:hover {
+  background: #cfe1fa;
+}
+
+#pswResult tr:nth-child(even) {
+  background: #f8f9fa;
+}
+  </style>
+</head>
+<body>
+
+  <div id="container">
+<!-- ----------------   ================ Left Div Start Hare =========== Start ==============  --------------------- -->
+<div id="LeftDiv">
+  <input type="text" id="search" style="width:100%;padding:8px;border-bottom:5px solid #025982; background-color: #fbffc7;" placeholder=" 🔍 Search Medicine or Salt... (f4)">
+  <div id="listStockview"> <span style="color: rgb(117, 0, 0); font-weight: bold;" > <br/> <br/>Please Wait ! Data Loading ...</span></div>
+  <div class="btnRow">
   
-    <title>A.F.I Medical Store</title>
+</div>
+
+<br/>
+<div id="companyDetails" class="box">
+  <h4>  A.F.I Cure Medical Store</h4>
+  <p><b>Owner Name:</b> Mukhtar Ahamad</p>
+  <p><b>Mobile:</b> 9756735792</p>
+  <p><b>Email:</b> eservicesksp@gmail.com</p>
+  <p><b>💼 DL No:</b> UA-UDH-143538 | UA-UDH-143539 <br/> (Exp. 07-Nov-2030)</p>
+  <p><b>Address:</b> Near PNB Bank, Kundeshwari</p>
+</div>
+
+</div>  <!-- ----------------   ================ Left Div Stop Hare =========== Stop ==============  --------------------- -->
+
+<!-- ----------------   ================ Right Div Start Hare =========== Start ==============  --------------------- -->
+<div id="RightDiv">
+
+  <div id="details" class="box" style="height: 8vh; background-color: #dbfdf8;border-bottom: 5px solid rgb(2, 62, 102);"> </div>
+  <div id="stockQuery" class="box" style="height: 18vh;"> </div>
+
+<!-- ----------------   ================ Buttan Div Start Hare =========== Start ============== Start --------------------- -->
+<div style="display: flex; gap: 10px; border-bottom:5px solid #025982; flex-wrap: wrap; justify-content: center; margin-bottom: 5px; background-color: #eaeaeb;  padding: 2px 2px;">
+
+<strong style="color: #014fa8; font-size: 25px; font-weight: bold;">|</strong>
+<button class="filter-btn" id="saltBtn" onclick="openTab('div1'); sameSalt();" style="color: rgb(154, 0, 0); ">Item of Same Salt</button>
+<button class="filter-btn" id="groupBtn" onclick="openTab('div1'); sameGroup();" style="color: rgb(0, 113, 94); ">Item of Same Group</button>
+<strong style="color: #014fa8; font-size: 25px; font-weight: bold;">|</strong>
+
+  <button class="filter-btn" onclick="openTab('div1')">Stock Quary <b style="color: rgb(165, 1, 1);">(f3)</b></button>
+  <button class="filter-btn" onclick="openTab('div2')">➕ Create Purchase/Sale <b style="color: rgb(165, 1, 1);">(f4)</button>
+  <button class="filter-btn" onclick="openTab('div3')"  >📘 ID/Password <b style="color: rgb(165, 1, 1);">(f9)</b></button>
+   <button class="filter-btn" onclick="openTab('div5')"  >🔍 Searchbar</button>
+ 
+
+</div>  <!-- ----------------   ================ Buttan Div Stop Hare =========== Stop ==============  --------------------- -->
+
+
+ <!-- ~~~~~~~~~~~~~~~~   ================ Buttan Div Content Start Hare =========== Start ==============  ~~~~~~~~~~~~~~~~ -->
+
+<div id="div1" class="tabBox">  <!-- ~~~~~~~~~~~~~~~~  Buttan div1 Content Start Hare ~~~~~~~~~~~~~~~~ div1 Start-->
+<div id="SaltSmry" class="box" style="height:43vh; overflow-y:auto; scroll-behavior:smooth;border-bottom: 5px solid rgb(2, 62, 102);">
+
+<div style="border:1px solid #ddd; border-radius:10px; padding:10px;">
+<div id="news"></div>
+<script>
+function loadNews() {
+  fetch("https://api.rss2json.com/v1/api.json?rss_url=https://www.amarujala.com/rss/india-news.xml")
+  // fetch("https://api.rss2json.com/v1/api.json?rss_url=https://www.bhaskar.com/rss-v1--category-1051.xml")
+  .then(res => res.json())
+  .then(data => {
+    let html = "<h4>📰 Amarujala News</h4>";
+    data.items.slice(0,10).forEach(n => {
+      html += `<p>👉 <a href="${n.link}" target="_blank">${n.title}</a></p>`;
+    });
+    document.getElementById("news").innerHTML = html;
+  })
+  .catch(() => {
+    document.getElementById("news").innerHTML = "❌ News load nahi ho pa rahi";
+  });
+}
+// पहली बार load
+loadNews();
+
+// 🔁 हर 30 सेकंड में auto refresh
+setInterval(loadNews, 30000);
+</script>
+</div>
+
+</div>
+</div>  <!-- ~~~~~~~~~~~~~~~~  Buttan div1 Content Stop Hare ~~~~~~~~~~~~~~~~ div1 Stop-->
+
+
+
+
+
+<div id="div2" class="tabBox" style="display:none;">  <!-- ~~~~~~~~~~~~~~~~  Buttan div2 Content Start Hare ~~~~~~~~~~~~~~~~ div2 Start-->
+  
+   <h3 style="margin-top:0; color:#00282e; display: flex; justify-content: center; ">A.F.I Medicine Entry</h3>  
+
+    <form id="mainAFICMForm" class="AFICM-form" >
+
+         <input type="hidden" name="SNo" id="sNo" />
+
+          <input type="hidden" name="Timestamp" id="TimestampAFICM" />
+
+      <!-- ROW 2 -->
+      <div class="row" style="background-color: #eef0f0; padding: 5px 10px; color: black;">
+       
+
+        <label >Drug/Item Name:*</label>
+         <!--   <input type="text" id="afi04" name="esmC" placeholder="🔍 Type Drug Name..."> -->
+         <input id="afi04" class="medicine"  name="esmC" required readonly> </input>
+
+         <label>Salt Name:</label>
+          <!--  <input type="text" id="afi05" name="esmD" placeholder="🔍 Type Drug Name..."> -->
+
+         <input id="afi05" class="salt"  name="esmD" readonly> </input>
+
+          <label>/Unit Details:</label>
+        <input type="text" id="afi13" class="qpu" name="esmJ" readonly>
+
+        <label>I. Type:*</label>
+        <input id="afi14" class="mType" name="esmN" style="width:1in;" required readonly>
+        
+      </div>
+
+       <!-- ROW 1 -->
+      <div class="row" style="background-color: #f5f9d5; padding: 5px 10px; ">
+
+        
+        <label>V.Type:*</label>
+        <select id="afi01" name="Type" required>
+          <option value="">Select</option>
+          <option value="DNAME">Purchase Voucher</option>
+          <option value="SALE">Sale Voucher</option>
+        </select>
+
+        <label>Ledger:*</label>
+        <input id="afi03" name="esmM"  required> </input>
+
+        <label>Purchase Date:*</label>
+        <input type="date" id="afi02" name="esmK" required>
+
+          <label>Exp Date:</label>
+        <input type="date" id="afi12" name="esmL" >
+
+      </div>
+
+      <!-- ROW 3 -->
+      <div class="row" style="background-color: rgb(244, 200, 200); padding: 5px 10px;">
+        <label>Qty:*</label>
+        <input type="number" id="afi06" name="esmE" placeholder="Enter Qty" style="width:1.2in;" required>
+        
+
+
+        <label>Unit:*</label>
+        <select id="afi07" name="esmH" style="width:1in;" required>
+          <option value="">Select</option>
+          <option>S</option>
+          <option>B</option>
+          <option>SYP</option>
+          <option>CPS</option>
+          <option>INJ</option>
+          <option>TUBE</option>
+          <option>Pc</option>
+          <option>Box</option>
+          <option>NA</option>
+        </select>
+
+        <label>Net Amt:*</label>
+        <input type="number" id="afi08" name="esmG" placeholder="Enter Amount" style="width:1.8in;" required step="any">
+
+         <label>MRP:</label>
+        <input type="number" id="afi11" name="esmI" placeholder="Enter MRP"  step="any">
+
+        <label>Rate:</label>
+        <input type="number" id="afi10" name="esmF" readonly placeholder="Auto Rate">
+         
+      </div>
+
+    
+
+    <input type="submit" id="submitAFICMButton" value="Submit" style="padding:8px 16px; background:#035b67; color:white; border:none; border-radius:6px; cursor:pointer;">
+    <span id="result" style="font-weight:bold; font-size:16px; color: green; text-align: right;"></span>
+    <strong> <button id="openMODIFYBtn" data-value="AFICM" style="width: 2in; color: #002044; cursor: pointer; font-weight: bold; background-color: #f8f9fa; border: none; cursor: yes;">🏢 Click to Modify</button>   
+     Fetched Sr No: <span id="fetchedSRNo" style="color: rgb(150, 3, 3);"></span> <br/>
+    </strong>
+
+     <strong id="waitAFIMessage" style="display:none;  color:rgb(184, 3, 3); font-size:16px;text-align: center; font-weight:bold; margin-top:10px;"></strong>
+    </form>
+
+</div>  <!-- ~~~~~~~~~~~~~~~~  Buttan div2 Content Stop Hare ~~~~~~~~~~~~~~~~ div1 Stop-->
+
+
+<div id="div3" class="tabBox" style="display:none;">  <!-- ~~~~~~~~~~~~~~~~  Buttan div3 Content Start Hare ~~~~~~~~~~~~~~~~ div3 Start-->
+<input type="text" id="pswSearch" onkeyup="searchPSW()" placeholder="🔍 Search here..." style="width:100%;padding:8px;">
+
+<div id="pswResult" style="margin-top:10px; overflow-y:auto; scroll-behavior:smooth; height: 35vh;"></div>
+</div>  <!-- ~~~~~~~~~~~~~~~~  Buttan div3 Content Stop Hare ~~~~~~~~~~~~~~~~ div3 Stop-->
+
+<div id="div4" class="tabBox" style="display:none;">  <!-- ~~~~~~~~~~~~~~~~  Buttan div4 Content Start Hare ~~~~~~~~~~~~~~~~ div4 Start Ration Card-->
+
+  <div style="text-align:center; background-color: #dcdddd; color: #002630; font-weight: bold;"> <strong>Ration Card</strong></div> <br/>
+  <div  style="display: flex; gap: 8px;  border-bottom:5px solid #00462e;  flex-wrap: wrap; justify-content: center; margin-bottom: 10px; background-color: rgb(8, 125, 161); padding: 1px 1px; ">
+  <input type="text" id="searchInput" placeholder="Search By Ration Card No. Name, Last 4 Digit Adhar & Mobail...." onkeyup="rationcardsearch()" style="font-size:18px; padding:5px; width:750px; background-color: #fefaf6;">
+</div>
+
+<style> #results{overflow-x: auto; color: black; display: block; max-height: 30vh; /* vertical scrolling */ overflow-y: auto;}</style>
+<div id="results"></div>
+
+</div>  <!-- ~~~~~~~~~~~~~~~~  Buttan div4 Content Stop Hare ~~~~~~~~~~~~~~~~ div4 Stop-->
+
+<div id="div5" class="tabBox" style="display:none;">  <!-- ~~~~~~~~~~~~~~~~  Buttan div4 Content Start Hare ~~~~~~~~~~~~~~~~ div5 Start table100 Serch-->
+
+    <label> Select Filter Type:</label>
+    <select id="afi101" style="width: 2in; font-size: 16px;">
+    <option value="SALT">BY Salt</option>
+    <option value="DNAME">By Medicine Name</option>
+    <option value="BDPART">Body Part Function</option>
+    <option value="ALL">All Data Serch</option>
+  </select>
+
+  <label> Search Bar:</label>
+  <input type="text" id="search101Box" style="width: 4in; font-size: 16px;"  placeholder="🔍 Search..." />
+  <button onclick="print100Table()">🖨 Print</button>
+
+<br/><br/>
+  <span id="printInfo" style="float:right;font-weight:bold;"></span>
+  <style>.highlight { background: yellow; font-weight: bold;}</style>
+  <div id="table100" style="overflow-y:auto; scroll-behavior:smooth; height: 35vh;"></div>
+
+
+</div>  <!-- ~~~~~~~~~~~~~~~~  Buttan div5 Content Stop Hare ~~~~~~~~~~~~~~~~ div5 Stop-->
+
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   ================ Buttan Div Content Start Hare =========== Start ============== ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+ 
+</div>  <!-- ----------------   ================ Right Div Stop Hare =========== Stop ==============  --------------------- -->
+</div>
+
+<!-- ~~~~~~~~~~~~~~~~ ============================ Buttan div Switch Script  Start Hare ~~~~~~~~~~~~~~~~ Script Start ============================ -->
+<script>
+function openTab(id){
+
+  // hide all
+  document.querySelectorAll(".tabBox").forEach(div=>{
+    div.style.display = "none";
+  });
+
+  // show selected
+  document.getElementById(id).style.display = "block";
+}
+
+// default open
+document.addEventListener("DOMContentLoaded", function(){
+  openTab("div1");
+});
+</script>
+<!-- ~~~~~~~~~~~~~~~~ ============================ Buttan div Switch Script  Stop Hare ~~~~~~~~~~~~~~~~ Script Stop ============================ -->
+
+
+<!-- ~~~~~~~~~~~~~~~~ ============================ Stock Quary and Summary Script  Start Hare ~~~~~~~~~~~~~~~~ Script Start ============================ -->
+<script>
+const apiKey = "AIzaSyBe-AlG9lpyXyC7KV-AavR6tbqOc75iYdM";
+const sheetId = "1g_hAVEIFZRnRNFFQWF275Y_AXKBTw0UIP0xiH4_C2V0";
+
+let itemData = [];
+let stockData = [];
+let selected = null;
+
+const safe = (val) => (val && val !== "") ? val : "-";
+
+async function fetchData() {
+  try {
+    const itemURL = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/ITEMLIST!A:M?key=${apiKey}`;
+    const stockURL = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/STOCKDATA!A:N?key=${apiKey}`;
+
+    const [itemRes, stockRes] = await Promise.all([
+      fetch(itemURL),
+      fetch(stockURL)
+    ]);
+
+    const itemJson = await itemRes.json();
+    const stockJson = await stockRes.json();
+
+    itemData = (itemJson.values || []).slice(1);
+    stockData = (stockJson.values || []).slice(1);
+
+    renderList(itemData);
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+function renderList(data) {
+  const listStockview = document.getElementById("listStockview");
+  listStockview.innerHTML = "";
+
+  let unique = new Map();
+
+  data.forEach(row => {
+    if (!row[0]) return;
+    let key = row[0] + "|" + row[1];
+    if (!unique.has(key)) unique.set(key, row);
+  });
+
+  unique.forEach(row => {
+    const div = document.createElement("div");
+    div.className = "itemStockview";
+    div.innerHTML  = `${safe(row[0])} 🧪 <span style="color:rgb(3, 116, 168); font-size: 14px;"> (${safe(row[1])})</span> `;
+    div.onclick = () => selectItem(row);
+    listStockview.appendChild(div);
+  });
+}
+
+function formatDate(dateStr) {
+  return safe(dateStr);
+}
+
+function selectItem(row) {
+  selected = row;
+
+  document.getElementById("details").innerHTML = `
+    <b>${safe(row[0])}</b><br>
+    <span style="color:red;font-weight:bold">Salt:</span> ${safe(row[1])} |
+    <span style="color:green;font-weight:bold">Group:</span> ${safe(row[2])}<br>
+    Avg. Pur. Rate: ${safe(row[4])} | Avg. Sale Rate: ${safe(row[5])} | Qty/Unit: ${safe(row[8])}<br><br>
+    <span style="color:black;font-weight:bold">Discription:</span> ${safe(row[3])}
+  `;
+
+  let filtered = stockData
+    .filter(r => r[2] === row[0])
+    .sort((a,b)=> new Date(b[10]) - new Date(a[10]))
+    .slice(0,5);
+
+  let html = "<b>Top 5 Stock Entries</b>";
+
+  if (filtered.length === 0) {
+    html += "<br>No data found";
+  } else {
+    html += `<table>
+      <tr>
+        <th>T. No.</th>
+        <th>LEDGER NAME</th>
+        <th>Purchase Date</th>
+        <th>Expiry</th>
+        <th>MRP</th>
+        <th>Qty</th>
+        <th>Rate</th>
+         <th>Unit</th>
+          <th>Amt</th>
+           <th>Type</th>
+      </tr>`;
+
+    filtered.forEach(r => {
+      html += `<tr>
+        <td>${safe(r[0])}</td>
+        <td>${safe(r[12])}</td>
+        <td>${formatDate(r[10])}</td>
+        <td>${formatDate(r[11])}</td>
+        <td>${safe(r[8])}</td>
+        <td>${safe(r[4])}</td>
+        <td>${safe(r[5])}</td>
+         <td>${safe(r[7])}</td>
+         <td>${safe(r[6])}</td>
+         <td>${safe(r[13])}</td>
+      </tr>`;
+    });
+
+    html += "</table>";
+  }
+
+  document.getElementById("stockQuery").innerHTML = html;
+
+  // Default same salt auto trigger
+  sameSalt();
+}
+
+function sameSalt() {
+  if (!selected) return;
+
+  let salt = selected[1];
+  let listStockview = itemData.filter(r => r[1] === salt && salt);
+
+  let html = `<b>Same Salt Medicines:- ${safe(salt)}</b>`;
+
+  if (listStockview.length === 0) {
+    html += "<br>No match found";
+  } else {
+    html += `<table>
+      <tr>
+        <th>Medicine Name</th>
+        <th>Avg Cost</th>
+        <th>Sale Rate</th>
+        <th>Q/U</th>
+      </tr>`;
+
+    listStockview.forEach(r => {
+      html += `<tr>
+        <td>${safe(r[0])}</td>
+        <td>${safe(r[4])}</td>
+        <td>${safe(r[5])}</td>
+        <td>${safe(r[8])}</td>
+      </tr>`;
+    });
+
+    html += "</table>";
+  }
+
+  document.getElementById("SaltSmry").innerHTML = html;
+}
+
+function sameGroup() {
+  if (!selected) return;
+
+  let group = selected[2];
+  let listStockview = itemData.filter(r => r[2] === group && group);
+
+  let html = `<b>Same Group Medicines:- ${safe(group)}</b>`;
+
+  if (listStockview.length === 0) {
+    html += "<br>No match found";
+  } else {
+    html += `<table>
+      <tr>
+        <th>Medicine Name</th>
+        <th>Avg Cost</th>
+        <th>Sale Rate</th>
+        <th>Description</th>
+      </tr>`;
+
+    listStockview.forEach(r => {
+      html += `<tr>
+        <td>${safe(r[0])}</td>
+        <td>${safe(r[4])}</td>
+        <td>${safe(r[5])}</td>
+        <td style="color:rgb(0, 83, 128);font-size: 14px;">${safe(r[3])}</td>
+      </tr>`;
+    });
+
+    html += "</table>";
+  }
+
+  document.getElementById("SaltSmry").innerHTML = html;
+}
+
+document.getElementById("search").addEventListener("input", function() {
+  let val = this.value.toLowerCase();
+
+  let filtered = itemData.filter(r => 
+    (r[0] && r[0].toLowerCase().includes(val)) ||
+    (r[1] && r[1].toLowerCase().includes(val))
+  );
+
+  renderList(filtered);
+});
+
+fetchData();
+ //---------------------------- updatequary functio optional function ------------------ start
+
+ // ===== UPDATE QUERY FUNCTION =====
+// ===== UPDATE QUERY FUNCTION (FINAL) =====
+async function updateQuary() {
+
+  if (!selected) {
+    console.warn("No item selected");
+    return;
+  }
+
+  // 👉 fresh data fetch karo
+  await fetchData();
+
+  let row = selected;
+
+  // ===== DETAILS =====
+  document.getElementById("details").innerHTML = `
+    <b>${safe(row[0])}</b><br>
+    <span style="color:red;font-weight:bold">Salt:</span> ${safe(row[1])} |
+    <span style="color:green;font-weight:bold">Group:</span> ${safe(row[2])}<br>
+    Avg. Pur. Rate: ${safe(row[4])} | Avg. Sale Rate: ${safe(row[5])} | Qty/Unit: ${safe(row[8])}<br><br>
+    <span style="color:black;font-weight:bold">Discription:</span> ${safe(row[3])}
+  `;
+
+  // ===== STOCK =====
+  let filtered = stockData
+    .filter(r => r[2] === row[0])
+    .sort((a,b)=> new Date(b[10]) - new Date(a[10]))
+    .slice(0,5);
+
+  let html = "<b>Top 5 Stock Entries</b>";
+
+  if (filtered.length === 0) {
+    html += "<br>No data found";
+  } else {
+    html += `<table>
+      <tr>
+        <th style="background-color: #6d0170; color: white;">R. No.</th>
+        <th style="background-color: #6d0170; color: white;">LEDGER NAME</th>
+        <th style="background-color: #6d0170; color: white;">Purchase Date</th>
+        <th style="background-color: #6d0170; color: white;">Expiry</th>
+        <th style="background-color: #6d0170; color: white;">MRP</th>
+        <th style="background-color: #6d0170; color: white;">Qty</th>
+        <th style="background-color: #6d0170; color: white;">Rate</th>
+        <th style="background-color: #6d0170; color: white;">Unit</th>
+        <th style="background-color: #6d0170; color: white;">Amt</th>
+        <th style="background-color: #016106; color: white;">Type</th>
+      </tr>`;
+
+    filtered.forEach(r => {
+      html += `<tr>
+         <td>${safe(r[0])}</td>
+        <td>${safe(r[12])}</td>
+        <td>${formatDate(r[10])}</td>
+        <td>${formatDate(r[11])}</td>
+        <td>${safe(r[8])}</td>
+        <td>${safe(r[4])}</td>
+        <td>${safe(r[5])}</td>
+        <td>${safe(r[7])}</td>
+        <td>${safe(r[6])}</td>
+        <td>${safe(r[13])}</td>
+      </tr>`;
+    });
+
+    html += "</table>";
+  }
+
+  document.getElementById("stockQuery").innerHTML = html;
+
+  // same salt bhi refresh ho
+  sameSalt();
+}
+// -------------- stop 
+
+//----------------- Remove optional code class="salt" & "medicine" for input ke liye --------- Start -----------
+ // -------- AUTO FILL MEDICINE + SALT --------
+
+// function jo sab jagah value fill kare
+function updateMedicineSalt(med, salt, qpu, mType) {
+
+  // Medicine class wale sab me value set
+  document.querySelectorAll(".medicine").forEach(el => {
+    if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
+      el.value = med;
+    } else {
+      el.innerText = med;
+    }
+  });
+
+  // Salt class wale sab me value set
+  document.querySelectorAll(".salt").forEach(el => {
+    if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
+      el.value = salt;
+    } else {
+      el.innerText = salt;
+    }
+  });
+
+   // QPU class wale sab me value set
+  document.querySelectorAll(".qpu").forEach(el => {
+    if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
+      el.value = qpu;
+    } else {
+      el.innerText = qpu;
+    }
+  });
+
+  // Medicine Type class wale sab me value set
+  document.querySelectorAll(".mType").forEach(el => {
+    if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
+      el.value = mType;
+    } else {
+      el.innerText = mType;
+    }
+  });
+}
+
+// selectItem ke baad auto call (without modifying original function)
+const oldSelectItem = selectItem;
+selectItem = function(row) {
+  oldSelectItem(row);
+
+  let med = safe(row[0]);
+  let salt = safe(row[1]);
+  let qpu = safe(row[8]);
+   let mType = safe(row[7]);
+
+  updateMedicineSalt(med, salt, qpu, mType);
+};
+
+// -------- FORM RESET HANDLE --------
+
+// jab bhi form reset ho → value wapas set ho
+document.addEventListener("reset", function(e) {
+  setTimeout(() => {
+    if (selected) {
+      updateMedicineSalt(safe(selected[0]), safe(selected[1]));
+    }
+  }, 50);
+});
+//----------------  stop --------------------
+</script>
+<!-- ~~~~~~~~~~~~~~~~ ============================ Stock Quary and Summary Script  Stop Hare ~~~~~~~~~~~~~~~~ Script Stop ============================ -->
+
+
+
+
+<!-- ==================================== buttan shorcut by function key script start hare ======================== -->
+
+<script>
+document.addEventListener("keydown", function (e) {
+
+
+    /* --------------------  F3 FUNCTION  -------------------- */
+   if (e.key === "F3") {
+    e.preventDefault();
+
+    openTab('div1');   // direct call
+
+    const afiInput = document.getElementById("search");
+    if (afiInput) {
+        afiInput.focus();
+        afiInput.select();
+    }
+}
+
+    /* --------------------  F4 FUNCTION  -------------------- */
+   if (e.key === "F4") {
+    e.preventDefault();
+
+    openTab('div2');   // direct call
+
+    const afiInput = document.getElementById("search");
+    if (afiInput) {
+        afiInput.focus();
+        afiInput.select();
+    }
+}
+   /* --------------------  F9 FUNCTION  -------------------- */
+   if (e.key === "F9") {
+    e.preventDefault();
+
+    openTab('div3');   // direct call
+
+    const afiInput = document.getElementById("pswSearch");
+    if (afiInput) {
+        afiInput.focus();
+        afiInput.select();
+    }
+}
+
+    /* --------------------  F3 FUNCTION  -------------------- */
+    if (e.key === "F6") {
+        e.preventDefault();
+
+        // 1. closeAFICMBtn button activate
+        const closeBtn = document.getElementById("closeAFICMBtn");
+        if (closeBtn) closeBtn.click();
+
+        // 2. searchBtn button activate
+        const searchBtn = document.getElementById("searchBtn");
+        if (searchBtn) searchBtn.click();
+
+        // 3. afiSearchInput focus + clear (delete old value)
+        const searchInput = document.getElementById("afiSearchInput");
+        if (searchInput) {
+            searchInput.focus();
+            searchInput.value = "";   // पुरानी value delete
+        }
+    }
+
+    /* --------------------  F6 FUNCTION  -------------------- */
+    if (e.key === "F6") {
+        e.preventDefault();
+
+        // 1. closeAFICMBtn button activate
+        const closeBtn = document.getElementById("closeAFICMBtn");
+        if (closeBtn) closeBtn.click();
+
+        // 2. searchDRUG button activate
+        const searchDRUG = document.getElementById("searchDRUG");
+        if (searchDRUG) searchDRUG.click();
+
+        // 3. afiSearchInput focus + clear (delete old value)
+        const searchInput = document.getElementById("afiSearchInput");
+        if (searchInput) {
+            searchInput.focus();
+            searchInput.value = "";   // पुरानी value delete
+        }
+    }
+
+    /* --------------------  F6 FUNCTION  -------------------- */
+/* --------------------  alt+M FUNCTION  -------------------- */
+if (e.altKey && (e.key === "m" || e.key === "M")) {
+    e.preventDefault();
+
+    // direct function call
+    if (typeof openMRGNPrompt === "function") {
+        openMRGNPrompt();
+
+        // ---- After function run → focus & clear pRate ----
+        setTimeout(() => {
+            const pRate = document.getElementById("pRate");
+            if (pRate) {
+                pRate.focus();      // Focus set
+                pRate.value = "";   // Old value delete
+            }
+        }, 50); // थोड़ा delay ताकि popup load हो जाए
+    }
+}
+
+
+});
+
+</script>
+<!-- ==================================== buttan shorcut by function key script stop hare ======================== -->
+
+
+
+
+
+
+<!-- ========= side bar other option Button Configure Details List Start Here ---------- ============ -->
+<div class="sidebarnotes">
+<div id="notesBox" class="notes" style="font-size:14px;">
+<!-- Close Button -->
+<button class="closesidebarBtn" onclick="togglesidebarNotes()">✖</button>
+<br/><br/>
+<!-- ===== BUTTON 1 ===== -->
+<button class="noteBtn" onclick="toggleNote(1)" style="text-align: left;">📑 Google Sheet Link & HTML - BSA</button>
+<div id="noteContent1" class="noteContent">
+<p onclick="window.open('https://docs.google.com/spreadsheets/d/1BiADwSV64zXPz0UyVmYN7BlyW8DiCylgT3-bSrnIk38/edit?gid=435632414#gid=435632414','_blank')" style="cursor:pointer;color:#0026ff;">BSA Master Google Sheet</p>
+<p onclick="window.open('https://docs.google.com/spreadsheets/d/1tbVXCvnuH4eYLQo9WWrmqkvst2MXc5ok6y8ozqXiOv0/edit?gid=1647225676#gid=1647225676','_blank')" style="cursor:pointer;color:#0026ff;">BSA Data Entry Sheet</p>
+<p onclick="window.open('https://m5792.github.io/BSA/','_blank')" style="cursor:pointer;color:#0026ff;">BSA Index Html</p>
+<p onclick="window.open('https://m5792.github.io/BSA/BSA%20Marksheet.html','_blank')" style="cursor:pointer;color:#0026ff;">BSA Marksheet Index Html</p>
+</div>
+
+<!-- ===== BUTTON 2 ===== -->
+<button class="noteBtn" onclick="toggleNote(2)" style="text-align: left;">📑 Google Sheet Link & HTML - AFI Medical</button>
+<div id="noteContent2" class="noteContent">
+  <p onclick="window.open('https://docs.google.com/spreadsheets/d/1g_hAVEIFZRnRNFFQWF275Y_AXKBTw0UIP0xiH4_C2V0/edit?gid=0#gid=0','_blank')" style="cursor:pointer;color:#0026ff;">	A.F.I Google Index Sheet*</p>
+  <p onclick="window.open('https://docs.google.com/spreadsheets/d/1EOO0QzwNaPhwIfZN_DCLlhQB9yeC-j-GpmtM_6JMRmw/edit?gid=2031012173#gid=2031012173','_blank')" style="cursor:pointer;color:#0026ff;">Password  Google  Sheet*</p>
+  <p onclick="window.open('https://docs.google.com/spreadsheets/d/1C4EeSbCDaVGmJjU3QY2VNfI_IEZn0tZsqXw0ss3G58k/edit?gid=809921823#gid=809921823','_blank')" style="cursor:pointer;color:#0026ff;">ESS Google Index Sheet*</p>
+</div>
+
+<!-- ===== BUTTON 3 ===== -->
+<button class="noteBtn" onclick="toggleNote(3)">📑 Google Sheet Link & HTML - Gupta Comunication</button>
+<div id="noteContent3" class="noteContent">
+  <p onclick="window.open('https://m5792.github.io/esmTally/gcindex.html','_blank')" style="cursor:pointer;color:#0026ff;">G.C Index Dashboard</p>
+  <p onclick="window.open('https://docs.google.com/spreadsheets/d/1ca80E9lsBoctklZMKdNIAGRCbcEUDqNX775P1H8jbeM/edit?gid=0#gid=0','_blank')" style="cursor:pointer;color:#0026ff;">G.C  Google  Sheet*</p>
+</div>
+
+<br/><br/><span> ---- Other Link ----</span>
+<p onclick="window.open('https://m5792.github.io/esm/mdashboard.html','_blank')" style="cursor:pointer;color:#080808;">Daybook MIPL</p>
+<p onclick="window.open('https://docs.google.com/spreadsheets/d/1ZcLYgP459FzX9eE2-r3yOxdatRyEt-rPeOSvbxRINqU/edit?gid=1462163867#gid=1462163867','_blank')" style="cursor:pointer;color:#080808;">Master Data Google Sheet</p>
+<p onclick="window.open('https://docs.google.com/spreadsheets/d/1cXqnV7kKebvzk6-BAuuBNSmDnpJOyCqh7LRVB6sHiL4/edit?gid=2007779252#gid=2007779252','_blank')" style="cursor:pointer;color:#080808;">Address, Event Other Google Sheet</p>
+<p onclick="window.open('https://m5792.github.io/esm/','_blank')" style="cursor:pointer;color:#080808;">MIPL Dashboard</p>
+<p onclick="openTab('div4'); setTimeout(()=>document.getElementById('searchInput').focus(),100)"style="cursor:pointer;color:#038670;"> Ration Card Search</p>
+  
+<br/><br/><span> ---- Other Website Link ----</span>
+<p onclick="window.open('https://codepen.io/XAuBAH/pen/BadLGaw?utm_source=chatgpt.com','_blank')" style="cursor:pointer;color:#080808;">Live Html Editing- Canvas</p>
+<p onclick="window.open('https://bouncyballs.org/','_blank')" style="cursor:pointer;color:#080808;">Game-   Bouncy Balls</p>
+<p onclick="window.open('https://www.mapchart.net/world.html#','_blank')" style="cursor:pointer;color:#080808;">World Map</p>
+<p onclick="window.open('https://thisissand.com/','_blank')" style="cursor:pointer;color:#080808;">Game - Sand Picture Making</p>
+<p onclick="window.open('https://taajazone.com/','_blank')" style="cursor:pointer;color:#080808;">TAAZAZONE.COM</p>
+
+</div></div>
+<!-- ========= Button Configure Details List Stop Here ---------- ============ -->
+
+<style>
+.sidebarnotes{position:relative; display:inline-block;}
+.notes{position:fixed; top:30px; right:-490px; height:85vh; width:380px; background:white; border-left:5px solid red; border-bottom: 5px solid rgb(2, 62, 102); padding:20px; box-shadow:-5px 0 10px rgba(0,0,0,0.3); transition:right 0.4s ease; overflow-y:auto;}
+.notes.show{right:0;}
+.closesidebarBtn{
+  position:absolute;
+  top:10px;
+  right:10px;
+  background:red;
+  color:white;
+  border:none;
+  font-size:16px;
+  cursor:pointer;
+  padding:4px 8px;
+  border-radius:4px;
+}
+
+/* accordion buttons */
+
+.noteBtn{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  border:none;
+  background:#0093A1;
+  color:white;
+  font-weight:bold;
+  /* text-align:center; */
+  cursor:pointer;
+  border-radius:4px;
+}
+
+.noteBtn:hover{
+  background:#001bb3;
+}
+
+/* accordion content */
+
+.noteContent{
+  display:none;
+  padding:10px;
+  border:1px solid #ddd;
+  border-top:none;
+  background:#f9f9f9;
+}
+
+</style>
+
+
+<script>
+
+/* sidebar open close */
+
+function togglesidebarNotes(){
+  var box=document.getElementById("notesBox");
+  box.classList.toggle("show");
+}
+
+
+/* accordion toggle */
+
+function toggleNote(num){
+
+  const content=document.getElementById("noteContent"+num);
+
+  if(content.style.display==="block"){
+    content.style.display="none";
+  }else{
+    content.style.display="block";
+  }
+
+}
+
+</script>
+<!-- ========= Buttan Configure Details List stop Hare  ---------- ============ -->
+
+
+<!-- ------------------  ration card script and code start -------------------------------------- -->
+<script>
+const apiRCKey = "AIzaSyBe-AlG9lpyXyC7KV-AavR6tbqOc75iYdM";
+const sheetRCId = "1E9bwBJjHRo1DhUSNayuJ2j62ilqILvMzBvf3TrQGA9s";
+
+let allRCData = [];  // { sheet, header, row }
+
+// ✅ Step 1: Get all sheet names
+async function rationcardsheets() {
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetRCId}?key=${apiRCKey}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    return data.sheets.map(s => s.properties.title);
+}
+
+// ✅ Step 2: Load all sheets data (header + rows)
+async function loadRationCardData() {
+    const sheetNames = await rationcardsheets();
+    for (let name of sheetNames) {
+        // Get header (Row 1)
+        const headerUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetRCId}/values/${encodeURIComponent(name + "!A1:Z1")}?key=${apiRCKey}`;
+        const headerRes = await fetch(headerUrl);
+        const headerData = await headerRes.json();
+        const headerRow = headerData.values ? headerData.values[0] : [];
+
+        // Get data rows (From A2)
+        const range = `${name}!A2:Z`;
+        const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetRCId}/values/${encodeURIComponent(range)}?key=${apiRCKey}`;
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (data.values) {
+            data.values.forEach(row => {
+                allRCData.push({ sheet: name, header: headerRow, row });
+            });
+        }
+    }
+    console.log("All data loaded:", allRCData);
+}
+
+// ✅ Step 3: Search with Highlight + Show Header Once
+function rationcardsearch() {
+    const query = document.getElementById("searchInput").value.toLowerCase();
+    const resultsDiv = document.getElementById("results");
+    resultsDiv.innerHTML = "";
+
+    if (query.trim() === "") return;
+
+    const filtered = allRCData.filter(item =>
+        item.row.some(cell => cell.toLowerCase().includes(query))
+    );
+
+    if (filtered.length === 0) {
+        resultsDiv.innerHTML = "<p>No results found</p>";
+        return;
+    }
+
+    let lastSheet = "";
+
+    filtered.forEach(item => {
+        // Show header if sheet changes
+      if (lastSheet !== item.sheet) {
+
+    const headerDiv = document.createElement("div");
+    headerDiv.style.backgroundColor = "#f0f0f0";
+    headerDiv.style.fontWeight = "bold";
+    headerDiv.style.padding = "5px";
+
+    const redSeparator = '<span style="color:red;"> | </span>';
+
+    headerDiv.innerHTML = `<b>${item.sheet}</b> → ${item.header.join(redSeparator)}`;
+
+    resultsDiv.appendChild(headerDiv);
+
+    lastSheet = item.sheet;
+}
+
+        // Highlight match
+        const highlightedRow = item.row.map(cell => {
+            if (cell.toLowerCase().includes(query)) {
+                const regex = new RegExp(`(${query})`, "gi");
+                return cell.replace(regex, `<span style="background-color:blue; color:white;">$1</span>`);
+            }
+            return cell;
+        });
+
+        // Add result row
+       const div = document.createElement("div");
+div.style.padding = "5px";
+div.style.borderBottom = "1px solid #ccc";
+
+const redSeparator = '<span style="color:red;"> | </span>';
+
+div.innerHTML = highlightedRow.join(redSeparator);
+
+resultsDiv.appendChild(div);
+    });
+}
+
+// ✅ Start
+loadRationCardData();
+</script>
+<!-- ========= --- XXX --- ============ RATION CARD DIC STOP HARE ================  ---------- ============ -->
+
+
+
+<!-- ================ -------------------------  table100Data Script Start --------------- Start ===============================-->
+<script>
+/* ================= CONFIG ================= */
+const api100Key = "AIzaSyBe-AlG9lpyXyC7KV-AavR6tbqOc75iYdM";
+const sheet100Id = "1g_hAVEIFZRnRNFFQWF275Y_AXKBTw0UIP0xiH4_C2V0";
+const range100 = "FORM!A:N";
+
+let allData = [];
+
+/* ================= COLUMN SETTINGS ================= */
+const Config100Col = {
+  ALL: {
+    headers: ["A","B","C","D","E","F","G","H","I","J","K","L","M","N"],
+    cols: [0,1,2,3,4,5,6,7,8,9,10,11,12,13]
+  },
+  SALT: {
+    headers: ["Medicine Name","Salt","Type"],
+    cols: [2,3,5]
+  },
+  DNAME: {
+    headers: ["Medicine Name","Salt","Qty","Rate","Amt","Unit","M.R.P","Q/U","Pur. Date","Exp. Date","Ledger","Type"],
+    cols: [2,3,4,5,6,7,8,9,10,11,12,13]
+  },
+  BDPART: {
+    headers: ["Type","Body Part Name","Function"],
+    cols: [2,3,4]
+  }
+};
+
+/* ================= LOAD DATA ================= */
+
+async function load100tableData() {
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheet100Id}/values/${range100}?key=${api100Key}`;
+  const res = await fetch(url);
+  const data = await res.json();
+  allData = data.values || [];
+
+  render100Table(allData, "");
+}
+
+load100tableData();
+
+/* ================= SEARCH ================= */
+
+document.getElementById("search101Box").addEventListener("input", filterData);
+document.getElementById("afi101").addEventListener("change", filterData);
+
+function filterData() {
+
+  const q = document.getElementById("search101Box").value.toLowerCase();
+  const type = document.getElementById("afi101").value;
+
+  let filtered = [];
+
+  allData.forEach(row => {
+
+    const category = (row[1] || "").toUpperCase();
+
+    // Column B filter
+    if (type !== "ALL" && category !== type) return;
+
+    let match = false;
+
+    if (type === "ALL") {
+      match = row.some(cell => (cell || "").toLowerCase().includes(q));
+    } else {
+      match = row.some(cell => (cell || "").toLowerCase().includes(q));
+    }
+
+    if (match) filtered.push(row);
+  });
+
+  render100Table(filtered, q);
+}
+
+/* ================= TABLE ================= */
+
+function render100Table(data, query) {
+
+  const type = document.getElementById("afi101").value;
+  const config = Config100Col[type];
+
+  let html = "<table border='1'>";
+
+  // HEADER
+  html += "<tr>";
+  config.headers.forEach(h => {
+    html += `<th>${h}</th>`;
+  });
+  html += "</tr>";
+
+  // DATA
+  data.forEach(row => {
+
+    html += "<tr>";
+
+    config.cols.forEach(colIndex => {
+
+      let cell = row[colIndex] || "";
+
+      if (query) {
+        const regex = new RegExp(`(${query})`, "gi");
+        cell = cell.replace(regex, `<span class="highlight">$1</span>`);
+      }
+
+      html += `<td>${cell}</td>`;
+    });
+
+    html += "</tr>";
+
+  });
+
+  html += "</table>";
+
+  document.getElementById("table100").innerHTML = html;
+}
+
+/* ================= PRINT ================= */
+
+function print100Table() {
+
+  const type = document.getElementById("afi101").value;
+
+  const now = new Date();
+
+  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+  const formatted =
+    now.getDate() + "-" +
+    months[now.getMonth()] + "-" +
+    now.getFullYear() + "/" +
+    now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+  const content = document.getElementById("table100").innerHTML;
+
+  const win = window.open("", "", "width=900,height=700");
+
+  win.document.write(`
+    <html>
+    <head>
+      <title>Print</title>
+
+      <style>
+        body {
+          font-family: Arial;
+          padding: 20px;
+        }
+
+        h3 {
+          margin: 0;
+          color: #0d6efd;
+        }
+
+        .topbar {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 10px;
+          font-weight: bold;
+        }
+
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          font-size: 14px;
+        }
+
+        th {
+          background: #0d6efd;
+          color: #fff;
+          padding: 8px;
+          text-align: left;
+          border: 1px solid #ccc;
+        }
+
+        td {
+          padding: 6px;
+          border: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+          background: #f8f9fa;
+        }
+
+        tr:hover {
+          background: #e9f2ff;
+        }
+
+        .highlight {
+          background: yellow;
+          font-weight: bold;
+        }
+
+        @media print {
+          body {
+            -webkit-print-color-adjust: exact;
+          }
+        }
+      </style>
+
+    </head>
+
+    <body>
+
+      <div class="topbar">
+        <div>Filter: ${type}</div>
+        <div>${formatted}</div>
+      </div>
+
+      ${content}
+
+    </body>
+    </html>
+  `);
+
+  win.document.close();
+  win.print();
+}
+
+</script>
+
+<!-- ================ -------------------------  table100Data Script Stop --------------- xxx ===============================-->
+
+<!-- ================ -------------------------   GLOBAL SERCH BAR SCRIPT AND CODE START HERE --------------- ===============================-->
+<!-- ================ GLOBAL SEARCH BAR SCRIPT START ================ -->
+<script>
+/* ===================================================================
+   🚀 GLOBAL SEARCH BAR (FINAL FIXED VERSION - NO DUPLICATES)
+   =================================================================== */
+
+const BASE_URL =
+  "https://script.google.com/macros/s/AKfycbxjWd-Yk3YHfPV-gx4Ll9OqYm9NSV_qmKK34yBG69mbnrqhO8fn9H5H_aq8bABAZODl/exec";
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  let documentFiles = [];
+  let purchaseFiles = [];
+  window.urlFiles = [];
+
+  /* ===== UI ===== */
+  const container = document.createElement("div");
+  container.style = `
+    position:fixed;
+    bottom:1in;
+    right:0.5in;
+    width:4in;
+    z-index:999999;
+    font-family:Arial;
+  `;
+  document.body.appendChild(container);
+
+  const input = document.createElement("input");
+  input.id = "globalSearchInput";
+  input.disabled = true;
+  input.placeholder = "⏳ Please Wait! ...";
+  input.style = `
+    width:100%;
+    padding:6px;
+    font-size:15px;
+    border-radius:8px;
+    border:2px solid blue;
+    background:#DCF8FA;
+  `;
+  container.appendChild(input);
+
+  const dropdown = document.createElement("ul");
+  dropdown.style = `
+    list-style:none;
+    margin:0;
+    padding:0;
+    font-size:14px;
+    position:absolute;
+    bottom:100%;
+    left:0;
+    width:4in;
+    max-height:420px;
+    overflow-y:auto;
+    display:none;
+    background:#fff;
+    border-radius:8px;
+    border:3px solid blue;
+    box-shadow:0 6px 20px rgba(0,0,0,.35);
+  `;
+  container.appendChild(dropdown);
+
+  /* ================= LOAD DATA ================= */
+  function loadAllData() {
+
+    input.disabled = true;
+    input.placeholder = "⏳ Please Wait! Loading ...";
+
+    Promise.all([
+      fetch(`${BASE_URL}?list=1`).then(r => r.json()),
+      fetch(`${BASE_URL}?searchType=po`).then(r => r.json()),
+      fetch(`${BASE_URL}?web=1`).then(r => r.json()),
+      fetch(`${BASE_URL}?poWeb=1`).then(r => r.json())
+    ])
+    .then(([docs, po, webDocs, webPO]) => {
+
+      // 📄 DOCUMENTS
+      documentFiles = (docs || []).map(d => ({
+        id: d.id,
+        name: d.name,
+        __doc: true
+      }));
+
+      // 🏭 PO FILES
+      purchaseFiles = (po || []).map(p => ({
+        id: p.id,
+        name: p.name,
+        __po: true
+      }));
+
+      // 🟢 URL FILES (DEDUPLICATED)
+      const allWeb = [
+        ...(webDocs || []),
+        ...(webPO || [])
+      ];
+
+     const uniqueMap = new Map();
+
+allWeb.forEach(w => {
+
+  // unique key बनाओ (priority: webUrl > name)
+  const key = (w.webUrl || "").trim().toLowerCase() || 
+              (w.name || "").trim().toLowerCase();
+
+  if (key && !uniqueMap.has(key)) {
+    uniqueMap.set(key, {
+      id: w.id,
+      name: w.name,
+      webUrl: w.webUrl,
+      __web: true
+    });
+  }
+
+});
+      window.urlFiles = Array.from(uniqueMap.values());
+
+      input.disabled = false;
+      input.placeholder = "🔍 Search 👨‍💼 AFI & 🏭 MIPL Doc & URL (Alt+G)";
+    })
+    .catch(() => {
+      input.placeholder = "❌ Load failed";
+    });
+  }
+
+  /* ================= SEARCH ================= */
+  input.addEventListener("input", () => {
+
+    const q = input.value.toLowerCase().trim();
+    dropdown.innerHTML = "";
+
+    if (!q) {
+      dropdown.style.display = "none";
+      return;
+    }
+
+   const filesToSearch = [
+  ...documentFiles.filter(d =>
+    !(window.urlFiles || []).some(u => u.name === d.name)
+  ),
+
+  ...purchaseFiles.filter(p =>
+    !(window.urlFiles || []).some(u => u.name === p.name)
+  ),
+
+  ...(window.urlFiles || [])
+];
+
+    const matched = filesToSearch.filter(f =>
+      (f.name || "").toLowerCase().includes(q)
+    );
+
+    if (!matched.length) {
+      dropdown.style.display = "none";
+      return;
+    }
+
+    matched.forEach((f, idx) => {
+
+      const li = document.createElement("li");
+
+      li.textContent =
+        f.__web ? "🟢 URL : " + f.name :
+        f.__po  ? "👨‍💼 AFI : " + f.name :
+                  "🏭 MIPL : " + f.name;
+
+      li.style = `
+        padding:8px;
+        cursor:pointer;
+        border-bottom:1px solid #e0e0e0;
+      `;
+
+      if (f.__web) {
+        li.style.color = "green";
+        li.style.fontWeight = "bold";
+      }
+
+      if (idx === matched.length - 1) {
+        li.style.borderBottom = "none";
+      }
+
+      li.onmouseenter = () => {
+        li.style.background = "#0d6efd";
+        li.style.color = "#fff";
+      };
+
+      li.onmouseleave = () => {
+        li.style.background = "";
+        li.style.color = f.__web ? "green" : "#000";
+      };
+
+      /* ================= CLICK ================= */
+      li.onclick = () => {
+
+        // 🌐 URL OPEN
+        if (f.__web && f.webUrl) {
+          window.open(f.webUrl, "_blank");
+        }
+
+        // 📄 DRIVE OPEN
+        else if (f.id) {
+          window.open(
+            `https://drive.google.com/file/d/${f.id}/view`,
+            "_blank"
+          );
+        }
+
+        input.value = f.name;
+        dropdown.style.display = "none";
+      };
+
+      dropdown.appendChild(li);
+    });
+
+    dropdown.style.display = "block";
+  });
+
+  document.addEventListener("click", e => {
+    if (!container.contains(e.target)) {
+      dropdown.style.display = "none";
+      input.value = "";
+    }
+  });
+
+  loadAllData();
+});
+
+/* ================= SHORTCUT ================= */
+document.addEventListener("keydown", function (e) {
+  if (e.altKey && e.key.toLowerCase() === "g") {
+    e.preventDefault();
+    const input = document.getElementById("globalSearchInput");
+    if (input && !input.disabled) {
+      input.focus();
+      input.select();
+    }
+  }
+});
+</script>
+<!-- ================ -------------------------   GLOBAL SERCH BAR SCRIPT AND CODE STOP HERE --------------- ===============================-->
+
+
+
+
+
+
+
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ------------------------------ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<script>
+
+// -------------------------
+// 1) MRP + Purchase (afi10) → Margin + %
+// -------------------------
+function calculateMargin() {
+    let mrp = parseFloat(document.getElementById("afi11").value);
+    let purchase = parseFloat(document.getElementById("afi10").value); // FIXED as requested
+
+    if (!isNaN(mrp) && !isNaN(purchase) && mrp > 0) {
+        let marginAmt = mrp - purchase;
+        let marginPercent = (marginAmt / mrp) * 100;
+
+        document.getElementById("result").innerHTML =
+            "Margin: ₹" + marginAmt.toFixed(2) +
+            " | Percent Less: " + marginPercent.toFixed(2) + "%";
+    } else {
+        document.getElementById("result").innerHTML = "";
+    }
+}
+
+// realtime calculate
+document.getElementById("afi11").addEventListener("input", calculateMargin);
+document.getElementById("afi10").addEventListener("input", calculateMargin);
+
+
+// -------------------------
+// 2) afi06 + afi08 → afi10
+// -------------------------
+function calculateafi10() {
+  let afi06 = parseFloat(document.getElementById("afi06").value);
+  let net = parseFloat(document.getElementById("afi08").value);
+
+  if (!isNaN(afi06) && afi06 > 0 && !isNaN(net)) {
+    document.getElementById("afi10").value = (net / afi06).toFixed(2);
+
+    // update margin instantly after value comes
+    calculateMargin();
+  }
+}
+
+document.getElementById("afi06").addEventListener("input", calculateafi10);
+document.getElementById("afi08").addEventListener("input", calculateafi10);
+
+</script>
+
+
+<!-- ================= CSS ================= -->
+<style>
+
+
+.popupAFICM-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(253, 249, 249, 0.45);
+  display: none;
+
+  justify-content: center;
+  z-index: 999;
+top: 150px;
+height: 50vh;
+}
+
+.popupAFICM-content {
+  width: 80%;
+  max-width: 1100px;
+  background: white;
+  padding: 20px 30px;
+  border-radius: 14px;
+  box-shadow: 0 8px 25px rgba(91, 0, 0, 0.3);
+  animation: slideDown 0.3s ease;
+  position: relative;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-40px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  cursor: pointer;
+  color: #035b67;
+  font-size: 25px;
+}
+
+.close-btn:hover {
+  color: #db0a03;
+}
+.AFICM-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: auto 1fr auto 1fr auto 1fr auto 1fr auto 1fr auto 1fr;
+  gap: 16px;
+  align-items: center;
+  
+}
+
+.row input,
+.row select {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.submit-btn {
+  background: #035b67;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 160px;
+  font-size: 15px;
+  margin: auto;
+}
+.submit-btn:hover {
+  background: #048093;
+}
+</style>
+
+<!-- ============= ------------ + Creat add stock sale purchse form script start --------------- Start ======================== -->
+<script>
+// ================= CONFIG =================
+const scriptAFICMURL = 'https://script.google.com/macros/s/AKfycbzaRa0UsJlWtTRyWxOttKhhvNmMYBN8KjiOonHece4PEvQ0Mo1hvJ--YupQP-0bh6Nx/exec';
+
+document.addEventListener("DOMContentLoaded", function() {
+
+// ================= SR NO POPUP FUNCTION =================
+function openSrNoPopup() {
+    let sr = prompt("Enter SR No to Modify:");
+    if (sr === null || sr.trim() === "") return null;
+    return sr.trim();
+}
+
+// ================= MODIFY BUTTON CLICK =================
+const modifyBtn = document.getElementById("openMODIFYBtn");
+
+if(modifyBtn){
+modifyBtn.onclick = async () => {
+
+    const sr = openSrNoPopup();
+    if (!sr) return;
+
+    const waitMsg = document.getElementById("waitAFIMessage");
+    waitMsg.innerText = "Please wait fetching data...";
+    waitMsg.style.display = "block";
+
+    try {
+        const url = scriptAFICMURL + "?sNo=" + sr;
+        let res = await fetch(url);
+        let data = await res.json();
+
+        if (data.result === "error" || !data.SNo) {
+            alert("SR NO NOT FOUND!");
+            waitMsg.style.display = "none";
+            return;
+        }
+
+        fillAFICMForm(data);
+
+        document.getElementById("fetchedSRNo").innerText = data.SNo;
+        document.getElementById("sNo").value = data.SNo;
+
+        waitMsg.style.display = "none";
+
+        // agar popup hai to open karo
+        const popup = document.getElementById("AFICMPopup");
+        if(popup) popup.style.display = "flex";
+
+    } catch (err) {
+        console.error(err);
+        alert("ERROR FETCHING DATA");
+        waitMsg.style.display = "none";
+    }
+};
+}
+
+// ================= AUTO-FILL FORM FUNCTION =================
+function fillAFICMForm(d) {
+    const map = {
+        "sNo": "SNo",
+        "TimestampAFICM": "Timestamp",
+        "afi01": "Type",
+        "afi02": "esmK",
+        "afi03": "esmM",
+        "afi04": "esmC",
+        "afi05": "esmD",
+        "afi06": "esmE",
+        "afi07": "esmH",
+        "afi08": "esmG",
+        "afi10": "esmF",
+        "afi11": "esmI",
+        "afi12": "esmL",
+        "afi13": "esmJ",
+        "afi14": "esmN"
+    };
+
+    Object.keys(map).forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.value = d[map[id]] ?? "";
+        }
+    });
+}
+
+// ================= CLOSE POPUP =================
+const closeBtn = document.getElementById("closeAFICMBtn");
+if(closeBtn){
+    closeBtn.onclick = () => {
+        document.getElementById("AFICMPopup").style.display = "none";
+    };
+}
+
+// ================= FORM SUBMIT =================
+const form = document.getElementById("mainAFICMForm");
+
+if(form){
+form.addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const submitBtn = document.getElementById("submitAFICMButton");
+    const waitMsg = document.getElementById("waitAFIMessage");
+
+    submitBtn.disabled = true;
+    submitBtn.value = "Please wait...";
+    waitMsg.innerText = "Submitting...";
+    waitMsg.style.display = "block";
+
+    // Timestamp
+    const now = new Date();
+    document.getElementById('TimestampAFICM').value =
+        `${now.getMonth()+1}/${now.getDate()}/${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+
+    try {
+        const formData = new FormData(form);
+
+        const response = await fetch(scriptAFICMURL, {
+            method: 'POST',
+            body: formData
+        });
+
+        const text = await response.text();
+        console.log("SERVER RESPONSE:", text);
+
+        let result;
+        try {
+            result = JSON.parse(text);
+        } catch {
+            throw new Error("Invalid JSON from server");
+        }
+
+        if (result.result === 'success') {
+            alert('✅ Success! Form submitted.');
+
+            form.reset();
+            await updateQuary();
+
+            document.getElementById("fetchedSRNo").innerText = "";
+            document.getElementById("sNo").value = "";
+
+            if (typeof refreshAFIData === "function") refreshAFIData();
+            if (typeof loadAFIData === "function") loadAFIData();
+            if (typeof loadPSWData === "function") loadPSWData();
+
+        } else {
+            alert(`❌ Error: ${result.error || 'Unknown error'}`);
+        }
+
+    } catch (err) {
+        console.error(err);
+        alert("❌ Submit Failed: " + err.message);
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.value = "Submit";
+        setTimeout(() => (waitMsg.style.display = 'none'), 2000);
+    }
+});
+}
+
+});
+</script>
+<!-- ============= ------------ + Creat add stock sale purchse form script Stop --------------- Stop -- XXX --- ======================== -->
+
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ------------------------------ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ~~~~~~~~~~~~~~~~ ============================ Footer code with content & Script  Start Hare ~~~~~~~~~~~~~~~~ Script Start ============================ -->
+<title>A.F.I Medical Store</title>
   <!-- 🔹 Footer -->
 
   <style>
@@ -22,7 +1857,7 @@
     padding: 2px 2px; /* Top-Bottom = 0, Left-Right = 10px gap */
     font-size: 14px;
     z-index: 1000;
-    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 -1px 5px rgba(215, 42, 42, 0.3);
   }
 </style>
 
@@ -31,46 +1866,11 @@
 
     <!-- Current Time -->
  <div style="display: flex; justify-content: center; align-items: center; background-color: #f7f8fa; color: rgb(1, 1, 1); font-size: 12px; font-weight: bold;  border: 5px solid #003444; ">
- 
+ <button style="border: none; background-color: #8b8b8b; color: rgb(244, 247, 193);cursor: pointer; text-align: left; font-weight: bold; font-size: 18px;" onclick="togglesidebarNotes()" >🌐 Url/Link</button>
   <div id="currentDateTime" style="padding: 5px 10px; white-space: nowrap; font-size: 16px; "></div>
-  <button style="border: none; background-color: #e6f9e4; color: rgb(3, 98, 139);cursor: pointer;" onclick="togglesidebarNotes()" >☰</button>
   
   <span id="todayEvent" style="color: rgb(0, 65, 69);font-weight: bold;font-size: 14px; "></span>
 </div>
-
-<!-- ================================================================================================================================== -->
-    <div style="
-    max-width: 100%;
-    margin: 15px auto;
-
-    border-radius: 12px;
-    background: #dbf7f2;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-    font-family: Arial, sans-serif;
-">
-
-    <h2 style="margin:0; color:#004750; text-align:center;">
-         A.F.I Cure Medical Store
-    </h2>
-
-    <hr style="margin:6px 0; border:0; border-top:1px solid #cfcfcf;">
-
-    <strong style="margin:6px 0;"><strong>🏢 Propriter:</strong> Mukhtar Ahamad</strong> </br>
-    <strong style="margin:6px 0;"><strong>📍 Address:</strong> Near PNB Bank Kundeshwari, Kashipur U.S.Nagar, Uttarakhand-244713</strong></br>
-    <strong style="margin:6px 0;"><strong>📞 Contact:</strong> +91 9756735792, 8057925792</strong> ,
-    <strong style="margin:6px 0;"><strong>📧 Email:</strong> eservicesksp@gmail.com</strong></br>
-    <strong style="margin:6px 0;"><strong>💼 DL No:</strong> UA-UDH-143538 | UA-UDH-143539  (Exp. 07-Nov-2030)</strong>
-
-   <hr style="margin:6px 0; border:0; border-top:5px solid #860303;">
-
- 
-</div>
-
-<!-- ================================================================================================================================== -->
-
-
-
-
 
 <!-- ============ website open navgation buttan code start hare  ========= -->
 <style>
@@ -144,7 +1944,7 @@
       <img src="https://media.tenor.com/miBRlkp03LkAAAAj/netflix.gif" alt="Netflix" width="50" height="50" />
       <span class="name">Netflix</span>
     </a>
-
+ </nav>
 
  
 
@@ -161,955 +1961,7 @@
 <!-- ============ website open navgation buttan code start stop  ========= -->
 
 
-
-
-
-
-
-
-
-  </nav>
-  </div>  <!-- footer stop hare -->
-
-
-
-
-
-
-<!-- ==========  ------------------------------------------xxxxxxxxxxxxxxxxxxxxx-----------------------------------------======================= -->
-
-<!-- ===============================
-     AFI STOCK UI (BUTTON MODE)
-================================== -->
-
-
-<style>
-
-
-/* Table Styling */
-/* Container to control table width and responsiveness */
-.table-container {
-  width: 100%;
-  overflow-x: auto;
-}
-
- 
- /* Table container ************/
-table{
-    width: 100%;
-  border-collapse: collapse;
-  table-layout: auto;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  background: #ffffff;
-  border: 1px solid #d0d0d0;
-
-  }
-
-/* Optional heder alwayas fix on top and table scrolling  */
-  table{
-  overflow-x: auto;
-  display: block;
-  max-height: 600px; /* Optional scrolling */
-  }
-
-  /* Table border & cell style */
-th {
-   background: #272727;
-  color: #ffffff;
-  padding: 7px;
-  border: 1px solid #b5b5b5;
-  text-align: left;
-  font-weight: 14px;
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  white-space: nowrap;
-  border-bottom:5px solid #decf02;
-  }
-
-
- td {
-   padding: 8px 10px;
-  border: 1px solid #e0e0e0;
-  vertical-align: top;
-  word-wrap: break-word; /* Wrap long text */
-  white-space: normal;
-  }
-
-  /* Header design */
-
-
-  tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-  /* Row hover effect */
-  tr:hover td {
-   background: #fccc49;
- color: rgb(0, 15, 15);
-  transition: background-color 1s ease, color 1s ease;
-  }
-    
-
-
-.filter-btn {
-  background: #002044;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 15px;
-  transition: background 0.2s ease;
-  min-width: 90px;            /* optional: makes buttons uniform width */
-  text-align: center;
-}
-.filter-btn:hover {
-  background: #025bc2;
-}
-.filter-btn.active {
-  background: #0390e1;
-  color: rgb(252, 250, 250);
-  font-weight: bold;
-}
-
-
-</style>
- 
-
-   <h3 style="text-align:center; background-color: #002630; color: #ebf7fa; font-weight: bold;width: 100%; border-bottom:5px solid #840a01;">A.F.I Cure Medicine Serch Report</h3> 
- 
-<div id="mipl2011Buttons" style="display: flex; gap: 10px; border-bottom:5px solid #02821e; flex-wrap: wrap; justify-content: center; margin-bottom: 5px; background-color: #002044;  padding: 2px 2px;">
-<strong style="color: #014fa8; font-size: 25px; font-weight: bold;">|</strong>
-  <!-- BUTTONS -->
-
-  <button class="filter-btn" id="openAFICMBtn" data-value="AFICM">➕ Create Purchase/Sale (<span style="color: rgb(245, 183, 158); font-weight: bold;">F4</span>)</button>
-
- 
-
-    <button class="filter-btn" id="searchBtn" data-mode="afisearch">🔍 Searchbar (<span style="color: rgb(245, 183, 158); font-weight: bold;">F3</span>)</button>
-    <button class="filter-btn" id="searchDRUG" data-mode="DNAME"> Search By Drug Name (<span style="color: rgb(245, 183, 158); font-weight: bold;">F6</span>)</button>
-    <button class="filter-btn" data-mode="SALT">Search By Salt</button>
-    <button class="filter-btn" id="pswBtn" data-mode="PSW">📘 ID/Password</button>
-
-    <button onclick="print2011Report()" style="border: none; color: rgb(248, 209, 209); font-weight: bold;  cursor: pointer; background-color: #002044;">🖨️ Print Report</button>
-
-  <button id="refreshAFIDATABtn" style="border: none; color: rgb(206, 246, 206); font-weight: bold;  cursor: pointer; background-color: #002044;"> 🔄 Refresh</button>
-
-<strong style="color: #014fa8; font-size: 25px; font-weight: bold;">|</strong>
-
-
-
-
-
-     <!-- ==================== NAVIGATION DROPDOWN ==================== -->
-<select id="navDropdown" style="background-color: rgb(0, 47, 74);color: white; font-size: 16px;  border-radius: 8px; border: none;">
-    <option value="" style="text-align: center; font-weight: bold; ">More Options</option>
-   
-    <option data-target="home" style="font-weight: bold; color: red;">Home</option>
-    <option data-target="btn2" style="font-weight: bold; color: red;">Document Download</option>
-     <option data-target="btn3" style="font-weight: bold; color: rgb(243, 242, 160);">Ramzaan Calendar 2026</option>
-
-
-    <option value="mcalculator" style="font-weight: bold; color: rgb(247, 147, 147);">	Margin Calculator</option>
-
-    <option value="https://drive.google.com/drive/folders/1Dc4In3NfpKdFdOLqcgyTFNC2tch7b6q2?usp=sharing" style="color: rgb(239, 246, 175);">AFI Drive</option>
-  	<option value="https://m5792.github.io/esm/mdashboard.html">	Daybook MIPL</option>
-    <option value="https://docs.google.com/spreadsheets/d/1C4EeSbCDaVGmJjU3QY2VNfI_IEZn0tZsqXw0ss3G58k/edit?gid=809921823#gid=809921823" style="color: rgb(175, 219, 246);">	ESS Google Index Sheet*</option>
-       <option value="https://docs.google.com/spreadsheets/d/1EOO0QzwNaPhwIfZN_DCLlhQB9yeC-j-GpmtM_6JMRmw/edit?gid=2031012173#gid=2031012173" style="color: rgb(246, 175, 175);">	Password  Google  Sheet*</option> 
-     <option value="https://docs.google.com/spreadsheets/d/1g_hAVEIFZRnRNFFQWF275Y_AXKBTw0UIP0xiH4_C2V0/edit?gid=0#gid=0" style="color: rgb(239, 246, 175);">	A.F.I Google Index Sheet*</option> 
-     <option value="https://m5792.github.io/esm/">	MIPL DASHBOARD</option>
-     <option value="https://m5792.github.io/esm/MULTITECH2023.html">MIPL Old Dashboard</option>
-     <option value="https://github.com/">	github (mukhtarahamadksp@gmail.com)</option>
-     <option value="https://m5792.github.io/esm/eTally.html">	eTally Dashboard</option>
-     <option value="https://m5792.github.io/esmTally/gcindex.html">	GUPTA CAMUNICATION*</option>
-    <option value="https://docs.google.com/spreadsheets/d/1cXqnV7kKebvzk6-BAuuBNSmDnpJOyCqh7LRVB6sHiL4/edit?gid=0#gid=0">	INDEX SHEET MIPL Sheet*</option>
-    <option value="https://docs.google.com/spreadsheets/d/1B6dyXPay3Tyl_7RzGuL9Rg8AhkzdBNhJNRu-T-3kmvI/edit?gid=147958071#gid=147958071">	MIPL Clint Cash Ledger Sheet*</option>
-     <option value="https://docs.google.com/spreadsheets/d/1ECwXrxs8_FDWw1qAC6_qxEwP_HE3SGMM4qNKVZHlIS0/edit?gid=0#gid=0">	Cash Management Sheet*</option>
-     <option value="https://docs.google.com/spreadsheets/d/1h3uC_0Ji4-NUhqrN0aIR-XwLZL5VdgilCBlIzC--SDA/edit?gid=0#gid=0">	Imprest Voucher Sheet*</option>
-     <option value="https://docs.google.com/spreadsheets/d/1wvsPdAQA57HxhTxA3cCcQvUEz93IWkBre_Ix-qvzwss/edit?gid=627393391#gid=627393391">	Store Database Sheet*</option>
-	<option value="https://docs.google.com/spreadsheets/d/1U_jwvZNtFuP91Gljjrbz_cpmb1OIkeDHnKa7aDe7F20/edit?gid=1511450281#gid=1511450281">	Clint List Sheet*</option>
-
-</select>
-
-
-</div>
-
-
-
-<style>
-  #search2011Bar {
-    background-color: #013570; /* blue */
-    width: 100%;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    padding: 20px;
-    gap: 10px;
-    box-sizing: border-box;
-  }
-
-  #search2011Input {
-    flex: 1;
-    background-color: #fdfdf6; /* grey */
-    border: none;
-    padding: 6px 10px;
-    border-radius: 4px;
-    font-size: 14px;
-    outline: none;
-  }
-
-  #search2011Bar label {
-    font-weight: bold;
-    color: rgb(247, 244, 244);
-    margin-left: 10px;
-  }
-
-  #search2011Bar input[type="date"] {
-    padding: 4px 6px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-  }
-
- .dropdown {
-  position: absolute;
-  top: 140px;
-  left: 0;
-  right: 0;
-  background: rgb(254, 255, 255);
-  border: 4px solid #012228;
-  max-height: 530px;
-  width: 800px;
-  overflow-y: auto;
-  display: none;
-  z-index: 100;
-}
-
-.dropdown div { padding: 6px; cursor: pointer; }
-.dropdown div.active { background: #0078d4; color: white; }
-
-.dropdown div:hover {
-  background: #e8cd36;
-  color: rgb(1, 3, 30);
-  font-weight: bold;
-}
-
- 
-</style>
-
-
-
-
-<!-- ====================--------------------------------------- SECTIONS btn1 (home) start hare ------------------------------------==================== -->
-<div class="section" id="home">
-
-<div id="search2011Bar">
-
- <!-- SEARCH INPUT -->
-<input type="text" id="afiSearchInput" placeholder="🔍 Search Bar on Slected Buttan ...."
-       style="display:none; padding:6px; width:100%; border-radius:6px; border:1px solid #ccc;" />
-
-<!-- DROPDOWN (ONLY FOR DNAME + SALT) -->
-<div id="afiDropdown" class="dropdown">
-</div>
-</div>
-
-  <br>
-
-  <!-- TABLE -->
-  <div id="afiTableContainer"></div>
-
-  <br>
-
-  <!-- SALT MATCH BOX -->
-  <div id="saltMatchBox" style="display:none; padding:10px; margin-bottom:10px;
-       background:#fff8d1; border:1px solid #e5ce8e; border-radius:6px;">
-  </div>
-
-</div>
-<!-- ====================--------------------------------------- SECTIONS btn1 (home) stop hare ------------------------------------==================== -->
- 
-
-
-
-<!-- ==========  afi data table script code start ========================== -->
-
-
-
-<script>
-/* ============================================================
-   API + SHEET CONFIG
-============================================================ */
-const api2011Key = "AIzaSyBe-AlG9lpyXyC7KV-AavR6tbqOc75iYdM";  // ESERVICESKSP@GMAIL.COM API KEY
-const sheet2011Id = "1g_hAVEIFZRnRNFFQWF275Y_AXKBTw0UIP0xiH4_C2V0";
-
-const rangeAFI = "FORM!A:N";
-const rangeAFIPSW = "PASSWORD!A:M";
-
-
-const afiSearchInput = document.getElementById("afiSearchInput");
-const afiDropdown = document.getElementById("afiDropdown");
-
-let afiData = [];
-let pswData = [];
-let colB = "";
-let colC = "";
-let colD = "";
-let currentMode = "";
-
-/* ============================================================
-   TABLE CONFIG
-============================================================ */
-const tableConfig = {
-  DNAME: { 
-    headers: ["Sr No","Type","Drug Name","Salt","Qty","Rate","Amt","Unit","MRP","Q/U","P.Date","E.Date","Ledger","I. Type"],
-    cols:[0,1,2,3,4,5,6,7,8,9,10,11,12,13]
-  },
-  SALT: { 
-    headers: ["Sr No","TYPE","SALT","Use / Kis mein hota hai","Drug Name","Category"],
-    cols:[0,1,2,3,4,5]
-  },
-  afisearch: { 
-    headers: ["Sr No","TYPE","SALT","Use / Kis mein hota hai","Drug Name","Category","MRP","Q/U","P.Date","E.Date","Ledger","I. Type"],
-    cols:[0,1,2,3,4,5,8,9,10,11,12,13]
-  },
-  PSW: { 
-    headers: ["Sr No","TYPE","ID","PASSWORD","OTHER"],
-    cols:[0,1,2,3,4]
-  }
-};
-
-const saltBoxConfig = {
-  headers: ["SALT","Use / Kis mein hota hai","Drug Name","Category"],
-  cols:[2,3,4,5]
-};
-
-/* ============================================================
-   LOAD AFI DATA (sorted)
-============================================================ */
-async function loadAFIData() {
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheet2011Id}/values/${rangeAFI}?key=${api2011Key}`;
-  const res = await fetch(url);
-  const json = await res.json();
-
-  const rows = json.values || [];
-  const headers = rows[0];
-
-  colB = headers[1];
-  colC = headers[2];
-  colD = headers[3];
-
-  afiData = rows.slice(1).map(r => {
-    let obj = {};
-    headers.forEach((h,i)=> obj[h] = r[i] || "");
-    return obj;
-  });
-
-  afiData.sort((a,b)=>(b[headers[0]]||"").localeCompare(a[headers[0]]||"",undefined,{numeric:true}));
-}
-
-/* ============================================================
-   LOAD PASSWORD DATA
-============================================================ */
-async function loadPSWData() {
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheet2011Id}/values/${rangeAFIPSW}?key=${api2011Key}`;
-  const res = await fetch(url);
-  const json = await res.json();
-
-  const rows = json.values || [];
-  const headers = rows[0];
-
-  pswData = rows.slice(1).map(r => {
-    let obj = {};
-    headers.forEach((h,i)=> obj[h] = r[i] || "");
-    return obj;
-  });
-}
-
-/* ============================================================
-   BUTTON MODE HANDLER
-============================================================ */
-document.querySelectorAll("#mipl2011Buttons .filter-btn").forEach(btn => {
-  btn.addEventListener("click", function() {
-    // Remove active from all buttons
-    document.querySelectorAll("#mipl2011Buttons .filter-btn").forEach(b => b.classList.remove("active"));
-    // Set current active
-    this.classList.add("active");
-
-    currentMode = btn.dataset.mode;
-
-    afiSearchInput.style.display = "none";
-    afiDropdown.style.display = "none";
-    afiSearchInput.value = "";
-    afiTableContainer.innerHTML = "";
-    saltMatchBox.style.display = "none";
-
-    /* 🔥 DROPDOWN ONLY FOR DNAME + SALT */
-    if (currentMode !== "DNAME" && currentMode !== "SALT") {
-      afiDropdown.style.display = "none";
-    }
-
-    /* 🔍 Global search */
-    if (currentMode === "afisearch") { 
-      afiSearchInput.style.display = "block";
-      startAFISearchMode(); 
-      return; 
-    }
-
-    /* 🔑 Password search */
-    if (currentMode === "PSW") { 
-      afiSearchInput.style.display = "block";
-      startPSWSearchMode(); 
-      return; 
-    }
-
-    /* DNAME + SALT actual searching */
-    let filtered = afiData.filter(r => (r[colB]||"").trim().toUpperCase() === currentMode);
-
-    
-
-    /* Sorted unique dropdown list */
-   // let uniqueList = [...new Set(filtered.map(r => r[colC]).filter(Boolean))]
-     //                  .sort((a,b)=>a.localeCompare(b));
-
-
-     /* Sorted unique C list (Dropdown me C+D show hoga) */
-let uniqueList = [...new Set(filtered.map(r => r[colC]).filter(Boolean))]
-                   .sort((a,b)=>a.localeCompare(b));
-
-                   //----
-    showAFITable(filtered);
-
-    /* dropdown only shown for these two */
-    if (currentMode === "DNAME" || currentMode === "SALT") {
-      createAFIDropdown(uniqueList, filtered);
-    }
-  });
-});
-
-/* ============================================================
-   DROPDOWN SHOW ONLY ON INPUT CLICK (DNAME+SALT)
-============================================================ */
-afiSearchInput.addEventListener("click", () => {
-  if (
-    (currentMode === "DNAME" || currentMode === "SALT") &&
-    afiDropdown.innerHTML.trim() !== ""
-  ) {
-    afiDropdown.style.display = "block";
-  }
-});
-
-/* ============================================================
-   CREATE DROPDOWN
-============================================================ */
-function createAFIDropdown(list, filteredRows) {
-
-  afiSearchInput.style.display = "block";
-
-  // 🔷 UTILITY: remove duplicates by C+D
-  function uniqueRows(rows) {
-    const map = new Map();
-    rows.forEach(r => {
-      const key = `${r[colC] || ""} ${r[colD] || ""}`.trim().toLowerCase();
-      if (!map.has(key)) map.set(key, r);
-    });
-    return Array.from(map.values());
-  }
-
-  // 🔷 Make full list unique FIRST
-  filteredRows = uniqueRows(filteredRows);
-
-  // 🔷 SORT full list alphabetically (C+D)
-  filteredRows.sort((a, b) => {
-    let textA = `${a[colC] || ""} ${a[colD] || ""}`.toLowerCase();
-    let textB = `${b[colC] || ""} ${b[colD] || ""}`.toLowerCase();
-    return textA.localeCompare(textB);
-  });
-
-  // 👉 Input click → show FULL UNIQUE sorted dropdown
-  afiSearchInput.addEventListener("click", () => {
-    renderDropdown(filteredRows);
-  });
-
-  // 👉 Typing search inside sorted C+D
-  afiSearchInput.oninput = () => {
-    const v = afiSearchInput.value.toLowerCase().trim();
-
-    let matched = filteredRows.filter(r =>
-      (`${r[colC]} ${r[colD]}`.toLowerCase()).includes(v)
-    );
-
-    // 🔷 make matched list unique too
-    matched = uniqueRows(matched);
-
-    // 🔷 sort matched alphabetical
-    matched.sort((a, b) => {
-      let textA = `${a[colC] || ""} ${a[colD] || ""}`.toLowerCase();
-      let textB = `${b[colC] || ""} ${b[colD] || ""}`.toLowerCase();
-      return textA.localeCompare(textB);
-    });
-
-    renderDropdown(matched);
-  };
-
-  // 👉 Click outside → Hide dropdown
-  document.addEventListener("click", function (e) {
-    if (!afiSearchInput.contains(e.target) && !afiDropdown.contains(e.target)) {
-      afiDropdown.style.display = "none";
-    }
-  });
-}
-
-
-
-/* ============================================================
-   RENDER DROPDOWN ITEMS
-   ============================================================ */
-/*function renderDropdown(values, filteredRows) {
-
-  // Only show dropdown in DNAME or SALT modes
-  if (currentMode !== "DNAME" && currentMode !== "SALT") {
-    afiDropdown.style.display = "none";
-    return;
-  }
-
-  afiDropdown.innerHTML = "";
-  afiDropdown.style.display = "block";
-
-  values.forEach(v => {
-    let item = document.createElement("div");
-    item.textContent = v;
-
-    item.onclick = () => {
-      afiDropdown.style.display = "none";
-      afiSearchInput.value = v;
-
-      // Filter table rows based on selected dropdown value
-      let rows = filteredRows.filter(r => r[colC] === v);
-      showAFITable(rows);
-
-      if (currentMode === "DNAME") {
-        findSaltRowAndShow(rows[0][colD]);
-      }
-    };
-
-    afiDropdown.appendChild(item);
-  });
-}
-  */
-
- function renderDropdown(rows) {
-
-  if (currentMode !== "DNAME" && currentMode !== "SALT") {
-    afiDropdown.style.display = "none";
-    return;
-  }
-
-  afiDropdown.innerHTML = "";
-  afiDropdown.style.display = "block";
-
-  rows.forEach(r => {
-    let cValue = r[colC];
-    let dValue = r[colD];
-
-    let html = `
-      <span style="color:red; font-weight:bold;">${cValue}</span>
-      ${dValue ? " 💊 " + dValue : ""}
-    `;
-
-    let item = document.createElement("div");
-    item.innerHTML = html;
-
-    item.onclick = () => {
-      afiDropdown.style.display = "none";
-
-      // Input me sirf C
-      afiSearchInput.value = cValue;
-
-      // Table filter also using only C
-      let rows2 = rows.filter(x => x[colC] === cValue);
-      showAFITable(rows2);
-
-      if (currentMode === "DNAME") {
-        findSaltRowAndShow(dValue);
-      }
-    };
-
-    afiDropdown.appendChild(item);
-  });
-}
-
-
-/* ============================================================
-   SALT MATCH BOX
-============================================================ */
-function findSaltRowAndShow(drugName) {
-  const box = document.getElementById("saltMatchBox");
-
-  const matched = afiData.filter(
-    r => r[colB] === "SALT" && r[colC] === drugName
-  );
-
-  if (!matched.length) {
-    box.innerHTML = "<b>No Salt Detail Found</b>";
-    box.style.display = "block";
-    return;
-  }
-
-  let html = `<h4>🔍 Salt Match</h4><table border="1" cellpadding="6" style="width:100%; border-collapse:collapse;">`;
-
-  html += "<tr>";
-  saltBoxConfig.headers.forEach(h => html += `<th>${h}</th>`);
-  html += "</tr>";
-
-  matched.forEach(r => {
-    html += "<tr>";
-    saltBoxConfig.cols.forEach(c => html += `<td>${Object.values(r)[c]}</td>`);
-    html += "</tr>";
-  });
-
-  html += "</table>";
-
-  box.innerHTML = html;
-  box.style.display = "block";
-}
-
-/* ============================================================
-   GLOBAL SEARCHBAR
-============================================================ */
-function startAFISearchMode() {
-  afiSearchInput.oninput = () => {
-    let v = afiSearchInput.value.toLowerCase();
-
-    let rows = afiData.filter(r =>
-      Object.values(r).join(" ").toLowerCase().includes(v)
-    );
-
-    rows = highlightMatch(rows, v);
-    showAFITable(rows);
-  };
-}
-
-/* ============================================================
-   PASSWORD SEARCH
-============================================================ */
-function startPSWSearchMode() {
-  afiSearchInput.oninput = () => {
-    let v = afiSearchInput.value.toLowerCase();
-
-    let rows = pswData.filter(r =>
-      Object.values(r).join(" ").toLowerCase().includes(v)
-    );
-
-    rows = highlightMatch(rows, v);
-    showPSWTable(rows);
-  };
-}
-
-/* ============================================================
-   HIGHLIGHT MATCH
-============================================================ */
-function highlightMatch(rows, text) {
-  if (!text) return rows;
-
-  return rows.map(r => {
-    let obj = {};
-    Object.keys(r).forEach(k => {
-      obj[k] = r[k].replace(new RegExp(text,"gi"), m => `<mark>${m}</mark>`);
-    });
-    return obj;
-  });
-}
-
-/* ============================================================
-   SHOW AFI TABLE
-============================================================ */
-function showAFITable(rows) {
-  const box = afiTableContainer;
-  const cfg = tableConfig[currentMode];
-
-  if (!rows.length) {
-    box.innerHTML = "<p>No Data Found</p>";
-    return;
-  }
-
-  let html = `<table border="1" cellpadding="5" style="width:100%; border-collapse:collapse;">`;
-
-  html += "<tr>";
-  cfg.headers.forEach(h => html += `<th>${h}</th>`);
-  html += "</tr>";
-
-  rows.forEach(r => {
-    html += "<tr>";
-    cfg.cols.forEach(c => html += `<td>${Object.values(r)[c]||""}</td>`);
-    html += "</tr>";
-  });
-
-  html += "</table>";
-  box.innerHTML = html;
-}
-
-/* ============================================================
-   SHOW PASSWORD TABLE
-============================================================ */
-function showPSWTable(rows) {
-  const box = afiTableContainer;
-  const cfg = tableConfig["PSW"];
-
-  if (!rows.length) {
-    box.innerHTML = "<p>No Data Found</p>";
-    return;
-  }
-
-  let html = `<table border="1" cellpadding="5" style="width:100%; border-collapse:collapse;">`;
-
-  html += "<tr>";
-  cfg.headers.forEach(h => html += `<th>${h}</th>`);
-  html += "</tr>";
-
-  rows.forEach(r => {
-    html += "<tr>";
-    cfg.cols.forEach(c => html += `<td>${Object.values(r)[c]||""}</td>`);
-    html += "</tr>";
-  });
-
-  html += "</table>";
-  box.innerHTML = html;
-}
-
-
-function print2011Report() {
-    // जिस DIV को प्रिंट करना है
-    const printContent = document.getElementById('afiTableContainer').innerHTML;
-
-    // नई Window खोलना
-    const printWindow = window.open('', '', 'width=900,height=700');
-
-    // Print Window में HTML लिखना
-    printWindow.document.write(`
-        <html>
-        <head>
-            <title>Report Print</title>
-
-            <style>
-                body {
-                    font-family: Arial, sans-serif;
-                    padding: 20px;
-                }
-                table {
-                    width: 100%;
-                    border-collapse: collapse;
-                }
-                table, th, td {
-                    border: 1px solid #444;
-                    padding: 8px;
-                    text-align: left;
-                }
-                th {
-                    background: #f0f0f0;
-                }
-            </style>
-        </head>
-        <body>
-            ${printContent}
-        </body>
-        </html>
-    `);
-
-    printWindow.document.close();
-
-    // थोड़ी देर इंतजार → फिर प्रिंट प्रीव्यू खोलना
-    setTimeout(() => {
-        printWindow.print();
-        printWindow.close();
-    }, 300);
-}
-
-
-//refresh afidata ===================================
-
-
-// ye function refresh के बाद जो भी mode चल रहा है वही वापस dikhane ke lye hai .
-
-function applyfreshdataview() {
-  if (!currentMode) return;
-
-  afiTableContainer.innerHTML = "";
-  afiDropdown.style.display = "none";
-
-  // Global AFI Search
-  if (currentMode === "afisearch") {
-    startAFISearchMode();
-    afiSearchInput.dispatchEvent(new Event("input"));
-    return;
-  }
-
-  // Password Search
-  if (currentMode === "PSW") {
-    startPSWSearchMode();
-    afiSearchInput.dispatchEvent(new Event("input"));
-    return;
-  }
-
-  // DNAME / SALT modes
-  let filtered = afiData.filter(r => (r[colB] || "").trim().toUpperCase() === currentMode);
-
-  let uniqueList = [...new Set(filtered.map(r => r[colC]).filter(Boolean))]
-    .sort((a, b) => a.localeCompare(b));
-
-  showAFITable(filtered);
-
-  if (currentMode === "DNAME" || currentMode === "SALT") {
-    createAFIDropdown(uniqueList, filtered);
-  }
-}
-
-
-
-/* ============================================================
-   REFRESH AFI DATA FUNCTION
-============================================================ */
-function refreshAFIData() {
-  const btn = document.getElementById("refreshAFIDATABtn");
-  if (!btn) return;  // Button missing? Avoid crash.
-
-  btn.disabled = true;
-  btn.textContent = "⏳ Refreshing...";
-
-  // Re-fetch AFI sheet data
-  loadAFIData()
-    .then(() => {
-      // Re-apply active mode filtering
-      applyfreshdataview();
-
-      btn.textContent = "🔄 Refresh";
-      btn.disabled = false;
-
-      alert("✅ Data refreshed successfully!");
-    })
-    .catch((err) => {
-      console.error("Refresh Error:", err);
-
-      btn.textContent = "🔄 Refresh";
-      btn.disabled = false;
-
-      alert("❌ Failed to refresh data. Check console for details.");
-    });
-}
-
-/* Refresh button click handler */
-document.getElementById("refreshAFIDATABtn") ?.addEventListener("click", refreshAFIData);
-// refresh afidata code stop =====================
-
-
-
-/* ============================================================
-   LOAD ALL DATA
-============================================================ */
-loadAFIData();
-loadPSWData();
-
-
-
-</script>
-
-<!-- ==========  afi data table script code stop ========================== -->
-
-<!-- ==========  ------------------------------------------xxxxxxxxxxxxxxxxxxxxx-----------------------------------------======================= -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- ==========  id password buttan prompt script start ========================== -->
-
-<script>
-// 🔄 Page refresh hote hi password ki memory clear
-window.addEventListener("load", function () {
-    localStorage.removeItem("pswVerified");
-});
-
-// 🔍 F2 key press → search input show + focus
-document.addEventListener("keydown", function (e) {
-    if (e.key === "F2") {
-        const inp = document.getElementById("afiSearchInput");
-        inp.style.display = "block";   // show input
-        inp.focus();                   // cursor focus
-    }
-});
-
-document.getElementById("pswBtn").addEventListener("click", function () {
-
-    const correctPassword = "5792"; // ⭐ Apna password set karein
-
-    // Agar already verified hai to seedha script run ho jaye
-    if (localStorage.getItem("pswVerified") === "true") {
-        proceed();
-        return;
-    }
-
-    let userInput = "";
-
-    // 🔁 Jab tak password correct na ho prompt baar-baar open hoga
-    while (userInput !== correctPassword) {
-
-        userInput = prompt("Please enter password:");
-
-        // ❗ CANCEL → Page reload (no alert)
-        if (userInput === null) {
-            location.reload(); 
-            return;
-        }
-
-        // ❌ Wrong password
-        if (userInput !== correctPassword) {
-            alert("❌ Incorrect Password! Try again.");
-        }
-    }
-
-    // ✔ Password correct → save verification
-    localStorage.setItem("pswVerified", "true");
-
-    proceed(); 
-});
-
-function proceed() {
-    alert("✔ Access Granted!");
-    console.log("Password correct — proceeding with main script...");
-}
-</script>
-
-<!-- ==========  id password buttan prompt script stop ========================== -->
-
-
-
-
-   <!-- Current date and time will be displayed here -->
-            
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-            
-<div style="display: flex; flex-direction: row; align-items: center; background-color: #002044; color: rgb(249, 252, 229); font-size: 20px; font-weight: bold;">
-  
-  <!-- Scrolling News Ticker -->
-  <marquee behavior="scroll" direction="left" scrollamount="5" style="flex: 1;">
-    <div style="display: inline-flex; align-items: center; gap: 8px;">
-    
-    </div>
-  </marquee>
-
-</div>
- 
+<!-- ===========================Current date and time Script Start Hare ----------Start--- -->
 <script>
 function displayCurrentDateTime() {
 const now = new Date();
@@ -1138,8 +1990,10 @@ displayCurrentDateTime();
 // Update the date and time every second
 setInterval(displayCurrentDateTime, 1000);
 </script>
-<!-- Current date and time will be displayed Stop -->
+<!-- ===========================Current date and time Script Stop Hare ----------XXX--- -->
 
+
+<!-- ============ Today Event Script Start Hare  ========= -->
 <script>
 const apiEVENTKey = "AIzaSyBe-AlG9lpyXyC7KV-AavR6tbqOc75iYdM";
 const sheetEVENTId = "1EOO0QzwNaPhwIfZN_DCLlhQB9yeC-j-GpmtM_6JMRmw";
@@ -1261,1899 +2115,83 @@ async function loadTodayEvent() {
 
 loadTodayEvent();
 
+// --------------- pasword script code yha se start hai ------------------------------------------------
+const rangePSW = "PASSWORD!A:F";
 
-</script>
- <strong></strong>
-<!-- =============== today events script stop ===================== -->
+const pswConfig = {
+  headers: ["Sr No","TYPE","ID","PASSWORD","OTHER"],
+  cols: [0,1,2,3,4]
+};
 
+let pswData = [];
 
-
-
-
-
-<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ------------------------------ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-
-
-<!-- ----------------------------------------------------- POPUP OPEN AND CLOSE WITH FORM CODE START HARE ------------------------------------------------------- -->
-<!-- ================= POPUP ================= -->
-<div id="AFICMPopup" class="popupAFICM-overlay" >
-  <div class="popupAFICM-content" style="border: 5px solid #0a0a0a; background-color: #f5f9fb; ">
-    <span id="closeAFICMBtn" class="close-btn">&times;</span>
-
-    <h3 style="margin-top:0; color:#00282e; display: flex; justify-content: center; ">A.F.I Medicine Entry</h3>  
-
-    <form id="mainAFICMForm" class="AFICM-form">
-
-         <input type="hidden" name="SNo" id="sNo" />
-
-          <input type="hidden" name="Timestamp" id="TimestampAFICM" />
-
-      <!-- ROW 1 -->
-      <div class="row" style="background-color: #f5f9d5; padding: 5px 10px; ">
-
-        
-        <label>V.Type:*</label>
-        <select id="afi01" name="Type" required>
-          <option value="">Select</option>
-          <option value="DNAME">Purchase Voucher</option>
-          <option value="SALE">Sale Voucher</option>
-        </select>
-
-        <label>Date:*</label>
-        <input type="date" id="afi02" name="esmK" required>
-
-         <label>Ledger:*</label>
-        <select id="afi03" name="esmM"  required> </select>
-        <input type="text" id="afi03_manual" placeholder="Type manually..." style="display:none;margin:5px 0;">
-
-      </div>
-
-      <!-- ROW 2 -->
-      <div class="row" style="background-color: #d5f5f9; padding: 5px 10px;">
-       
-
-        <label>Drug/Item Name:*</label>
-         <!--   <input type="text" id="afi04" name="esmC" placeholder="🔍 Type Drug Name..."> -->
-         <select id="afi04" name="esmC" required > </select>
-
-         <label>Salt Name:</label>
-          <!--  <input type="text" id="afi05" name="esmD" placeholder="🔍 Type Drug Name..."> -->
-
-         <select id="afi05" name="esmD"> </select>
-      </div>
-
-      <!-- ROW 3 -->
-      <div class="row" style="background-color: rgb(244, 200, 200); padding: 5px 10px;">
-        <label>Qty:*</label>
-        <input type="number" id="afi06" name="esmE" placeholder="Enter Qty" style="width:1.2in;" required>
-        
-
-
-        <label>Unit:*</label>
-        <select id="afi07" name="esmH" style="width:1in;" required>
-          <option value="">Select</option>
-          <option>S</option>
-          <option>B</option>
-          <option>SYP</option>
-          <option>CPS</option>
-          <option>INJ</option>
-          <option>TUBE</option>
-          <option>Pc</option>
-          <option>Box</option>
-          <option>NA</option>
-        </select>
-
-        <label>Net Amt:*</label>
-        <input type="number" id="afi08" name="esmG" placeholder="Enter Amount" style="width:1.8in;" required step="any">
-
-         <label>MRP:</label>
-        <input type="number" id="afi11" name="esmI" placeholder="Enter MRP"  step="any">
-
-
-         
-      </div>
-
-      <!-- ROW 4 -->
-      <div class="row">
-
-       
-    
-       
-        <label>Rate:</label>
-        <input type="number" id="afi10" name="esmF" readonly placeholder="Auto Rate">
-
-        <label>Exp Date:</label>
-        <input type="date" id="afi12" name="esmL" >
-
-            <label>/Unit Details:</label>
-        <input type="text" id="afi13" name="esmJ" placeholder="Enter Medicine Details">
-
-
-
-          <label>I. Type:*</label>
-        <select id="afi14" name="esmN" style="width:1in;" required>
-          <option value="">Select</option>
-          <option>Ethical</option>
-          <option>Generic</option>
-          <option>Gen</option>
-          <option>Sgl</option>
-        </select>
-
-      </div>
-
-
-
-
-   <input type="submit" id="submitAFICMButton" value="Submit" style="padding:8px 16px; background:#035b67; color:white; border:none; border-radius:6px; cursor:pointer;">
+// ================== LOAD DATA ==================
+async function loadPSWData() {
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetEVENTId}/values/${rangePSW}?key=${apiEVENTKey}`;
   
-   <span id="result" style="font-weight:bold; font-size:16px; color: green; text-align: right;"></span>
-
-    <strong> <button id="openMODIFYBtn" data-value="AFICM" style="width: 2in; color: #002044; cursor: pointer; font-weight: bold; background-color: #f8f9fa; border: none; cursor: yes;">🏢 Click to Modify</button>   
-     Fetched Sr No: <span id="fetchedSRNo" style="color: rgb(150, 3, 3);"></span> <br/>
-    
-   
-    </strong>
-
-     <strong id="waitAFIMessage" style="display:none;  color:rgb(184, 3, 3); font-size:16px;text-align: center; font-weight:bold; margin-top:10px;"></strong>
-
-   
-    </form>
-
-    
-
-  </div>
-</div>
-
-
-
-
-<script>
-
-// -------------------------
-// 1) MRP + Purchase (afi10) → Margin + %
-// -------------------------
-function calculateMargin() {
-    let mrp = parseFloat(document.getElementById("afi11").value);
-    let purchase = parseFloat(document.getElementById("afi10").value); // FIXED as requested
-
-    if (!isNaN(mrp) && !isNaN(purchase) && mrp > 0) {
-        let marginAmt = mrp - purchase;
-        let marginPercent = (marginAmt / mrp) * 100;
-
-        document.getElementById("result").innerHTML =
-            "Margin: ₹" + marginAmt.toFixed(2) +
-            " | Percent Less: " + marginPercent.toFixed(2) + "%";
-    } else {
-        document.getElementById("result").innerHTML = "";
-    }
-}
-
-// realtime calculate
-document.getElementById("afi11").addEventListener("input", calculateMargin);
-document.getElementById("afi10").addEventListener("input", calculateMargin);
-
-
-// -------------------------
-// 2) afi06 + afi08 → afi10
-// -------------------------
-function calculateafi10() {
-  let afi06 = parseFloat(document.getElementById("afi06").value);
-  let net = parseFloat(document.getElementById("afi08").value);
-
-  if (!isNaN(afi06) && afi06 > 0 && !isNaN(net)) {
-    document.getElementById("afi10").value = (net / afi06).toFixed(2);
-
-    // update margin instantly after value comes
-    calculateMargin();
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    pswData = data.values || [];
+  } catch (err) {
+    console.error("PSW Load Error", err);
   }
 }
 
-document.getElementById("afi06").addEventListener("input", calculateafi10);
-document.getElementById("afi08").addEventListener("input", calculateafi10);
-
-</script>
-
-
-<!-- ================= CSS ================= -->
-<style>
-
-
-.popupAFICM-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(253, 249, 249, 0.45);
-  display: none;
-
-  justify-content: center;
-  z-index: 999;
-top: 150px;
-height: 50vh;
+// ================== HIGHLIGHT ==================
+function highlightText(text, search) {
+  if (!search) return text;
+  const regex = new RegExp(`(${search})`, "gi");
+  return text.replace(regex, `<span style="background:yellow;font-weight:bold">$1</span>`);
 }
 
-.popupAFICM-content {
-  width: 80%;
-  max-width: 1100px;
-  background: white;
-  padding: 20px 30px;
-  border-radius: 14px;
-  box-shadow: 0 8px 25px rgba(91, 0, 0, 0.3);
-  animation: slideDown 0.3s ease;
-  position: relative;
-}
-
-@keyframes slideDown {
-  from { transform: translateY(-40px); opacity: 0; }
-  to   { transform: translateY(0); opacity: 1; }
-}
-
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  cursor: pointer;
-  color: #035b67;
-  font-size: 25px;
-}
-
-.close-btn:hover {
-  color: #db0a03;
-}
-.AFICM-form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.row {
-  display: grid;
-  grid-template-columns: auto 1fr auto 1fr auto 1fr auto 1fr;
-  gap: 16px;
-  align-items: center;
-  
-}
-
-.row input,
-.row select {
-  padding: 6px 8px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-}
-
-.submit-btn {
-  background: #035b67;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  width: 160px;
-  font-size: 15px;
-  margin: auto;
-}
-.submit-btn:hover {
-  background: #048093;
-}
-</style>
-<!-- ================= JS ================= -->
-<script>
-document.getElementById("openAFICMBtn").onclick = () => {
-  document.getElementById("AFICMPopup").style.display = "flex";
-};
-
-document.getElementById("closeAFICMBtn").onclick = () => {
-  document.getElementById("AFICMPopup").style.display = "none";
-};
-
-/* ❌ Popup outside click function हटाया गया
-window.onclick = function(e){
-  if(e.target.id === "AFICMPopup"){
-    document.getElementById("AFICMPopup").style.display = "none";
-  }
-};
-*/
-
-
-
-</script>
-
-
-<!-- ----------------------------------------------------- POPUP OPEN AND CLOSE WITH FORM CODE STOP HARE ------------------------------------------------------- -->
-
-
-
-
-<!-- ================= FORM DROPDOWN SCRIPT START HARE ================= -->
-
-<script>
-
-const apiAFICMKey = "AIzaSyBe-AlG9lpyXyC7KV-AavR6tbqOc75iYdM";
-const sheetAFICMId = "1g_hAVEIFZRnRNFFQWF275Y_AXKBTw0UIP0xiH4_C2V0";
-const rangeAFICM = "FORM!A:M";
-
-/* ============================================================
-   STORE DATA
-============================================================ */
-let storeAFIData = [];
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetAFICMId}/values/${rangeAFICM}?key=${apiAFICMKey}`)
-        .then(res => res.json())
-        .then(data => {
-            if (!data.values || data.values.length < 2) return;
-
-            storeAFIData = data.values.slice(1);
-
-            const filtered = storeAFIData.filter(r => r[1] === "DNAME");
-
-            fillUniqueSortedOptions(filtered);
-        })
-        .catch(err => console.error("Fetch Error:", err));
-});
-
-/* ============================================================
-   UNIQUE + SORTED + MANUAL ENTRY OPTION
-============================================================ */
-function fillUniqueSortedOptions(rows) {
-
-    const selects = [
-        { element: document.getElementById("afi03"), index: 12 }, // Column M
-        { element: document.getElementById("afi04"), index: 2 },  // Column C
-        { element: document.getElementById("afi05"), index: 3 }   // Column D
-    ];
-
-    selects.forEach(sel => {
-        const colSet = new Set();
-
-        rows.forEach(r => {
-            if (r[sel.index]) colSet.add(r[sel.index].trim());
-        });
-
-        const sortedValues = Array.from(colSet).sort();
-
-        // Reset select
-        sel.element.innerHTML = `
-            <option value="">Select</option>
-            <option value="__manual__" style="color: blue;">➕ Create New Entry</option>
-        `;
-
-        // Add sorted values
-        sortedValues.forEach(v => {
-            sel.element.innerHTML += `<option value="${v}">${v}</option>`;
-        });
-
-        // Attach manual entry handler
-        sel.element.addEventListener("change", function () {
-            if (this.value === "__manual__") {
-                let val = prompt("Enter new Details:");
-
-                if (val && val.trim() !== "") {
-                    val = val.trim();
-
-                    // Add new option dynamically
-                    const newOption = document.createElement("option");
-                    newOption.value = val;
-                    newOption.textContent = val;
-
-                    this.appendChild(newOption);
-                    this.value = val; // auto select new value
-                } else {
-                    this.value = ""; // reset to default
-                }
-            }
-        });
-    });
-}
-
-
-
-/* ============================================================
-   REFRESH FUNCTION (CALLS API AGAIN + RELOADS DROPDOWNS)
-============================================================ */
-function refreshAFIData() {
-
-    // Optionally loading indicator
-    console.log("Refreshing Google Sheet data...");
-
-    fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetAFICMId}/values/${rangeAFICM}?key=${apiAFICMKey}`)
-        .then(res => res.json())
-        .then(data => {
-            if (!data.values || data.values.length < 2) {
-                alert("No data found!");
-                return;
-            }
-
-            storeAFIData = data.values.slice(1);
-
-            const filtered = storeAFIData.filter(r => r[1] === "DNAME");
-
-            // Refill all dropdowns
-            fillUniqueSortedOptions(filtered);
-
-          //  alert("✔ Data & Dropdown Refreshed Successfully");
-        })
-        .catch(err => {
-            console.error("Refresh Error:", err);
-            alert("Error refreshing data!");
-        });
-}
-
-</script>
-
-
-<!-- ================= FORM DROPDOWN SCRIPT STOP HARE ================= -->
-
-
-
-<!-- ================ FORM SUBMITEED SCRIPT STOP HARE ===============================-->
-
-
-
-
-<script>
-// ================= CONFIG =================
-const scriptAFICMURL = 'https://script.google.com/macros/s/AKfycbzaRa0UsJlWtTRyWxOttKhhvNmMYBN8KjiOonHece4PEvQ0Mo1hvJ--YupQP-0bh6Nx/exec';
-
-// ================= SR NO POPUP LOGIC =================
-function openSrNoPopup() {
-    const srNo = prompt("Enter Serial No. to Fetch Data:");
-    if (!srNo || srNo.trim() === "") {
-        alert("Serial No. Required!");
-        return null;
-    }
-    return srNo.trim();
-}
-
-// ================= MODIFY BUTTON CLICK =================
-document.getElementById("openMODIFYBtn").onclick = async () => {
-    const sr = openSrNoPopup();
-    if (!sr) return;
-
-    // show wait message
-    const waitMsg = document.getElementById("waitAFIMessage");
-    waitMsg.innerText = "Please wait fetching data...";
-    waitMsg.style.display = "block";
-
-    const url = scriptAFICMURL + "?sNo=" + sr;
-    try {
-        let res = await fetch(url);
-        let data = await res.json();
-
-        if (data.result === "error" || !data.SNo) {
-            alert("SR NO NOT FOUND!");
-            waitMsg.style.display = "none";
-            return;
-        }
-
-        // fill form
-        fillAFICMForm(data);
-
-        // show fetched SR NO in span
-        const srSpan = document.getElementById("fetchedSRNo");
-        if(srSpan) srSpan.innerText = data.SNo;
-
-        // set hidden sNo for modify
-        document.getElementById("sNo").value = data.SNo;
-
-        // hide wait message
-        waitMsg.style.display = "none";
-
-        // open form popup
-        document.getElementById("AFICMPopup").style.display = "flex";
-
-    } catch (err) {
-        console.log(err);
-        alert("ERROR FETCHING DATA");
-        waitMsg.style.display = "none";
-    }
-};
-
-// ================= AUTO-FILL FORM FUNCTION =================
-function fillAFICMForm(d) {
-    const map = {
-        "sNo": "SNo",
-        "TimestampAFICM": "Timestamp",
-        "afi01": "Type",
-        "afi02": "esmK",
-        "afi03": "esmM",
-        "afi04": "esmC",
-        "afi05": "esmD",
-        "afi06": "esmE",
-        "afi07": "esmH",
-        "afi08": "esmG",
-        "afi10": "esmF",
-        "afi11": "esmI",
-        "afi12": "esmL",
-        "afi13": "esmJ",
-        "afi14": "esmN"
-    };
-    Object.keys(map).forEach(id => {
-        const col = map[id];
-        if (document.getElementById(id)) {
-            document.getElementById(id).value = d[col] ?? "";
-        }
-    });
-}
-
-// ================= CLOSE FORM POPUP =================
-document.getElementById("closeAFICMBtn").onclick = () => {
-    document.getElementById("AFICMPopup").style.display = "none";
-};
-
-
-
-// ================= FORM SUBMIT =================
-document.addEventListener("submit", async function(e) {
-    const form = e.target;
-    if (form.id !== "mainAFICMForm") return;
-    e.preventDefault();
-
-    const submitBtn = document.getElementById("submitAFICMButton");
-    const waitMsg = document.getElementById("waitAFIMessage");
-
-    submitBtn.disabled = true;
-    submitBtn.value = "Please wait...";
-    waitMsg.innerText = "Submitting...";
-    waitMsg.style.display = "block";
-
-    // Timestamp add
-    const now = new Date();
-    document.getElementById('TimestampAFICM').value =
-        `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
-
-    try {
-        const formData = new FormData(form);
-        const response = await fetch(scriptAFICMURL, { method: 'POST', body: formData });
-        const result = await response.json();
-
-        if (result.result === 'success') {
-            alert('✅ Success! Form submitted.');
-
-            // reset form
-            form.reset();
-
-            // clear SR NO display
-            const srSpan = document.getElementById("fetchedSRNo");
-            if(srSpan) srSpan.innerText = "";
-
-            // reset hidden sNo for new entries
-            document.getElementById("sNo").value = "";
-
-            // reload data functions
-            if (typeof refreshAFIData === "function") refreshAFIData();
-            if (typeof loadAFIData === "function") loadAFIData();
-            if (typeof loadPSWData === "function") loadPSWData();
-
-        } else {
-            alert(`❌ Error: ${result.error || 'Unknown error occurred.'}`);
-        }
-    } catch (err) {
-        alert(`❌ Error submitting form: ${err.message}`);
-    } finally {
-        submitBtn.disabled = false;
-        submitBtn.value = "Submit";
-        setTimeout(() => (waitMsg.style.display = 'none'), 2000);
-    }
-});
-</script>
-
-
-<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ------------------------------ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- ==================================== buttan shorcut by function key script start hare ======================== -->
-
-<script>
-document.addEventListener("keydown", function (e) {
-
-    /* --------------------  F4 FUNCTION  -------------------- */
-    if (e.key === "F4") {
-        e.preventDefault();
-
-        // 1. openAFICMBtn button activate
-        const openBtn = document.getElementById("openAFICMBtn");
-        if (openBtn) openBtn.click();
-
-        // 2. afi01 input focus + select
-        const afiInput = document.getElementById("afi01");
-        if (afiInput) {
-            afiInput.focus();
-            afiInput.select();   // पुराना data select
-        }
-    }
-
-    /* --------------------  F3 FUNCTION  -------------------- */
-    if (e.key === "F3") {
-        e.preventDefault();
-
-        // 1. closeAFICMBtn button activate
-        const closeBtn = document.getElementById("closeAFICMBtn");
-        if (closeBtn) closeBtn.click();
-
-        // 2. searchBtn button activate
-        const searchBtn = document.getElementById("searchBtn");
-        if (searchBtn) searchBtn.click();
-
-        // 3. afiSearchInput focus + clear (delete old value)
-        const searchInput = document.getElementById("afiSearchInput");
-        if (searchInput) {
-            searchInput.focus();
-            searchInput.value = "";   // पुरानी value delete
-        }
-    }
-
-    /* --------------------  F6 FUNCTION  -------------------- */
-    if (e.key === "F6") {
-        e.preventDefault();
-
-        // 1. closeAFICMBtn button activate
-        const closeBtn = document.getElementById("closeAFICMBtn");
-        if (closeBtn) closeBtn.click();
-
-        // 2. searchDRUG button activate
-        const searchDRUG = document.getElementById("searchDRUG");
-        if (searchDRUG) searchDRUG.click();
-
-        // 3. afiSearchInput focus + clear (delete old value)
-        const searchInput = document.getElementById("afiSearchInput");
-        if (searchInput) {
-            searchInput.focus();
-            searchInput.value = "";   // पुरानी value delete
-        }
-    }
-
-    /* --------------------  F6 FUNCTION  -------------------- */
-/* --------------------  F6 FUNCTION  -------------------- */
-if (e.altKey && (e.key === "m" || e.key === "M")) {
-    e.preventDefault();
-
-    // direct function call
-    if (typeof openMRGNPrompt === "function") {
-        openMRGNPrompt();
-
-        // ---- After function run → focus & clear pRate ----
-        setTimeout(() => {
-            const pRate = document.getElementById("pRate");
-            if (pRate) {
-                pRate.focus();      // Focus set
-                pRate.value = "";   // Old value delete
-            }
-        }, 50); // थोड़ा delay ताकि popup load हो जाए
-    }
-}
-
-
-});
-
-</script>
-<!-- ==================================== buttan shorcut by function key script stop hare ======================== -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- ==================================== Margin calculator script start hare ======================== -->
-<!DOCTYPE html>
-<html>
-<head>
-  
-
-    <style>
-        #promptMRGNBox {
-            display: none;
-            position: fixed;
-            left: 50%;
-            top: 60%;
-            transform: translate(-50%, -50%);
-            background: #fff;
-            width: 400px;
-            padding: 0;
-            border-radius: 8px;
-            box-shadow: 0 0 12px rgba(0,0,0,0.4);
-            font-family: Arial;
-            cursor: move; /* drag cursor */
-        }
-
-        /* Header bar for dragging */
-        #headerMRGNBar {
-            background: #016e60;
-            color: white;
-            padding: 10px;
-            border-radius: 8px 8px 0 0;
-            cursor: grab;
-        }
-#contentMRGN {
-    padding: 18px;
-    display: flex;
-    flex-direction: column;
-}
-
-.inputRow {
-    display: flex;
-    gap: 10px;        /* inputs ke beech space */
-    margin-bottom: 10px;
-}
-
-.inputRow div {
-    flex: 1;
-}
-
-.inputRow input {
-    width: 100%;
-    padding: 5px;
-}
-
-        #resultMRGN {
-            margin-top: 10px;
-            font-weight: bold;
-            color: blue;
-        }
-
-        #closeMRGNBtn {
-            margin-top: 10px;
-            padding: 6px 14px;
-        }
-    </style>
-</head>
-<body>
-
-
-<!-- <button onclick="openMRGNPrompt()">Open Prompt</button> -->
-
-<div id="promptMRGNBox">
-    
-    <div id="headerMRGNBar">Margin Calculator</div>
-
-  <div id="contentMRGN">
-
-    <div class="inputRow">
-        <div>
-            Purchase Rate:<br>
-            <input type="number" id="pRate" oninput="calc()" placeholder="Purchase">
-        </div>
-
-        <div>
-            MRP:<br>
-            <input type="number" id="mRate" oninput="calc()" placeholder="MRP">
-        </div>
-    </div>
-
-    <div id="resultMRGN"></div>
-
-    <button id="closeMRGNBtn" onclick="closeMRGNPrompt()">Close</button>
-
-</div>
-
-
-</div>
-
-<script>
-/* ----------------- OPEN / CLOSE ----------------- */
-
-function openMRGNPrompt() {
-    document.getElementById("promptMRGNBox").style.display = "block";
-}
-
-function closeMRGNPrompt() {
-    document.getElementById("promptMRGNBox").style.display = "none";
-}
-
-/* ----------------- CALCULATION ----------------- */
-
-function calc() {
-    let purchase = parseFloat(document.getElementById("pRate").value);
-    let mrp = parseFloat(document.getElementById("mRate").value);
-
-    if (isNaN(purchase) || isNaN(mrp) || mrp === 0) {
-        document.getElementById("resultMRGN").innerHTML = "";
-        return;
-    }
-
-    let margin = mrp - purchase;
-    let percent = (margin / mrp) * 100;
-
-    document.getElementById("resultMRGN").innerHTML =
-        `Margin: ₹${margin.toFixed(2)} | Percent Less: ${percent.toFixed(2)}%`;
-}
-
-/* ----------------- DRAGGABLE POPUP ----------------- */
-
-dragElement(document.getElementById("promptMRGNBox"));
-
-function dragElement(el) {
-    const header = document.getElementById("headerMRGNBar");
-    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-
-    header.onmousedown = dragMouseDown;
-
-    function dragMouseDown(e) {
-        e = e || window.event;
-        e.preventDefault();
-
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-
-        document.onmouseup = closeDrag;
-        document.onmousemove = drag;
-    }
-
-    function drag(e) {
-        e = e || window.event;
-        e.preventDefault();
-
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-
-        el.style.top = (el.offsetTop - pos2) + "px";
-        el.style.left = (el.offsetLeft - pos1) + "px";
-    }
-
-    function closeDrag() {
-        document.onmouseup = null;
-        document.onmousemove = null;
-    }
-}
-</script>
-
-</body>
-</html>
-
-<!-- ==================================== Margin calculator script start hare ======================== -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- Islamic Calinder Summry poup box start  script start hare +++++++++++++++++++++++++++++++++++++++++++++-->
-
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>4x6 inch ICSpopup</title>
-  <style>
-    :root{
-      --ICSpopup-bg:#ffffff;
-      --ICSpopup-text:#111827;
-      --ICSpopup-border:#e5e7eb;
-      --ICSpopup-shadow:0 12px 30px rgba(0,0,0,.15);
-      --ICSpopup-radius:14px;
-    }
-
-    .ICSpopup {
-      position: fixed;
-      left: 16px;
-      bottom: 50px;
-      width: 550px;   /* 6 inch */
-      height: 520px;  /* 4 inch */
-      background: var(--ICSpopup-bg);
-      color: var(--ICSpopup-text);
-      border: 5px solid #0f9a00;
-      border-radius: var(--ICSpopup-radius);
-      box-shadow: var(--ICSpopup-shadow);
-      overflow: hidden;
-      opacity: 0;
-      transform: translateY(20px);
-      pointer-events: none;
-      transition: opacity .25s ease, transform .25s ease;
-      z-index: 9999;
-    }
-
-    .ICSpopup.show {
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
-    }
-
-    .ICSpopup__header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:10px 12px;
-      background: #9df4b2;
-      border-bottom:1px solid var(--ICSpopup-border);
-    }
-    .ICSpopup__title{
-      margin:0;
-      font-size: 15px;
-      font-weight: 600;
-    }
-    .ICSpopup__close{
-      border:1px solid var(--ICSpopup-border);
-      background:#fff;
-      border-radius:10px;
-      width:30px;
-      height:30px;
-      cursor:pointer;
-      font-size:18px;
-    }
-    .ICSpopup__close:hover{ background:#f3f4f6; }
-
-    .ICSpopup__body{
-      padding:12px;
-      font-size:14px;
-      height: calc(100% - 52px); /* header ke niche bacha hua area */
-      overflow:auto; /* scroll agar zyada content ho */
-      background-color: #e9eae7;
-    }
-  </style>
-</head>
-<body>
-
-  <div id="bottomLeftICSpopup" class="ICSpopup">
-    <div class="ICSpopup__header">
-      <h3 class="ICSpopup__title">Islamic Calinder Summry</h3>
-      <button class="ICSpopup__close" id="ICSpopupCloseBtn">&times;</button>
-    </div>
-    <div class="ICSpopup__body">
-   
-     
-      
-<iframe style="width: 240px; height: 460px; border: 1px solid #eae7e7;" src="https://www.islamicfinder.org/prayer-widget/1267579/shafi/3/0/18.0/18.0"> </iframe>
-<iframe style="width: 240px; height: 460px; border: 1px solid #eae7e7;" scrolling="no" src="https://www.islamicfinder.org/specialislamicdays"> </iframe>
-
-
-    </div>
-  </div>
-
-  <script>
-    const ICSpopup = document.getElementById('bottomLeftICSpopup');
-    const closeBtn = document.getElementById('ICSpopupCloseBtn');
-
-    window.addEventListener('load', ()=> ICSpopup.classList.add('show'));
-    closeBtn.addEventListener('click', ()=> ICSpopup.classList.remove('show'));
-  </script>
-</body>
-</html>
-
-<!-- Islamic Calinder Summry poup box start  script stop hare +++++++++++++++++++++++++++++++++++++++++++++-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- ***** ---------------------------------------------   SECTION TOGGLE DROPDOWN content (START)-------------------------------- ==================== ********* -->
-
-<!-- ====================--------------------------------------- SECTIONS btn2 start hare ------------------------------------==================== -->
-
-<!-- Start -->  <div class="section" id="btn2">
-  <div class="doc-wrapper">
-
-    <div class="doc-top">
-      <h3>🔍 Search & Download Document</h3>
-      <div class="search-wrap" id="searchWrap">
-        <input type="text" id="docSearch" placeholder="Type document name..." disabled>
-        <div id="DocDPContainer"></div>
-      </div>
-    </div>
-
-    <div class="doc-preview" id="docPreviewBox">
-      <div class="action-bar">
-        <button id="downloadBtn">⬇️ Download</button>
-        <button id="emailBtn">📧 Email</button>
-        <button id="whatsappBtn">💬 WhatsApp</button>
-      </div>
-      <div class="preview-a4">
-        <iframe id="docPreviewFrame"></iframe>
-      </div>
-    </div>
-
-  </div>
-
-  <br/><br/><br/><br/><br/><br/>
-<!-- Stop -->  </div>
-<!-- ====================--------------------------------------- SECTIONS btn2 Stop hare ------------------------------------==================== -->
-
-
-
-<!-- ====================--------------------------------------- SECTIONS btn3 start hare ------------------------------------==================== -->
-
-<!-- Start -->  <div class="section" id="btn3">
- 
-
-
-<div class="infoBar" id="infoBar"></div>
-
-<div class="container">
-
-<!-- PARA DROPDOWN -->
-<div class="para-box">
-<select id="paraSelect">
-<option value="">🎧 Select Quran Para and Play with Hindi Tarjuma</option>
-</select>
-</div>
-
-<div class="player" id="player">
-<h3 id="paraTitle"></h3>
-<audio id="audio" controls></audio>
-<button onclick="closePlayer()">Close</button>
-</div>
-
-<!-- RAMZAN TABLES -->
-<div class="tables">
-
-<div class="table-box">
-<h3>Roza 1 – 15 (Kashipur - Uttarakhand 2026)</h3>
-<table>
-<thead>
-<tr>
-<th>Roza</th><th>Date</th><th>Day</th><th>Sehri</th><th>Iftaar</th>
-</tr>
-</thead>
-<tbody id="t1"></tbody>
-</table>
-</div>
-
-<div class="table-box">
-<h3>Roza 16 – 30 (Kashipur - Uttarakhand 2026)</h3>
-<table>
-<thead>
-<tr>
-<th>Roza</th><th>Date</th><th>Day</th><th>Sehri</th><th>Iftaar</th>
-</tr>
-</thead>
-<tbody id="t2"></tbody>
-</table>
-</div>
-
-</div>
-
-<!-- DUAS -->
-<div class="duas">
-<h3>Masnoon Duas</h3>
-<div class="dua"><b>Sehri ki Dua</b><br>وَبِصَوْمِ غَدٍ نَّوَيْتُ مِنْ شَهْرِ رَمَضَانَ <br>
-Wa bisawmi ghadinn nawaitu min shahri ramadan.<br></div>
-
-<div class="dua"><b>Iftaar ki Dua</b><br>اَللّٰهُمَّ اِنِّى لَكَ صُمْتُ وَعَلٰى رِزْقِكَ اَفْطَرْتُ  <br>
-Allahumma laka sumtu wa bika aamantu wa ‘ala rizq-ika aftartu.<br></div>
-
-<div class="dua"><b>Maghfirat ki Dua</b><br>اَللّٰهُمَّ اغْفِرْ لِي ذُنُوبِي وَارْحَمْنِي  <br>
-Allahumma innaka ‘afuwwun tuhibbul ‘afwa fa’fu ‘anni.</div>
-</div>
-
-</div><br/><br/><br/><br/><br/><br/><br/>
-<!-- Stop -->  </div>
-<!-- ====================--------------------------------------- SECTIONS btn3 Stop hare ------------------------------------==================== -->
-
-<!-- ***** ---------------------------------------------   SECTION TOGGLE DROPDOWN content (STOP)-------------------------------- ==================== ********* -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- ====================  `````````````````````````````SECTION TOGGLE DROPDOWN SCRIPT (START)``````````````````````````` ==================== -->
-
-<style>
-
-.section {
-    display: none;
-    padding: 5px;
-    border: 1px solid #012e61;
-    margin-top: 2px;
-    background: #dfdede;
-}
-#home { display: block; } /* Default visible */
-
-</style>
-
-
-
-<script>
-function showSection(targetId){
-    document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
-    const targetEl = document.getElementById(targetId);
-    if (targetEl) targetEl.style.display = 'block';
-}
-
-document.getElementById('navDropdown').addEventListener('change', function () {
-
-    let selected = this.options[this.selectedIndex];
-    let target   = selected.getAttribute('data-target');
-    let val      = selected.value;
-
-
-
-    /* =====================================================
-       MARGIN CALCULATOR (ALAG BLOCK – EASY TO REMOVE)
-       ===================================================== */
-    if (val === "mcalculator") {
-        if (typeof openMRGNPrompt === "function") {
-            openMRGNPrompt();
-
-            // focus logic
-            setTimeout(() => {
-                const pRate = document.getElementById("pRate");
-                if (pRate) {
-                    pRate.focus();
-                    pRate.value = "";
-                }
-            }, 50);
-        }
-
-        this.value = ""; // dropdown reset
-        return;          // IMPORTANT: stop further execution
-    }
-    /* ================= END MARGIN CALCULATOR ============== */
-
-
-
-    /* -------- SECTION TOGGLE -------- */
-    if (target) {
-        showSection(target);
-
-        // init document search only when btn2 opens
-        if (target === 'btn2' && typeof initDocSearch === 'function') {
-            initDocSearch();
-        }
-    }
-    /* -------- EXTERNAL LINK -------- */
-    else if (val !== "") {
-        window.open(val, "_blank");
-    }
-
-    this.value = ""; // dropdown reset
-});
-</script>
-
-<!-- ====================  `````````````````````````````SECTION TOGGLE DROPDOWN SCRIPT (STOP)``````````````````````````` ==================== -->
-
-
-
-
-
-
-
-
-
-
-<!-- ====================  `````````````````````````````DOCUMENT SEARCH & PREVIEW SCRIPT (START)``````````````````````````` ==================== -->
-
-
-<style>
-  
-.doc-wrapper{
-  font-family:Arial, sans-serif;
-  max-width:900px;
-  margin:auto;
-  padding:10px;
-}
-
-.doc-top{
-  position:sticky;
-  top:0;
-  left:0;
-  right:0;
-  background:#ffffff;
-  padding:15px;
-  z-index:2000;
-  box-shadow:0 2px 8px rgba(0,0,0,0.15);
-  border-radius:10px;
-}
-
-.doc-top h3{
-  margin:0 0 8px 0;
-  color:#002f4a;
-}
-
-.search-wrap{
-  position:relative;
-}
-
-#docSearch{
-  width:100%;
-  padding:10px;
-  border-radius:8px;
-  border:1px solid #ccc;
-  background:#faf0d5;
-  font-size:14px;
-}
-
-#docSearch:focus {
-  outline:none;
-  border-color:#002f4a;
-  box-shadow:0 0 5px rgba(0,47,74,0.5);
-}
-
-/* DROPDOWN */
-#DocDPContainer{
-  position:absolute;
-  width:100%;
-  top:45px;
-  left:0;
-  z-index:5000;
-}
-
-.doc-dropdown{
-  list-style:none;
-  padding:0;
-  margin:0;
-  border-radius:8px;
-  background:#002f4a;
-  color:#fff;
-  max-height:300px;
-  overflow-y:auto;
-}
-
-.doc-dropdown li{
-  padding:8px 12px;
-  cursor:pointer;
-}
-
-.doc-dropdown li:hover{
-  background:#004080;
-}
-
-.doc-dropdown::-webkit-scrollbar {
-  width:6px;
-}
-.doc-dropdown::-webkit-scrollbar-thumb {
-  background:#004080;
-  border-radius:3px;
-}
-
-/* PREVIEW SECTION */
-.doc-preview{
-  margin-top:20px;
-  background:#f0f2f5;
-  padding:15px;
-  border-radius:10px;
-  display:none;
-}
-
-.action-bar{
-  display:flex;
-  gap:10px;
-  background:#002f4a;
-  padding:10px;
-  border-radius:8px 8px 0 0;
-  flex-wrap:wrap;
-}
-
-.action-bar button{
-  background:#fff;
-  border:none;
-  padding:6px 14px;
-  border-radius:6px;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-.action-bar button:hover{
-  background:#ffe0a3;
-}
-
-.preview-a4{
-  width:100%;
-  max-width:210mm;
-  aspect-ratio:210 / 297;
-  background:#fff;
-  margin:20px auto;
-  box-shadow:0 0 10px rgba(0,0,0,0.25);
-}
-
-.preview-a4 iframe{
-  width:100%;
-  height:100%;
-  border:none;
-}
-
-/* RESPONSIVE */
-@media screen and (max-width:600px){
-  .preview-a4{
-    width:100%;
-    margin:10px auto;
-  }
-}
-</style>
-<script>
-function initDocSearch(){
-    const input = document.getElementById("docSearch");
-    const container = document.getElementById("DocDPContainer");
-    const wrap = document.getElementById("searchWrap");
-
-    if(!input || !container || !wrap) return;
-
-    if(input.dataset.init) return; // Prevent multiple initialization
-    input.dataset.init = "true";
-
-    input.disabled = false;
-
-    const apiDocUrl = "https://script.google.com/macros/s/AKfycbyZ3LGHlw6CxZO1LadnfO7wpBEejZlNsLws0UjJWG67sDz5Ua7s1zuc7DyuPkOonKM9wg/exec?list=1";
-    let allFiles = [];
-
-    const dropdown = document.createElement("ul");
-    dropdown.className = "doc-dropdown";
-    dropdown.style.display='none';
-    container.appendChild(dropdown);
-
-    // Fetch documents
-    fetch(apiDocUrl)
-      .then(res=>res.json())
-      .then(data=>allFiles=data||[]);
-
-    // Search input
-    input.addEventListener('input', function(){
-        dropdown.innerHTML="";
-        const key = this.value.toLowerCase().trim();
-        if(!key){ dropdown.style.display='none'; return; }
-
-        const results = allFiles.filter(f=>f.name.toLowerCase().includes(key));
-        if(!results.length){ dropdown.style.display='none'; return; }
-
-        results.forEach(file=>{
-            const li = document.createElement('li');
-            li.textContent = file.name;
-            li.onclick = ()=>{
-                document.getElementById("docPreviewBox").style.display='block';
-                document.getElementById("docPreviewFrame").src=file.previewUrl.replace("/view","/preview");
-                document.getElementById("downloadBtn").onclick=()=>window.open(file.downloadUrl,"_blank");
-                document.getElementById("emailBtn").onclick=()=>location.href=`mailto:?subject=${encodeURIComponent(file.name)}&body=${encodeURIComponent(file.downloadUrl)}`;
-                document.getElementById("whatsappBtn").onclick=()=>window.open("https://wa.me/?text="+encodeURIComponent(file.name+"\n"+file.downloadUrl),"_blank");
-                input.value=file.name;
-                dropdown.style.display='none';
-            };
-            dropdown.appendChild(li);
-        });
-
-        dropdown.style.display='block';
-    });
-
-    // Click outside to close dropdown
-    document.addEventListener('click', e=>{
-        if(!wrap.contains(e.target)) dropdown.style.display='none';
-    });
-}
-</script>
-<!-- ====================  `````````````````````````````DOCUMENT SEARCH & PREVIEW SCRIPT (STOP)``````````````````````````` ==================== -->
-
-
-
-
-
-<!-- ========= Button Configure Details List Start Here ---------- ============ -->
-
-
-
-<div class="sidebarnotes">
-
-<div id="notesBox" class="notes" style="font-size:14px;">
-
-<!-- Close Button -->
-<button class="closesidebarBtn" onclick="togglesidebarNotes()">✖</button>
-<br/><br/>
-
-<!-- ===== BUTTON 1 ===== -->
-<button class="noteBtn" onclick="toggleNote(1)">📑 Button Mapping</button>
-
-<div id="noteContent1" class="noteContent">
-<p style="color:red;">(mfvbtn="1") - Button Mapping</p>
-
-</div>
-
-
-<!-- ===== BUTTON 2 ===== -->
-<button class="noteBtn" onclick="toggleNote(2)">Voucher Buttan</button>
-
-<div id="noteContent2" class="noteContent">
-
-</div>
-
-
-
-</div></div>
-
-<!-- ========= Button Configure Details List Stop Here ---------- ============ -->
-
-
-<style>
-
-.sidebarnotes{
-  position:relative;
-  display:inline-block;
-}
-
-.notes{
-  position:fixed;
-  top:55px;
-  right:-490px;
-  height:88vh;
-  width:420px;
-  background:white;
-  border-left:5px solid red;
-  padding:20px;
-  box-shadow:-5px 0 10px rgba(0,0,0,0.3);
-  transition:right 0.4s ease;
-  overflow-y:auto;
-}
-
-.notes.show{
-  right:0;
-}
-
-.closesidebarBtn{
-  position:absolute;
-  top:10px;
-  right:10px;
-  background:red;
-  color:white;
-  border:none;
-  font-size:16px;
-  cursor:pointer;
-  padding:4px 8px;
-  border-radius:4px;
-}
-
-/* accordion buttons */
-
-.noteBtn{
-  width:100%;
-  padding:10px;
-  margin-top:10px;
-  border:none;
-  background:#0093A1;
-  color:white;
-  font-weight:bold;
-  text-align:left;
-  cursor:pointer;
-  border-radius:4px;
-}
-
-.noteBtn:hover{
-  background:#001bb3;
-}
-
-/* accordion content */
-
-.noteContent{
-  display:none;
-  padding:10px;
-  border:1px solid #ddd;
-  border-top:none;
-  background:#f9f9f9;
-}
-
-</style>
-
-
-<script>
-
-/* sidebar open close */
-
-function togglesidebarNotes(){
-  var box=document.getElementById("notesBox");
-  box.classList.toggle("show");
-}
-
-
-/* accordion toggle */
-
-function toggleNote(num){
-
-  const content=document.getElementById("noteContent"+num);
-
-  if(content.style.display==="block"){
-    content.style.display="none";
-  }else{
-    content.style.display="block";
+// ================== SEARCH ==================
+function searchPSW() {
+  const input = document.getElementById("pswSearch").value.toLowerCase();
+  const resultDiv = document.getElementById("pswResult");
+
+  if (!input) {
+    resultDiv.innerHTML = "";
+    return;
   }
 
+  let html = `<table style="border-collapse:collapse;width:100%">`;
+
+  // 🔹 Header
+  html += "<tr>";
+  pswConfig.headers.forEach(h => {
+    html += `<th style="background:#006772;color:#fff;padding:6px;border:1px solid #ddd; font-size:13px;">${h}</th>`;
+  });
+  html += "</tr>";
+
+  // 🔹 Rows
+  pswData.forEach(row => {
+    const rowText = row.join(" ").toLowerCase();
+
+    if (rowText.includes(input)) {
+      html += "<tr>";
+
+      pswConfig.cols.forEach(i => {
+        const cell = row[i] || "";
+        html += `<td style="padding:5px;border:1px solid #ddd; font-size:13px;">
+                  ${highlightText(cell, input)}
+                </td>`;
+      });
+
+      html += "</tr>";
+    }
+  });
+
+  html += "</table>";
+  resultDiv.innerHTML = html;
 }
 
+// ================== INIT ==================
+loadPSWData();
+// ------------------------ password script code yha stop hai ------------------------------
 </script>
-<!-- ========= Buttan Configure Details List stop Hare  ---------- ============ -->
+<!-- ============ Today Event Script Stop Hare  ========= -->
 
+  </div>  <!-- footer stop hare -->
+<!-- ~~~~~~~~~~~~~~~~ ============================ Footer code with content & Script  Stop Hare ~~~~~~~~~~~~~~~~ Script STop ============================ -->
 
-
-
-
-
-
-<!-- ====================  ````````````````````````````RAMZAAN CALENDER WITH QURAN TAJUMA START HARE``````````````````````````` ==================== -->
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Ramzan Calendar & Quran</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<style>
-
-
-
-
-/* ===== INFO BAR ===== */
-.infoBar{
- 
-  background:#1e88e5;
-  color:#fff;
-  text-align:center;
-  padding:8px;
-  font-weight:bold;
-  z-index:999;
-}
-
-/* ===== CONTAINER ===== */
-.container{
-  max-width:1200px;
-  margin:15px auto;
-  background:#fff;
-  padding:15px;
-  border-radius:12px;
-  box-shadow:0 8px 18px rgba(0,0,0,.15);
-}
-
-h3{color:#0b7d3e}
-
-/* ===== PARA PLAYER ===== */
-.para-box{text-align:center;margin:15px 0}
-select{
-  padding:10px;
-  width:100%;
-  max-width:420px;
-  font-size:16px;
-}
-.player{
-  display:none;
-  background:#0b7d3e;
-  padding:15px;
-  border-radius:12px;
-  margin-top:10px;
-  animation:slide .4s ease;
-}
-@keyframes slide{
-  from{opacity:0;transform:translateY(-15px)}
-  to{opacity:1;transform:none}
-}
-.player h3{color:#fff;text-align:center;margin:0 0 8px}
-.player audio{width:100%}
-.player button{
-  margin-top:8px;
-  padding:6px 14px;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
-}
-
-/* ===== TABLES ===== */
-.tables{
-  display:flex;
-  gap:20px;
-  flex-wrap:wrap;
-}
-.table-box{flex:1;min-width:320px}
-table{width:100%;border-collapse:collapse;}
-th,td{
-  border:1px solid #ddd;
-  padding:8px;
-  text-align:center;
-}
-th{background:#0b7d3e;color:#fff}
-
-/* ===== ROW COLORS ===== */
-.friday{background:#d8f5d8}
-.sunday{background:#ffdede}
-.today{background:#d9ebff !important}
-
-/* ===== DUAS ===== */
-.duas{
-  margin-top:20px;
-  background:#f9fff9;
-  padding:15px;
-  border-radius:10px;
-}
-.dua{
-  background:#fff;
-  padding:10px;
-  margin-bottom:10px;
-  border-left:4px solid #0b7d3e;
-}
-
-/* ===== POPUP ===== */
-.popup{
-  position:fixed;
-  bottom:10px;
-  right:20px;
-  background:#0b7d3e;
-  color:#fff;
-  padding:15px;
-  border-radius:12px;
-  width:260px;
-  z-index:1000;
-}
-.popup button{
-  margin-top:8px;
-  padding:6px 12px;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
-}
-</style>
-</head>
-
-<body>
-
-
-
-<!-- POPUP -->
-<div class="popup" id="popup">
-<b>Today's Info</b>
-<div id="todayInfo"></div>
-<button onclick="popup.style.display='none'">Close</button>
-</div>
-
-<script>
-/* ===== RAMZAN BASE ===== */
-const startDate=new Date(2026,1,19);
-const days=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-const today=new Date().toDateString();
-
-const ramzan=[
-{r:1,s:"5:25",i:"6:10"},{r:2,s:"5:25",i:"6:10"},
-{r:3,s:"5:24",i:"6:11"},{r:4,s:"5:24",i:"6:12"},
-{r:5,s:"5:23",i:"6:13"},{r:6,s:"5:22",i:"6:14"},
-{r:7,s:"5:21",i:"6:14"},{r:8,s:"5:21",i:"6:15"},
-{r:9,s:"5:20",i:"6:16"},{r:10,s:"5:19",i:"6:16"},
-{r:11,s:"5:18",i:"6:17"},{r:12,s:"5:17",i:"6:18"},
-{r:13,s:"5:15",i:"6:18"},{r:14,s:"5:14",i:"6:19"},
-{r:15,s:"5:13",i:"6:19"},{r:16,s:"5:12",i:"6:20"},
-{r:17,s:"5:11",i:"6:21"},{r:18,s:"5:10",i:"6:21"},
-{r:19,s:"5:09",i:"6:22"},{r:20,s:"5:08",i:"6:23"},
-{r:21,s:"5:07",i:"6:23"},{r:22,s:"5:06",i:"6:24"},
-{r:23,s:"5:05",i:"6:24"},{r:24,s:"5:04",i:"6:25"},
-{r:25,s:"5:02",i:"6:26"},{r:26,s:"5:01",i:"6:26"},
-{r:27,s:"5:00",i:"6:27"},{r:28,s:"4:59",i:"6:28"},
-{r:29,s:"4:58",i:"6:28"},{r:30,s:"4:57",i:"6:29"}
-];
-
-
-
-let todayIdx=-1;
-
-ramzan.forEach((x,i)=>{
-  const d=new Date(startDate);
-  d.setDate(startDate.getDate()+i);
-
-  if(d.toDateString()===today)todayIdx=i;
-
-  let cls="";
-  if(days[d.getDay()]==="Fri")cls="friday";
-  if(days[d.getDay()]==="Sun")cls="sunday";
-  if(d.toDateString()===today)cls+=" today";
-
-  const row=`<tr class="${cls}">
-  <td>${x.r}</td>
-  <td>${d.getDate()} ${d.toLocaleString("en",{month:"short"})}</td>
-  <td>${days[d.getDay()]}</td>
-  <td>${x.s}</td>
-  <td>${x.i}</td>
-  </tr>`;
-
-  (x.r<=15?t1:t2).innerHTML+=row;
-});
-
-/* ===== INFO BAR + POPUP ===== */
-if(todayIdx>=0){
-infoBar.innerText=
-`Today: Ramzaan - ${ramzan[todayIdx].r} / Iftaar: ${ramzan[todayIdx].i} PM | Tomorrow: Ramzaan - ${ramzan[todayIdx+1]?.r||"-"} / Sehri: ${ramzan[todayIdx+1]?.s||"-"} AM`;
-
-todayInfo.innerHTML=
-`<br>Today: ${ramzan[todayIdx].r}<br>
-Iftaar: ${ramzan[todayIdx].i}<br><br>
-Tomorrow: ${ramzan[todayIdx+1]?.r||"-"}<br>
-Sehri: ${ramzan[todayIdx+1]?.s||"-"}`;
-}
-
-/* ===== QURAN PARA ===== */
-const quran=[
-["1. Alif Lam Meem","http://bit.ly/2qpLHGY"],
-["2. Sayaqool","http://bit.ly/2qnS2Ha"],
-["3. Tilkal Rusull","http://bit.ly/2sbSqoq"],
-["4. Lan Tana Loo","http://bit.ly/2r6TOeq"],
-["5. Wal Mohsanat","http://bit.ly/2qzzsYk"],
-["6. La Yuhibbullah","http://bit.ly/2qI4EE2"],
-["7. Wa Iza Samiu","http://bit.ly/2rW88HS"],
-["8. Wa Lau Annana","http://bit.ly/2qK0aO4"],
-["9. Qalal Malao","http://bit.ly/2rBqzB0"],
-["10. Wa A'lamu","http://bit.ly/2s3dkdd"],
-["11. Yatazeroon","http://bit.ly/2so5po5"],
-["12. Wa Mamin Da'abat","http://bit.ly/2rzgVP9"],
-["13. Wa Ma Ubrioo","http://bit.ly/2rSIJ1l"],
-["14. Rubama","http://bit.ly/2sk5Lid"],
-["15. Subhanallazi","http://bit.ly/2rKJHw3"],
-["16. Qal Alam","http://bit.ly/2sMTr7y"],
-["17. Aqtarabo","http://bit.ly/2r9opp2"],
-["18. Qadd Aflaha","http://bit.ly/2rpK4c8"],
-["19. Wa Qalallazina","http://bit.ly/2rpq1iW"],
-["20. A'man Khalaq","http://bit.ly/2rAX4Mc"],
-["21. Utlu Ma Oohi","http://bit.ly/2rBv2Aa"],
-["22. Wa Manyaqnut","http://bit.ly/2sbmkft"],
-["23. Wa Mali","http://bit.ly/2rtPXpH"],
-["24. Faman Azlam","http://bit.ly/2sfUCOE"],
-["25. Elahe Yuruddo","http://bit.ly/2smfZxF"],
-["26. Ha'a Meem","http://bit.ly/2tLUEvC"],
-["27. Qala Fama Khatbukum","http://bit.ly/2tru5wz"],
-["28. Qadd Sami Allah","http://bit.ly/2rXeW98"],
-["29. Tabarakallazi","http://bit.ly/2s5NLEk"],
-["30. Amma Yatasa'aloon","http://bit.ly/2s1BBB4"]
-];
-
-quran.forEach((p,i)=>{
-paraSelect.innerHTML+=`<option value="${i}">${p[0]}</option>`;
-});
-paraSelect.onchange=()=>{
-if(!paraSelect.value)return;
-paraTitle.innerText=quran[paraSelect.value][0];
-audio.src=quran[paraSelect.value][1];
-player.style.display="block";
-audio.play();
-}
-function closePlayer(){
-audio.pause();
-player.style.display="none";
-paraSelect.value="";
-}
-</script>
-
-</body>
-</html>
-<!-- ====================  ````````````````````````````RAMZAAN CALENDER WITH QURAN TAJUMA STOP HARE``````````````````````````` ==================== -->
-
-<!-- ====================  ````````````````````````````FLOTTING ANIMATION CODE  START HARE``````````````````````````` ==================== -->
-  <style>
-     #rabbitDiv {
-      position: fixed;
-      bottom: 50px;
-      left: 0;
-      width: 100%;
-      height: 150px;
-      background: transparent;
-      z-index: 9999;
-    }
-
-    #rabbit {
-      position: absolute;
-      width: 80px;
-      height: 80px;
-      transform: translate(-50%, -50%);
-      transition: transform 0.1s linear;
-      pointer-events: none;
-    }
-  </style>
-</head>
-
-<body>
-
-<div id="rabbitDiv">
-  <img id="rabbit" src="https://png.pngtree.com/png-vector/20250104/ourmid/pngtree-rabbit-cartoon-png-image_15045752.png">
-</div>
-
-<script>
-const rabbit = document.getElementById('rabbit');
-const rabbitDiv = document.getElementById('rabbitDiv');
-
-let rabbitPos = { x: window.innerWidth / 2 };
-let rabbitVel = 2;
-
-let mousePos = null;
-let lastMouseMove = 0;
-
-let walkOffset = 0;
-
-// ✅ Mouse tracking ONLY inside rabbitDiv
-rabbitDiv.addEventListener('mousemove', e => {
-  const rect = rabbitDiv.getBoundingClientRect();
-  mousePos = { x: e.clientX - rect.left };
-  lastMouseMove = Date.now();
-});
-
-// ✅ Mouse leave → stop follow
-rabbitDiv.addEventListener('mouseleave', () => {
-  mousePos = null;
-});
-
-// Animation loop
-function animate() {
-
-  walkOffset += 0.15;
-  let bob = Math.sin(walkOffset) * 5;
-
-  let now = Date.now();
-
-  // 👉 Follow mode
-  if (mousePos && (now - lastMouseMove < 1000)) {
-
-    let dx = mousePos.x - rabbitPos.x;
-
-    if (Math.abs(dx) > 1) {
-      rabbitPos.x += dx * 0.05;
-    }
-
-    rabbit.style.transform =
-      `translate(-50%, -50%) scaleX(${dx < 0 ? -1 : 1})`;
-
-  } else {
-    // 👉 Auto walk mode
-    rabbitPos.x += rabbitVel;
-
-    if (rabbitPos.x < 40 || rabbitPos.x > rabbitDiv.offsetWidth - 40) {
-      rabbitVel *= -1;
-    }
-
-    rabbit.style.transform =
-      `translate(-50%, -50%) scaleX(${rabbitVel > 0 ? 1 : -1})`;
-  }
-
-  // Keep inside div
-  rabbitPos.x = Math.max(40, Math.min(rabbitDiv.offsetWidth - 40, rabbitPos.x));
-
-  // Apply position
-  rabbit.style.left = rabbitPos.x + 'px';
-  rabbit.style.top = (75 + bob) + 'px';
-
-  requestAnimationFrame(animate);
-}
-
-animate();
-</script>
-
- <!-- ====================  ````````````````````````````FLOTTING ANIMATION CODE  STOP HARE``````````````````````````` ==================== -->
