@@ -69,7 +69,7 @@
 
 /*------------ filter buttan -------------*/
 .filter-btn {
-  background: #eaeaeb;
+  background: #f3f3f5;
   color: rgb(18, 17, 17);
   border: none;
   padding: 6px 12px;
@@ -79,6 +79,8 @@
   transition: background 0.2s ease;
   min-width: 90px;            /* optional: makes buttons uniform width */
   text-align: center;
+  font-family: Arial Black;
+ 
 }
 .filter-btn:hover {
   background: #b4b4b4;
@@ -141,7 +143,10 @@
 <div id="RightDiv">
 
   <div id="details" class="box" style="height: 8vh; background-color: #dbfdf8;border-bottom: 5px solid rgb(2, 62, 102);"> </div>
-  <div id="stockQuery" class="box" style="height: 18vh;"> </div>
+  <div id="stockQuery" class="box" style="height: 18vh;">
+   <br/> <br/><br/> <br/>  <span style="text-align: center; color: #018080; font-size: 35px; font-weight: bold; font-family: Chiller;"> Welcome</span> <br/> 
+    <sapn style="text-align: center; color: #800101; font-size: 35px;font-family: Colonna MT;">A.F.I Cure Medical Store</sapn> 
+  </div>
 
 <!-- ----------------   ================ Buttan Div Start Hare =========== Start ============== Start --------------------- -->
 <div style="display: flex; gap: 10px; border-bottom:5px solid #025982; flex-wrap: wrap; justify-content: center; margin-bottom: 5px; background-color: #eaeaeb;  padding: 2px 2px;">
@@ -151,6 +156,7 @@
 <button class="filter-btn" id="groupBtn" onclick="openTab('div1'); sameGroup();" style="color: rgb(0, 113, 94); ">Item of Same Group</button>
 <strong style="color: #014fa8; font-size: 25px; font-weight: bold;">|</strong>
 
+ <button  class="filter-btn" onclick="togglesidebarNotes()" >🌐 Go To</button>
   <button class="filter-btn" onclick="openTab('div1')">Stock Quary <b style="color: rgb(165, 1, 1);">(f3)</b></button>
   <button class="filter-btn" onclick="openTab('div2')">➕ Create Purchase/Sale <b style="color: rgb(165, 1, 1);">(f4)</button>
   <button class="filter-btn" onclick="openTab('div3')"  >📘 ID/Password <b style="color: rgb(165, 1, 1);">(f9)</b></button>
@@ -410,10 +416,15 @@ function renderList(data) {
     if (!unique.has(key)) unique.set(key, row);
   });
 
-  unique.forEach(row => {
+   // Convert map values to array and sort alphabetically by medicine name
+  let sortedData = Array.from(unique.values()).sort((a, b) => {
+    return a[0].localeCompare(b[0]);
+  });
+
+  sortedData.forEach(row => {
     const div = document.createElement("div");
     div.className = "itemStockview";
-    div.innerHTML  = `${safe(row[0])} 🧪 <span style="color:rgb(3, 116, 168); font-size: 14px;"> (${safe(row[1])})</span> `;
+    div.innerHTML = `${safe(row[0])} 🧪 <span style="color:rgb(3, 116, 168); font-size: 14px;"> (${safe(row[1])})</span>`;
     div.onclick = () => selectItem(row);
     listStockview.appendChild(div);
   });
@@ -1866,7 +1877,6 @@ form.addEventListener("submit", async function(e) {
 
     <!-- Current Time -->
  <div style="display: flex; justify-content: center; align-items: center; background-color: #f7f8fa; color: rgb(1, 1, 1); font-size: 12px; font-weight: bold;  border: 5px solid #003444; ">
- <button style="border: none; background-color: #8b8b8b; color: rgb(244, 247, 193);cursor: pointer; text-align: left; font-weight: bold; font-size: 18px;" onclick="togglesidebarNotes()" >🌐 Url/Link</button>
   <div id="currentDateTime" style="padding: 5px 10px; white-space: nowrap; font-size: 16px; "></div>
   
   <span id="todayEvent" style="color: rgb(0, 65, 69);font-weight: bold;font-size: 14px; "></span>
