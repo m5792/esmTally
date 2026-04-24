@@ -1,6 +1,6 @@
-<!-- ===== BUTTON 1 ===== -->
-<button class="noteBtn" onclick="toggleNote(1)" style="border-bottom:5px solid #d40202;background-color: black;"><strong style="text-align: center; font-size: 14px;">A.F.I Cure Medicine</strong></button>
-<div id="noteContent1" class="noteContent">
+<!-- ===== BUTTON 10 ===== -->
+<button class="noteBtn" onclick="toggleNote(10)" style="border-bottom:5px solid #d40202;background-color: black;"><strong style="text-align: center; font-size: 14px;">A.F.I Cure Medicine</strong></button>
+<div id="noteContent10" class="noteContent">
 <iframe src="https://bwidget.crictimes.org/" style="width:100%;min-height: 235px;" frameborder="0"  scrolling="yes"></iframe>
 </div>
 
@@ -28,9 +28,16 @@
   padding: 5px;height: 85vh;
 }
 
-    #listStockview { height: 60vh; overflow-y: auto; border: 1px solid #ccc; }
-    .itemStockview { padding: 5px; cursor: pointer; }
-    .itemStockview:hover { background: #f7b656; }
+#listStockview div { padding: 5px; cursor: pointer;}
+/* Even rows */
+#listStockview div:nth-child(even) { background: #f5faff; border-top:1px solid #d5d5d3;}
+/* Odd rows */
+#listStockview div:nth-child(odd) { background: #ffffff;  border-top:1px solid #d5d5d3;}
+/* Hover effect */
+#listStockview div:hover {background: #dbeafe; }
+#listStockview { height: 60vh; overflow-y: auto; border: 1px solid #ccc; }
+
+
     .box { border: 1px solid #ccc; margin-top: 10px; padding: 10px; }
 
 
@@ -54,12 +61,6 @@
   border:1px solid #bb0606;
   padding:10px;
   margin-top:10px;
-}
-
-.btnRow button{
-  margin:5px;
-  padding:8px 12px;
-  cursor:pointer;
 }
 
 .activeBtn{
@@ -121,11 +122,13 @@
   <div id="container">
 <!-- ----------------   ================ Left Div Start Hare =========== Start ==============  --------------------- -->
 <div id="LeftDiv">
-  <input type="text" id="search" style="width:100%;padding:8px;border-bottom:5px solid #025982; background-color: #fbffc7;" placeholder=" 🔍 Search Medicine or Salt... (f4)">
-  <div id="listStockview"> <span style="color: rgb(117, 0, 0); font-weight: bold;" > <br/> <br/>Please Wait ! Data Loading ...</span></div>
-  <div class="btnRow">
-  
+  <input type="text" id="search" style="width:100%;padding:8px;border-bottom:5px solid #009797; border-top:5px solid #009797; background-color: #f7f7f7;" placeholder=" 🔍 Search Medicine or Salt... (f4)">
+
+<br/><br/>
+   <div style="text-align:center; background-color: #0b0b0b; color: #ffffff; font-weight: bold;">
+ <button onclick="updateQuary()" style="text-align:center;border: none; background-color: #0b0b0b; color: #f8e6e6; font-weight: bold; font-size: 14px;cursor: pointer;">🔄 Refresh Table</button>
 </div>
+  <div id="listStockview"> <span style="color: rgb(117, 0, 0); font-weight: bold; " > <br/> <br/>Please Wait ! Data Loading ...</span></div>
 
 <br/>
 <div id="companyDetails" class="box">
@@ -584,67 +587,81 @@ async function updateQuary() {
     return;
   }
 
-  // 👉 fresh data fetch karo
-  await fetchData();
+  // 👉 LOADING MESSAGE PEHLE DIKHAO
+  document.getElementById("stockQuery").innerHTML =
+    "<table><tr><td colspan='11'>⏳ Refreshing...</td></tr></table>";
 
-  let row = selected;
+  try {
 
-  // ===== DETAILS =====
-  document.getElementById("details").innerHTML = `
-    <b>${safe(row[0])}</b><br>
-    <span style="color:red;font-weight:bold">Salt:</span> ${safe(row[1])} |
-    <span style="color:green;font-weight:bold">Group:</span> ${safe(row[2])}<br>
-    Avg. Pur. Rate: ${safe(row[4])} | Avg. Sale Rate: ${safe(row[5])} | Qty/Unit: ${safe(row[8])}<br><br>
-    <span style="color:black;font-weight:bold">Discription:</span> ${safe(row[3])}
-  `;
+    // 👉 fresh data fetch karo
+    await fetchData();
 
-  // ===== STOCK =====
-  let filtered = stockData
-    .filter(r => r[2] === row[0])
-    .sort((a,b)=> new Date(b[10]) - new Date(a[10]))
-    .slice(0,5);
+    let row = selected;
 
-  let html = "<b>Top 5 Stock Entries</b>";
+    // ===== DETAILS =====
+    document.getElementById("details").innerHTML = `
+      <b>${safe(row[0])}</b><br>
+      <span style="color:red;font-weight:bold">Salt:</span> ${safe(row[1])} |
+      <span style="color:green;font-weight:bold">Group:</span> ${safe(row[2])}<br>
+      Avg. Pur. Rate: ${safe(row[4])} | Avg. Sale Rate: ${safe(row[5])} | Qty/Unit: ${safe(row[8])}<br><br>
+      <span style="color:black;font-weight:bold">Discription:</span> ${safe(row[3])}
+    `;
 
-  if (filtered.length === 0) {
-    html += "<br>No data found";
-  } else {
-    html += `<table>
-      <tr>
-        <th style="background-color: #6d0170; color: white;">R. No.</th>
-        <th style="background-color: #6d0170; color: white;">LEDGER NAME</th>
-        <th style="background-color: #6d0170; color: white;">Purchase Date</th>
-        <th style="background-color: #6d0170; color: white;">Expiry</th>
-        <th style="background-color: #6d0170; color: white;">MRP</th>
-        <th style="background-color: #6d0170; color: white;">Qty</th>
-        <th style="background-color: #6d0170; color: white;">Rate</th>
-        <th style="background-color: #6d0170; color: white;">Unit</th>
-        <th style="background-color: #6d0170; color: white;">Amt</th>
-        <th style="background-color: #016106; color: white;">Type</th>
-      </tr>`;
+    // ===== STOCK =====
+    let filtered = stockData
+      .filter(r => r[2] === row[0])
+      .sort((a,b)=> new Date(b[10]) - new Date(a[10]))
+      .slice(0,5);
 
-    filtered.forEach(r => {
-      html += `<tr>
-         <td>${safe(r[0])}</td>
-        <td>${safe(r[12])}</td>
-        <td>${formatDate(r[10])}</td>
-        <td>${formatDate(r[11])}</td>
-        <td>${safe(r[8])}</td>
-        <td>${safe(r[4])}</td>
-        <td>${safe(r[5])}</td>
-        <td>${safe(r[7])}</td>
-        <td>${safe(r[6])}</td>
-        <td>${safe(r[13])}</td>
-      </tr>`;
-    });
+    let html = "<b>Top 5 Stock Entries</b>";
 
-    html += "</table>";
+    if (filtered.length === 0) {
+      html += "<br>No data found";
+    } else {
+      html += `<table>
+        <tr>
+          <th style="background-color: #6d0170; color: white;">R. No.</th>
+          <th style="background-color: #6d0170; color: white;">LEDGER NAME</th>
+          <th style="background-color: #6d0170; color: white;">Purchase Date</th>
+          <th style="background-color: #6d0170; color: white;">Expiry</th>
+          <th style="background-color: #6d0170; color: white;">MRP</th>
+          <th style="background-color: #6d0170; color: white;">Qty</th>
+          <th style="background-color: #6d0170; color: white;">Rate</th>
+          <th style="background-color: #6d0170; color: white;">Unit</th>
+          <th style="background-color: #6d0170; color: white;">Amt</th>
+          <th style="background-color: #016106; color: white;">Type</th>
+        </tr>`;
+
+      filtered.forEach(r => {
+        html += `<tr>
+          <td>${safe(r[0])}</td>
+          <td>${safe(r[12])}</td>
+          <td>${formatDate(r[10])}</td>
+          <td>${formatDate(r[11])}</td>
+          <td>${safe(r[8])}</td>
+          <td>${safe(r[4])}</td>
+          <td>${safe(r[5])}</td>
+          <td>${safe(r[7])}</td>
+          <td>${safe(r[6])}</td>
+          <td>${safe(r[13])}</td>
+        </tr>`;
+      });
+
+      html += "</table>";
+    }
+
+    document.getElementById("stockQuery").innerHTML = html;
+
+    // same salt bhi refresh ho
+    sameSalt();
+
+  } catch (err) {
+    console.error(err);
+
+    // ❌ ERROR MESSAGE
+    document.getElementById("stockQuery").innerHTML =
+      "<div style='color:red'>❌ Error loading data</div>";
   }
-
-  document.getElementById("stockQuery").innerHTML = html;
-
-  // same salt bhi refresh ho
-  sameSalt();
 }
 // -------------- stop 
 
