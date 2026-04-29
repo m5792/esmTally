@@ -92,20 +92,7 @@
   font-weight: bold;
 }
 
-/* -------------- Company Details --*/
-#companyDetails{
-  background:#f8f9fa;
-}
 
-#companyDetails h3{
-  margin-top:0;
-  color:#006772;
-}
-
-#companyDetails p{
-  margin:5px 0;
-  font-size:14px;
-}
 
 /*---------------------*/
 #pswResult tr:hover {
@@ -130,15 +117,6 @@
 </div>
   <div id="listStockview"> <span style="color: rgb(117, 0, 0); font-weight: bold; " > <br/> <br/>Please Wait ! Data Loading ...</span></div>
 
-<br/>
-<div id="companyDetails" class="box">
-  <h4>  A.F.I Cure Medical Store</h4>
-  <p><b>Owner Name:</b> Mukhtar Ahamad</p>
-  <p><b>Mobile:</b> 9756735792</p>
-  <p><b>Email:</b> eservicesksp@gmail.com</p>
-  <p><b>💼 DL No:</b> UA-UDH-143538 | UA-UDH-143539 <br/> (Exp. 07-Nov-2030)</p>
-  <p><b>Address:</b> Near PNB Bank, Kundeshwari</p>
-</div>
 
 
 
@@ -548,6 +526,7 @@ function sameGroup() {
         <th>Medicine Name</th>
         <th>Avg Cost</th>
         <th>Sale Rate</th>
+        <th>Salt</th>
         <th>Description</th>
       </tr>`;
 
@@ -556,6 +535,7 @@ function sameGroup() {
         <td>${safe(r[0])}</td>
         <td>${safe(r[4])}</td>
         <td>${safe(r[5])}</td>
+         <td>${safe(r[1])}</td>
         <td style="color:rgb(0, 83, 128);font-size: 14px;">${safe(r[3])}</td>
       </tr>`;
     });
@@ -1860,6 +1840,7 @@ form.addEventListener("submit", async function(e) {
 <!-- ~~~~~~~~~~~~~~~~ ============================ Quran Palyer Script Start Hare ~~~~~~~~~~~~~~~~ Script Start ============================ -->
 
 <script>
+   // website link  "https://www.emaanlibrary.com/complete-quran/"
 /* ===== QURAN DATA ===== */
 const quran = [
 ["1. Alif Lam Meem","http://bit.ly/2qpLHGY"],
@@ -1962,6 +1943,201 @@ closeBtn.onclick = () => {
 </script>
 <!-- ~~~~~~~~~~~~~~~~ ============================ Quran Palyer Script Stop Hare ~~~~~~~~~~~~~~~~ Script xxx ============================ -->
 
+<!-- ~~~~~~~~~~~~~~~~ ============================ islamic date, sunrise and sunset time Script strt Hare ~~~~~~~~~~~~~~~~ Script start ============================ -->
+
+<script>
+(function(){
+
+  const box = document.createElement("div");
+
+  box.style.position = "fixed";
+  box.style.left = "5px";
+  box.style.bottom = "2in";
+  box.style.width = "5in";
+  box.style.maxHeight = "4in";
+  box.style.overflowY = "auto";
+  box.style.overflowX = "hidden";
+  box.style.background = "linear-gradient(#e9f5f7,#eeeff0,#ffffff,#fae4e4)";
+  box.style.color = "rgb(0, 24, 61)";
+  box.style.padding = "14px";
+  box.style.borderRadius = "14px";
+  box.style.fontFamily = "Arial";
+  box.style.fontSize = "14px";
+  box.style.boxShadow = "0 10px 25px rgba(0,0,0,0.5)";
+  box.style.zIndex = "9999";
+  box.style.borderBottom = "5px solid #025982";
+
+  document.body.appendChild(box);
+
+  const lat = 29.21;
+  const lon = 78.96;
+
+  let prayerTimes = {};
+  let nextPrayer = "";
+  let nextTime = "";
+  let alerted = false;
+
+  function getOrdinal(n){
+    let s=["th","st","nd","rd"],v=n%100;
+    return n+(s[(v-20)%10]||s[v]||s[0]);
+  }
+
+  function timeToDate(t){
+    let [h,m] = t.split(":");
+    let d = new Date();
+    d.setHours(h,m,0,0);
+    return d;
+  }
+
+  function getNextPrayer(){
+    const now = new Date();
+    const order = ["Fajr","Dhuhr","Asr","Maghrib","Isha"];
+
+    for(let p of order){
+      let t = timeToDate(prayerTimes[p]);
+      if(now < t){
+        return {name:p, time:t};
+      }
+    }
+
+    let fajr = timeToDate(prayerTimes["Fajr"]);
+    fajr.setDate(fajr.getDate() + 1);
+
+    return {name:"Fajr", time:fajr};
+  }
+
+  function formatCountdown(diff){
+    let h = Math.floor(diff/3600000);
+    let m = Math.floor((diff%3600000)/60000);
+    let s = Math.floor((diff%60000)/1000);
+    return `${h}h ${m}m ${s}s`;
+  }
+
+  function startCountdown(){
+    setInterval(()=>{
+      if(!nextTime) return;
+
+      const now = new Date();
+      let diff = nextTime - now;
+
+      if(diff <= 0 && !alerted){
+        alerted = true;
+
+        alert("🕌 " + nextPrayer + " ka time ho gaya");
+
+        const np = getNextPrayer();
+        nextPrayer = np.name;
+        nextTime = np.time;
+
+        document.getElementById("nextPrayer").innerText = nextPrayer;
+
+        setTimeout(()=> alerted = false, 60000);
+        return;
+      }
+
+      document.getElementById("countdown").innerText = formatCountdown(diff);
+
+    },1000);
+  }
+
+  async function loadNamaajTime(){
+    try{
+      const today = new Date();
+      const timestamp = Math.floor(today.getTime()/1000);
+
+      const url = `https://api.aladhan.com/v1/timings/${timestamp}?latitude=${lat}&longitude=${lon}&method=1`;
+
+      const res = await fetch(url);
+      const data = await res.json();
+
+      const h = data.data.date.hijri;
+      const hijriDate = `${getOrdinal(parseInt(h.day))} ${h.month.en}, ${h.year}`;
+
+      const t = data.data.timings;
+
+      prayerTimes = {
+        Fajr:t.Fajr,
+        Dhuhr:t.Dhuhr,
+        Asr:t.Asr,
+        Maghrib:t.Maghrib,
+        Isha:t.Isha
+      };
+
+      const np = getNextPrayer();
+      nextPrayer = np.name;
+      nextTime = np.time;
+
+      box.innerHTML = `
+    <div style="font-weight:bold;font-size:15px;margin:6px 0; text-align: center; background-color: #d6d6d6;border-radius:10px; border-Bottom:3px solid #8f8e8e;"> 🌙 ${hijriDate} A.H</div>
+
+        <div style="display:flex;gap:12px;align-items:stretch;height:100%;">
+
+          <!-- 🏥 LEFT -->
+          <div style="width:50%;font-size:14px;line-height:1.6;background:rgba(255,255,255,0.06);padding:10px;border-radius:10px; border-right:3px solid #025982;">
+            <h3 style="margin:0 0 6px 0;color:#rgb(0, 61, 48);">A.F.I Cure Medical</h3>
+            <strong style="font-size:15px;color: black;">Owner:- </strong> Mukhtar Ahamad <br/>
+             <strong style="font-size:15px;color: black;">Mobile:- </strong> 9756735792  <br/>
+             <strong style="font-size:15px;color: black;">Email:-</strong> eservicesksp@gmail.com  <br/>
+             <strong style="font-size:15px;color: black;">DL (F-20):-</strong> UA-UDH-143538 <br/>
+             <strong style="font-size:15px;color: black;">DL (F-21):-</strong> UA-UDH-143539 <br/>
+            <p><b>Exp:</b> 07-Nov-2030</p>
+          </div>
+
+          <!-- 🕌 RIGHT -->
+          <div style="width:50%;font-size:15px;">
+
+            <div style="opacity:0.8;">📍 Kundeshwari, Kashipur</div>
+
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;">
+              <div>Fajr</div><div>${t.Fajr}</div>
+              <div>Zuhr</div><div>${t.Dhuhr}</div>
+              <div>Asr</div><div>${t.Asr}</div>
+              <div>Maghrib</div><div>${t.Maghrib}</div>
+              <div>Isha</div><div>${t.Isha}</div>
+            </div>
+
+            <hr style="margin:8px 0">
+
+            <div>
+              ⏳ Next: <b id="nextPrayer">${nextPrayer}</b><br>
+              ⏱️ Time Left: <b id="countdown">--</b>
+            </div>
+            <hr style="margin:8px 0">
+            <div style="margin-top:6px;font-size:14px;">
+              🌅 Sunrise :- ${t.Sunrise} <br/> 🌇 Sunset :- ${t.Sunset}
+            </div>
+
+          </div>
+
+        </div>
+      `;
+
+    }catch(e){
+      box.innerHTML = "❌ Data load failed";
+    }
+  }
+
+  loadNamaajTime().then(startCountdown);
+
+  function scheduleMidnightRefresh(){
+    const now = new Date();
+    const nextMidnight = new Date();
+    nextMidnight.setHours(24,0,0,0);
+
+    const timeout = nextMidnight - now;
+
+    setTimeout(()=>{
+      loadNamaajTime();
+      scheduleMidnightRefresh();
+    }, timeout);
+  }
+
+  scheduleMidnightRefresh();
+
+})();
+</script>
+ <!-- ~~~~~~~~~~~~~~~~ ============================ islamic date, sunrise and sunset time Script xxx Hare ~~~~~~~~~~~~~~~~ Script xxx ============================ -->
 
 <!-- ~~~~~~~~~~~~~~~~ ============================ Footer code with content & Script  Start Hare ~~~~~~~~~~~~~~~~ Script Start ============================ -->
 <title>A.F.I Medical Store</title>
