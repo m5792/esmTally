@@ -18,8 +18,9 @@
 
 #LeftDiv {
   flex: 1.8;   /* 2 parts */
-  background: #f5f4f4;
+  background: #eafff2;
   padding: 5px;  height: 85vh;
+   border-RIGHT: 8px solid #ffffff;
 }
 
 #RightDiv {
@@ -125,7 +126,7 @@
 <!-- ----------------   ================ Right Div Start Hare =========== Start ==============  --------------------- -->
 <div id="RightDiv">
 
-  <div id="details" class="box" style="height: 8vh; background-color: #dbfdf8;border-bottom: 5px solid rgb(2, 62, 102);"> </div>
+  <div id="details" class="box" style="height: 8vh; background-color: #fdfdfd;border-bottom: 5px solid rgb(2, 62, 102);"> </div>
   <div id="stockQuery" class="box" style="height: 18vh;">
    <br/> <br/><br/> <br/>  <span style="text-align: center; color: #018080; font-size: 35px; font-weight: bold; font-family: Chiller;"> Welcome</span> <br/> 
     <sapn style="text-align: center; color: #800101; font-size: 35px;font-family: Colonna MT;">A.F.I Cure Medical Store</sapn> 
@@ -421,11 +422,32 @@ function selectItem(row) {
   selected = row;
 
   document.getElementById("details").innerHTML = `
-    <b>${safe(row[0])}</b><br>
-    <span style="color:red;font-weight:bold">Salt:</span> ${safe(row[1])} |
-    <span style="color:green;font-weight:bold">Group:</span> ${safe(row[2])}<br>
-    Avg. Pur. Rate: ${safe(row[4])} | Avg. Sale Rate: ${safe(row[5])} | Qty/Unit: ${safe(row[8])}<br><br>
-    <span style="color:black;font-weight:bold">Discription:</span> ${safe(row[3])}
+
+    <style>
+.DALDiv {display: flex; width: 98%; height: 8vh;font-size: 18px;}
+.leftDivBox { width: 30%; background: #eff6f8; padding: 10px; border-right: 1px solid #ccc;}
+.rightDivBox {width: 70%; padding: 10px;}
+</style>
+
+<div class="DALDiv" style=" height: 8vh;border-RIGHT: 8px solid #007599; border-left: 8px solid #00526b; border-radius:10px;">
+
+  <!-- ================= LEFT ================= -->
+  <div class="leftDivBox" >
+<b>${safe(row[0])}</b><br>
+  Pur. Rate: <span  style="background-color:red; color:white; padding:2px 6px; border-radius:4px; display:inline-block;">Rs. ${safe(row[4])}</span>  | 
+  Sale. Rate: <span  style="background-color:green; color:white; padding:2px 6px; border-radius:4px; display:inline-block;">Rs. ${safe(row[5])}</span> |
+  M.R.P: <span  style="background-color:blue; color:white; padding:2px 6px; border-radius:4px; display:inline-block;">Rs. ${safe(row[6])}</span> <br>
+  Qty/Unit: ${safe(row[8])} 
+  </div>
+
+<div class="rightDivBox"> 
+
+  <span style="color:red;font-weight:bold">Salt:</span> ${safe(row[1])} |
+    <span style="color:green;font-weight:bold">Group:</span> ${safe(row[2])} 
+  <br>  <span style="background-color:rgb(238, 238, 238); color:rgb(0, 14, 78); padding:2px 6px; border-radius:4px; display:inline-block;">Discription: - ${safe(row[3])}</span>  
+</div>  </div>
+ 
+
   `;
 
   let filtered = stockData
@@ -866,6 +888,14 @@ if (e.altKey && (e.key === "m" || e.key === "M")) {
   <p onclick="window.open('https://m5792.github.io/esmTally/gcindex.html','_blank')" style="cursor:pointer;color:#0026ff;">G.C Index Dashboard</p>
   <p onclick="window.open('https://docs.google.com/spreadsheets/d/1ca80E9lsBoctklZMKdNIAGRCbcEUDqNX775P1H8jbeM/edit?gid=0#gid=0','_blank')" style="cursor:pointer;color:#0026ff;">G.C  Google  Sheet*</p>
 </div>
+
+<!-- ===== BUTTON 4 ===== -->
+<button class="noteBtn" onclick="toggleNote(4)" style="text-align: left;">📑 Games link</button>
+<div id="noteContent4" class="noteContent">
+    <p onclick="window.open('https://www.crazygames.com/game/racing-limits','_blank')" style="cursor:pointer;color:#0026ff;">crazygames.com</p>
+    <p onclick="window.open('https://poki.com/en/g/temple-run-2','_blank')" style="cursor:pointer;color:#0026ff;">poki.com</p>
+    <p onclick="window.open('https://playhop.com/app/238724?utm_source=game_promo_catalog','_blank')" style="cursor:pointer;color:#0026ff;">playhop.com</p>
+</div> 
 
 <br/><br/><span> ---- Other Link ----</span>
 <p onclick="window.open('https://m5792.github.io/esm/mdashboard.html','_blank')" style="cursor:pointer;color:#080808;">Daybook MIPL</p>
