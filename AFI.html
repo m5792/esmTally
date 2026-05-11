@@ -1326,6 +1326,101 @@ function print100Table() {
 
 <!-- ================ -------------------------   GLOBAL SERCH BAR SCRIPT AND CODE START HERE --------------- ===============================-->
 <!-- ================ GLOBAL SEARCH BAR SCRIPT START ================ -->
+<!-- ================= AI RING CSS ================= -->
+<style>
+/* ================= AI RING INPUT ================= */
+
+.plR5qb{
+  --ringSize:20zpx;   /* BORDER SIZE */
+
+  position:relative;
+  width:100%;
+  height:38px;
+  padding:var(--ringSize);
+  border-radius:999px;
+  overflow:hidden;
+  background:#000;
+  box-sizing:border-box;
+}
+
+/* SINGLE ROUND GLOW RING */
+.plR5qb::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:999px;
+
+  background:linear-gradient(
+    90deg,
+    #4285f4,
+    #34a853,
+    #fbbc05,
+    #ea4335,
+    #4285f4
+  );
+
+  background-size:300% 100%;
+  animation:ringGlow 15s linear infinite;
+
+  z-index:0;
+}
+
+/* INNER BLACK AREA */
+.plR5qb::after{
+  content:"";
+  position:absolute;
+
+  top:var(--ringSize);
+  left:var(--ringSize);
+  right:var(--ringSize);
+  bottom:var(--ringSize);
+
+  background:#000;
+  border-radius:999px;
+  z-index:1;
+}
+
+/* INPUT */
+.plR5qb input{
+  position:relative;
+  z-index:2;
+  width:100%;
+  height:100%;
+  border:none;
+  outline:none;
+  background:transparent;
+  color:#fff;
+  padding:0 14px;
+  font-size:15px;
+  border-radius:999px;
+  box-sizing:border-box;
+}
+
+/* PLACEHOLDER */
+.plR5qb input::placeholder{
+  color:#fff;
+  opacity:1;
+}
+
+/* GLOW */
+.plR5qb:hover{
+  box-shadow:
+    0 0 5px rgba(66,133,244,.8),
+    0 0 10px rgba(52,168,83,.5),
+    0 0 15px rgba(251,188,5,.4);
+}
+
+/* SMOOTH MOVING COLOR */
+@keyframes ringGlow{
+  0%{
+    background-position:0% 50%;
+  }
+  100%{
+    background-position:300% 50%;
+  }
+}
+</style>
+
 <script>
 /* ===================================================================
    🚀 GLOBAL SEARCH BAR (FINAL FIXED VERSION - NO DUPLICATES)
@@ -1342,31 +1437,65 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ===== UI ===== */
   const container = document.createElement("div");
+
   container.style = `
     position:fixed;
-    bottom:1in;
-    right:0.5in;
-    width:4in;
+    bottom:10px;
+    right:0.2in;
+    width:4.6in;
     z-index:999999;
     font-family:Arial;
+   
   `;
+
   document.body.appendChild(container);
 
+  /* ===== INPUT ===== */
   const input = document.createElement("input");
-  input.id = "globalSearchInput";
-  input.disabled = true;
-  input.placeholder = "⏳ Please Wait! ...";
-  input.style = `
-    width:100%;
-    padding:6px;
-    font-size:15px;
-    border-radius:8px;
-    border:2px solid blue;
-    background:#DCF8FA;
-  `;
-  container.appendChild(input);
 
+  input.id = "globalSearchInput";
+
+  input.disabled = true;
+
+  input.placeholder = "⏳ Please Wait! ...";
+
+  
+
+  /* ===== RING WRAPPER ===== */
+  const ringWrap = document.createElement("div");
+
+  ringWrap.className = "plR5qb";
+
+  ringWrap.style = `
+    width:100%;
+    height:38px;
+    padding:2px;
+    border-radius:999px;
+    box-sizing:border-box;
+  `;
+
+  container.appendChild(ringWrap);
+
+input.style = `
+  width:100%;
+  height:100%;
+  padding:0 14px;
+  font-size:15px;
+  border:none;
+  outline:none;
+  border-radius:999px;
+  background:#000;
+  color:#fff;
+  position:relative;
+  z-index:2;
+  box-sizing:border-box;
+`;
+
+  ringWrap.appendChild(input);
+
+  /* ===== DROPDOWN ===== */
   const dropdown = document.createElement("ul");
+
   dropdown.style = `
     list-style:none;
     margin:0;
@@ -1375,21 +1504,23 @@ document.addEventListener("DOMContentLoaded", () => {
     position:absolute;
     bottom:100%;
     left:0;
-    width:4in;
+    width:4.5in;
     max-height:420px;
     overflow-y:auto;
     display:none;
     background:#fff;
     border-radius:8px;
-    border:3px solid blue;
+    border:3px solid #00524e;
     box-shadow:0 6px 20px rgba(0,0,0,.35);
   `;
+
   container.appendChild(dropdown);
 
   /* ================= LOAD DATA ================= */
   function loadAllData() {
 
     input.disabled = true;
+
     input.placeholder = "⏳ Please Wait! Loading ...";
 
     Promise.all([
@@ -1398,95 +1529,122 @@ document.addEventListener("DOMContentLoaded", () => {
       fetch(`${BASE_URL}?web=1`).then(r => r.json()),
       fetch(`${BASE_URL}?poWeb=1`).then(r => r.json())
     ])
+
     .then(([docs, po, webDocs, webPO]) => {
 
-      // 📄 DOCUMENTS
+      /* 📄 DOCUMENTS */
       documentFiles = (docs || []).map(d => ({
         id: d.id,
         name: d.name,
         __doc: true
       }));
 
-      // 🏭 PO FILES
+      /* 🏭 PO FILES */
       purchaseFiles = (po || []).map(p => ({
         id: p.id,
         name: p.name,
         __po: true
       }));
 
-      // 🟢 URL FILES (DEDUPLICATED)
+      /* 🌐 URL FILES */
       const allWeb = [
         ...(webDocs || []),
         ...(webPO || [])
       ];
 
-     const uniqueMap = new Map();
+      const uniqueMap = new Map();
 
-allWeb.forEach(w => {
+      allWeb.forEach(w => {
 
-  // unique key बनाओ (priority: webUrl > name)
-  const key = (w.webUrl || "").trim().toLowerCase() || 
-              (w.name || "").trim().toLowerCase();
+        const key =
+          (w.webUrl || "").trim().toLowerCase() ||
+          (w.name || "").trim().toLowerCase();
 
-  if (key && !uniqueMap.has(key)) {
-    uniqueMap.set(key, {
-      id: w.id,
-      name: w.name,
-      webUrl: w.webUrl,
-      __web: true
-    });
-  }
+        if (key && !uniqueMap.has(key)) {
 
-});
-      window.urlFiles = Array.from(uniqueMap.values());
+          uniqueMap.set(key, {
+            id: w.id,
+            name: w.name,
+            webUrl: w.webUrl,
+            __web: true
+          });
+
+        }
+
+      });
+
+      window.urlFiles =
+        Array.from(uniqueMap.values());
 
       input.disabled = false;
-      input.placeholder = "🔍 Search 👨‍💼 AFI & 🏭 MIPL Doc & URL (Alt+G)";
+
+      input.placeholder =
+        "🔍 Search 👨‍💼 AFI & 🏭 MIPL Doc & URL (Alt+G)";
     })
+
     .catch(() => {
+
       input.placeholder = "❌ Load failed";
+
     });
   }
 
   /* ================= SEARCH ================= */
   input.addEventListener("input", () => {
 
-    const q = input.value.toLowerCase().trim();
+    const q =
+      input.value.toLowerCase().trim();
+
     dropdown.innerHTML = "";
 
     if (!q) {
+
       dropdown.style.display = "none";
+
       return;
     }
 
-   const filesToSearch = [
-  ...documentFiles.filter(d =>
-    !(window.urlFiles || []).some(u => u.name === d.name)
-  ),
+    const filesToSearch = [
 
-  ...purchaseFiles.filter(p =>
-    !(window.urlFiles || []).some(u => u.name === p.name)
-  ),
+      ...documentFiles.filter(d =>
+        !(window.urlFiles || [])
+        .some(u => u.name === d.name)
+      ),
 
-  ...(window.urlFiles || [])
-];
+      ...purchaseFiles.filter(p =>
+        !(window.urlFiles || [])
+        .some(u => u.name === p.name)
+      ),
 
-    const matched = filesToSearch.filter(f =>
-      (f.name || "").toLowerCase().includes(q)
-    );
+      ...(window.urlFiles || [])
+
+    ];
+
+    const matched =
+      filesToSearch.filter(f =>
+        (f.name || "")
+        .toLowerCase()
+        .includes(q)
+      );
 
     if (!matched.length) {
+
       dropdown.style.display = "none";
+
       return;
     }
 
     matched.forEach((f, idx) => {
 
-      const li = document.createElement("li");
+      const li =
+        document.createElement("li");
 
       li.textContent =
+
         f.__web ? "🟢 URL : " + f.name :
+
         f.__po  ? "👨‍💼 AFI : " + f.name :
+
                   "🏭 MIPL : " + f.name;
 
       li.style = `
@@ -1496,34 +1654,47 @@ allWeb.forEach(w => {
       `;
 
       if (f.__web) {
+
         li.style.color = "green";
+
         li.style.fontWeight = "bold";
       }
 
       if (idx === matched.length - 1) {
+
         li.style.borderBottom = "none";
       }
 
       li.onmouseenter = () => {
+
         li.style.background = "#0d6efd";
+
         li.style.color = "#fff";
       };
 
       li.onmouseleave = () => {
+
         li.style.background = "";
-        li.style.color = f.__web ? "green" : "#000";
+
+        li.style.color =
+          f.__web ? "green" : "#000";
       };
 
       /* ================= CLICK ================= */
       li.onclick = () => {
 
-        // 🌐 URL OPEN
+        /* 🌐 URL OPEN */
         if (f.__web && f.webUrl) {
-          window.open(f.webUrl, "_blank");
+
+          window.open(
+            f.webUrl,
+            "_blank"
+          );
         }
 
-        // 📄 DRIVE OPEN
+        /* 📄 DRIVE OPEN */
         else if (f.id) {
+
           window.open(
             `https://drive.google.com/file/d/${f.id}/view`,
             "_blank"
@@ -1531,6 +1702,7 @@ allWeb.forEach(w => {
         }
 
         input.value = f.name;
+
         dropdown.style.display = "none";
       };
 
@@ -1540,23 +1712,41 @@ allWeb.forEach(w => {
     dropdown.style.display = "block";
   });
 
+  /* ===== CLICK OUTSIDE ===== */
   document.addEventListener("click", e => {
+
     if (!container.contains(e.target)) {
+
       dropdown.style.display = "none";
+
       input.value = "";
     }
+
   });
 
   loadAllData();
+
 });
 
 /* ================= SHORTCUT ================= */
 document.addEventListener("keydown", function (e) {
-  if (e.altKey && e.key.toLowerCase() === "g") {
+
+  if (
+    e.altKey &&
+    e.key.toLowerCase() === "g"
+  ) {
+
     e.preventDefault();
-    const input = document.getElementById("globalSearchInput");
+
+    const input =
+      document.getElementById(
+        "globalSearchInput"
+      );
+
     if (input && !input.disabled) {
+
       input.focus();
+
       input.select();
     }
   }
