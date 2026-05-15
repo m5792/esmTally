@@ -1331,12 +1331,10 @@ function print100Table() {
 /* ================= AI RING INPUT ================= */
 
 .plR5qb{
-  --ringSize:20zpx;   /* BORDER SIZE */
-
   position:relative;
   width:100%;
-  height:38px;
-  padding:var(--ringSize);
+  height:35px;
+  padding:4px;
   border-radius:999px;
   overflow:hidden;
   background:#000;
@@ -1360,8 +1358,7 @@ function print100Table() {
   );
 
   background-size:300% 100%;
-  animation:ringGlow 15s linear infinite;
-
+  animation:ringGlow 10s linear infinite;
   z-index:0;
 }
 
@@ -1369,12 +1366,10 @@ function print100Table() {
 .plR5qb::after{
   content:"";
   position:absolute;
-
-  top:var(--ringSize);
-  left:var(--ringSize);
-  right:var(--ringSize);
-  bottom:var(--ringSize);
-
+  top:4px;
+  left:4px;
+  right:4px;
+  bottom:4px;
   background:#000;
   border-radius:999px;
   z-index:1;
@@ -1386,14 +1381,15 @@ function print100Table() {
   z-index:2;
   width:100%;
   height:100%;
-  border:none;
-  outline:none;
-  background:transparent;
-  color:#fff;
-  padding:0 14px;
+  border:none !important;
+  outline:none !important;
+  background:transparent !important;
+  color:#fff !important;
+  padding:0 14px !important;
   font-size:15px;
   border-radius:999px;
   box-sizing:border-box;
+  margin:0 !important;
 }
 
 /* PLACEHOLDER */
@@ -1440,7 +1436,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   container.style = `
     position:fixed;
-    bottom:10px;
+    bottom:8px;
     right:0.2in;
     width:4.6in;
     z-index:999999;
@@ -2471,12 +2467,51 @@ closeBtn.onclick = () => {
 <!-- footer start hare) -->
   <div class="fixed-footer">
 
-    <!-- Current Time -->
- <div style="display: flex; justify-content: center; align-items: center; background-color: #f7f8fa; color: rgb(1, 1, 1); font-size: 12px; font-weight: bold;  border: 5px solid #003444; ">
-  <div id="currentDateTime" style="padding: 5px 10px; white-space: nowrap; font-size: 16px; "></div>
+
+<div style="display: flex; justify-content: center; align-items: center; background-color: #f7f8fa; color: rgb(1, 1, 1); font-size: 12px; font-weight: bold;  border: 5px solid #c0bebe; ">
   
-  <span id="todayEvent" style="color: rgb(0, 65, 69);font-weight: bold;font-size: 14px; "></span>
+  <!-- Current Time -->
+  <div id="currentDateTime" style="padding: 5px 10px; white-space: nowrap; font-size: 16px; background-color: blue; color: white; "></div>
+
+  <div id="natworkBar">
+<div id="statusBox"> Online </div>
+<div id="infoBox"> <span id="ipText">Your Network IP: Loading...</span></div>
 </div>
+
+   <div class="ticker-wrap"> <div class="ticker"> <span id="todayEvent"></span> </div></div>
+
+</div>
+
+
+
+<style>
+  .ticker-wrap {
+  width: 100%;
+  overflow: hidden;
+  background: #f8ebeb;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+.ticker {
+  display: inline-block;
+  white-space: nowrap;
+  padding-left: 100%;
+  animation: tickerMove 50s linear infinite;
+  font-weight: bold;
+  color: rgb(0, 65, 69);
+  font-size: 14px;
+}
+
+@keyframes tickerMove {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+</style>
 
 <!-- ============ website open navgation buttan code start hare  ========= -->
 <style>
@@ -2798,6 +2833,82 @@ loadPSWData();
 </script>
 <!-- ============ Today Event Script Stop Hare  ========= -->
 
+
+
+<!-- ============ ------------- natwork script and code  and div start ---------- start  ====================== -->
+<script>
+  const natworkBar = document.getElementById("natworkBar");
+  const statusBox = document.getElementById("statusBox");
+  const ipText = document.getElementById("ipText");
+
+
+  // BODY STYLE
+  document.body.style.margin = "0";
+  document.body.style.padding = "20px";
+  document.body.style.fontFamily = "Arial";
+  document.body.style.background = "#f2f2f2";
+
+  // MAIN BAR
+  natworkBar.style.width = "600px";
+  natworkBar.style.height = "28px";
+  natworkBar.style.display = "flex";
+  natworkBar.style.background = "#ffffff";
+
+  // STATUS BOX
+  statusBox.style.width = "150px";
+  statusBox.style.background = "#6aa84f";
+  statusBox.style.color = "white";
+  statusBox.style.display = "flex";
+  statusBox.style.justifyContent = "center";
+  statusBox.style.alignItems = "center";
+  statusBox.style.fontSize = "18px";
+
+  // INFO BOX
+  infoBox.style.flex = "1";
+  infoBox.style.display = "flex";
+  infoBox.style.alignItems = "center";
+  infoBox.style.paddingLeft = "8px";
+  infoBox.style.fontSize = "16px";
+
+  // GET IP
+  async function getIP() {
+    try {
+      const res = await fetch("https://api.ipify.org?format=json");
+      const data = await res.json();
+      const ip = data.ip;
+
+      // SHOW IP
+      ipText.innerText = "Network IP: " + ip;
+
+    } catch (err) {
+      ipText.innerText = "Your Network IP: Not Found";
+    }
+  }
+
+  // UPDATE STATUS
+  function updateStatus() {
+
+    if (navigator.onLine) {
+      statusBox.style.background = "green";
+      statusBox.innerText = "Online";
+      getIP();
+    } else {
+      statusBox.style.background = "red";
+      statusBox.innerText = "Offline";
+      ipText.innerText = "Your Network IP: No Internet";
+    }
+  }
+
+  // EVENTS
+  window.addEventListener("online", updateStatus);
+  window.addEventListener("offline", updateStatus);
+
+  // INITIAL
+  updateStatus();
+
+</script>
+<!-- ============ ------------- natwork script and code  and div stop ---------- xxx  ====================== -->
+
   </div>  <!-- footer stop hare -->
 <!-- ~~~~~~~~~~~~~~~~ ============================ Footer code with content & Script  Stop Hare ~~~~~~~~~~~~~~~~ Script STop ============================ -->
 
@@ -2814,17 +2925,17 @@ loadPSWData();
 // 🔥 COLUMN MAPPING (EDIT HERE ONLY)
 // ==============================
 const mt_colMap = {
-  ldgrlist: 2,
-  ldgr1list: 12, // ✅ independent dropdown
-  ldgr2list: 13, // ✅ independent dropdown
-  g1list: 3,
-  r1list: 3,
-  lokup1list: 3,
-  g2list: 9,
-  r2list: 9,
-  r3list: 13,
-  r4list: 7,
-  lokup2list: 9
+  ldgrlist: 2,      // ✅ independent dropdown (master DP List)
+  ldgr1list: 12,    // ✅ independent dropdown  without <span> value
+  ldgr2list: 13,    // ✅ independent dropdown  without <span> value
+  g1list: 3,        // ✅ independent dropdown & <span> value
+  r1list: 3,        // all list base on "ldgrlist" & <span> value
+  lokup1list: 3,    // xlookup value down side se base on "ldgrlist"
+  g2list: 9,        // ✅ independent dropdown & <span> value
+  r2list: 9,        // all list base on "ldgrlist" & <span> value
+  r3list: 13,       // all list base on "ldgrlist" & <span> value
+  r4list: 7,        // all list base on "ldgrlist" & <span> value
+  lokup2list: 9     // xlookup value down side se base on "ldgrlist"
 };
 
 // ==============================
