@@ -89,10 +89,9 @@ input[readonly]{
 <body>
 <script src="TechNexaBSLogin.js"></script>
 
+
 <div class="financialdata">
-
  <input  type="text" style="text-align: center; font-size: 24px; font-weight: bold; width: 11in; " placeholder="Enter Your Firm Name" >
-
 
 
      <div style="
@@ -373,7 +372,8 @@ box-shadow:0 2px 8px rgba(0,0,0,0.1);
 
 <tr>
      <td><input type="text" value="Less Drawings"></td>
-    <td class="editable"><input type="number" id="liability10" value=""></td>
+    <td class="editable"><input type="number" id="liability10" value=""  style="color:red; font-weight:bold;"  oninput="setNegative(this)"></td>
+    <script>function setNegative(input){ let val = input.value.replace("-", "");  if(val !== ""){ input.value = "-" + val;}}</script>
 
     <td><input type="text" class="ASSETS"></td>
     <td class="editable"><input type="number" id="assets2" value=""></td>
@@ -960,7 +960,7 @@ calculate();
 // PURCHASE
 const PURCHASE = [
     "To Opening Stock",
-    "To Purchase",
+    "To Purchase A/C",
     "To Wages",
     "To Power & Fuel",
     "To Gross Profit"
@@ -972,15 +972,20 @@ const PURCHASE = [
 const EXP = [
     "To Telephone & Internat Exps",
     "Travling Exp.",
-    "Stationery Exp.",
-    "Sales Parmotion Exp.",
+    "To Stationery Exp.",
+    "To Sales Parmotion Exp.",
     "To Bank Charges",
     "To Electricity Exps",
     "To Salary",
+    "To Transport Exp.",
+    "To Travelling Exp.",
+    "To Office Exp.",
     "To Rent",
     "To Depreciation",
+    "To Legal & Accounting Fees",
     "To Repair & Maintinance",
-    "To Misc. Exp."
+    "To Misc. Exp.",
+    "To R/O"
 ];
 
 
@@ -999,7 +1004,9 @@ const OTHERINCOME = [
     "By Commission",
     "By Online Services",
     "By Tds",
-    "By Bank Interest"
+    "By Bank Interest",
+    "By Tution Fees",
+    "By Job Work"
 ];
 
 
@@ -1009,23 +1016,21 @@ const LIABILITIES = [
     "Electricity Payable",
     "Salary Payable",
     "Sundry Creditors",
-    "Wages Payable"
+    "Wages Payable",
+    "GST Payable",
+    "TDS Payable",
+    "Rent Payable"
 ];
 
 
 
-// ASSETS
+// CURRENT ASSETS
 const ASSETS = [
     "Bank Interest",
-    "By Closing Stock",
-    "By Fixed Assets",
-    "By Gross Profit",
-    "By Loans & Advances",
-    "By Sundry Debtors",
-    "Cash in Bank",
-    "Cash in Hand",
+    "Loans & Advances",
     "Commission",
     "Loans & Advances",
+    "GST on Portal",
     "Tds"
 ];
 
@@ -1041,7 +1046,7 @@ style.innerHTML = `
 
 .customDropdown{
     position:absolute;
-    background:#ecebeb;
+    background:rgb(240, 238, 238);
     border:1px solid #ccc;
     border-radius:8px;
     width:250px;
@@ -1068,10 +1073,11 @@ style.innerHTML = `
 }
 
 .newHead{
-    background:#f2f2f2;
+    position:sticky;
+    bottom:0;
+    background: rgb(251, 244, 244);
     font-weight:bold;
-    border-top:1px solid #ddd;
-    margin-top:5px;
+    border: 3px solid white;
 }
 
 `;
@@ -1085,311 +1091,144 @@ document.head.appendChild(style);
 // ==========================================
 
 function applyDropdown(className,dataList){
-
     let inputs =
     document.querySelectorAll("." + className);
-
-
-
     inputs.forEach((input)=>{
-
         let dropdown = null;
-
         let activeIndex = -1;
-
-
-
         // =========================
         // OPEN DROPDOWN
         // =========================
-
         function openDropdown(){
-
             closeDropdown();
-
-
-
             dropdown =
             document.createElement("div");
-
             dropdown.className =
             "customDropdown";
-
-
-
             // POSITION
-
             let rect =
             input.getBoundingClientRect();
-
-
-
             dropdown.style.left =
             rect.left + "px";
-
             dropdown.style.top =
             (rect.bottom + window.scrollY) + "px";
-
             dropdown.style.width =
             rect.width + "px";
-
-
-
             // CREATE ITEMS
-
             dataList.forEach((item,index)=>{
-
                 let div =
                 document.createElement("div");
-
                 div.className =
                 "dropdownItem";
-
                 div.innerText = item;
-
-
-
                 // CLICK SELECT
-
                 div.onclick = ()=>{
-
                     input.value = item;
-
                     closeDropdown();
-
                 };
-
-
-
                 dropdown.appendChild(div);
-
             });
-
-
-
             // =========================
             // NEW HEAD OPTION
             // =========================
 
             let newHead =
             document.createElement("div");
-
             newHead.className =
             "dropdownItem newHead";
-
             newHead.innerText =
             "+ New Head";
-
-
-
             newHead.onclick = ()=>{
-
                 let newValue =
                 prompt("Enter New Head");
-
-
-
                 if(
                     newValue &&
                     newValue.trim() != ""
                 ){
-
                     newValue =
                     newValue.trim();
-
-
-
                     // ADD IN ARRAY
-
                     dataList.push(newValue);
-
-
-
                     // SET INPUT
-
                     input.value =
                     newValue;
-
                 }
-
-
-
                 closeDropdown();
-
             };
-
-
-
             dropdown.appendChild(newHead);
-
-
-
             document.body.appendChild(dropdown);
-
-
-
             activeIndex = -1;
-
         }
-
-
-
         // =========================
         // CLOSE DROPDOWN
         // =========================
-
         function closeDropdown(){
-
             if(dropdown){
-
                 dropdown.remove();
-
                 dropdown = null;
-
             }
-
         }
-
-
-
         // =========================
         // CLICK INPUT
         // =========================
-
         input.addEventListener("click",()=>{
-
             openDropdown();
-
         });
-
-
-
         // =========================
         // FOCUS INPUT
         // =========================
-
         input.addEventListener("focus",()=>{
-
             openDropdown();
-
         });
-
-
-
         // =========================
         // BLOCK TYPING
         // =========================
 
         input.addEventListener("input",()=>{
-
             input.value = "";
-
         });
-
-
-
         // =========================
         // KEYBOARD SUPPORT
         // =========================
-
         input.addEventListener("keydown",(e)=>{
-
             if(!dropdown){
-
                 openDropdown();
-
             }
-
-
 
             let items =
             dropdown.querySelectorAll(".dropdownItem");
-
-
-
             // DOWN KEY
-
             if(e.key === "ArrowDown"){
-
                 e.preventDefault();
-
-
-
                 activeIndex++;
-
-
-
                 if(activeIndex >= items.length){
-
                     activeIndex = 0;
-
                 }
-
-
-
                 updateActive(items);
-
             }
-
-
-
             // UP KEY
-
             else if(e.key === "ArrowUp"){
-
                 e.preventDefault();
-
-
-
                 activeIndex--;
-
-
-
                 if(activeIndex < 0){
-
                     activeIndex =
                     items.length - 1;
-
                 }
-
-
-
                 updateActive(items);
-
             }
-
-
-
             // ENTER KEY
-
             else if(e.key === "Enter"){
-
                 e.preventDefault();
-
-
-
                 if(activeIndex >= 0){
-
                     items[activeIndex].click();
-
                 }
-
             }
-
-
-
             // BLOCK OTHER KEYS
-
             else if(
-
                 e.key.length === 1
-
             ){
-
                 e.preventDefault();
-
             }
-
         });
 
 
@@ -1399,53 +1238,33 @@ function applyDropdown(className,dataList){
         // =========================
 
         function updateActive(items){
-
             items.forEach(item=>{
-
                 item.classList.remove("active");
-
             });
 
-
-
             if(items[activeIndex]){
-
                 items[activeIndex]
                 .classList.add("active");
-
-
-
                 items[activeIndex]
                 .scrollIntoView({
                     block:"nearest"
                 });
-
             }
-
         }
-
-
-
         // =========================
         // CLICK OUTSIDE CLOSE
         // =========================
 
         document.addEventListener("click",(e)=>{
-
             if(
                 e.target !== input &&
                 dropdown &&
                 !dropdown.contains(e.target)
             ){
-
                 closeDropdown();
-
             }
-
         });
-
     });
-
 }
 
 
@@ -1453,47 +1272,12 @@ function applyDropdown(className,dataList){
 // ==========================================
 // APPLY ALL
 // ==========================================
-
-applyDropdown(
-    "PURCHASE",
-    PURCHASE
-);
-
-
-
-applyDropdown(
-    "EXP",
-    EXP
-);
-
-
-
-applyDropdown(
-    "SALE",
-    SALE
-);
-
-
-
-applyDropdown(
-    "OTHERINCOME",
-    OTHERINCOME
-);
-
-
-
-applyDropdown(
-    "LIABILITIES",
-    LIABILITIES
-);
-
-
-
-applyDropdown(
-    "ASSETS",
-    ASSETS
-);
-
+applyDropdown( "PURCHASE",  PURCHASE);
+applyDropdown(  "EXP", EXP);
+applyDropdown( "SALE", SALE);
+applyDropdown( "OTHERINCOME", OTHERINCOME);
+applyDropdown( "LIABILITIES", LIABILITIES);
+applyDropdown( "ASSETS",ASSETS);
 
 /*-----------
 <input type="text" class="PURCHASE" style="color: #ecebeb;">
