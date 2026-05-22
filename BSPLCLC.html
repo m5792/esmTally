@@ -1,0 +1,2031 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AFI TechNexa</title>
+
+<style>
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f4f4f4;
+    padding:20px;
+}
+
+.financialdata{
+    width:1100px;
+    margin:auto;
+    background:#fff;
+    border:2px solid #000;
+    padding:10px;
+}
+
+h1,h2{
+    text-align:center;
+    margin:0;
+}
+
+h1{
+    background:#000;
+    color:#fff;
+    padding:8px;
+    font-size:28px;
+}
+
+h2{
+    margin:15px 0;
+    font-size:22px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-bottom:25px;
+}
+
+th,td{
+    border:1px solid #555;
+    padding:8px;
+    font-size:16px;
+}
+
+th{
+    background:#ddd;
+}
+
+.editable{
+    background:#dff0d8; width: 1in; 
+}
+
+.formula{
+    background:#ffe5cc;
+}
+
+.readonly{
+    background:#f5f5f5;
+}
+
+input{
+    width:100%;
+    border:none;
+    background:transparent;
+    text-align:left;
+    font-size:16px;
+    outline:none;
+}
+
+input[readonly]{
+    font-weight:bold;
+    color:#000;
+}
+
+</style>
+
+</head>
+
+<body>
+<script src="TechNexaBSLogin.js"></script>
+
+<div class="financialdata">
+
+ <input  type="text" style="text-align: center; font-size: 24px; font-weight: bold; width: 11in; " placeholder="Enter Your Firm Name" >
+
+
+
+     <div style="
+display:flex;
+flex-wrap:wrap;
+gap:5px;
+align-items:center;
+justify-content:center; /* ✅ center alignment */
+border-bottom: 5px solid #024369;
+padding:5px;
+margin-bottom:5px;
+border-radius:10px;
+background:#f9fbfc;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+">
+ <table>
+<tr>
+<th style="width:180px;">Proprietor Name</th>
+<td style="width:300px;"> <input type="text" id="proname" placeholder="Enter Proprietor Name"></td>
+
+<th style="width:180px;">Session</th>
+<td style="width:80px;"> 
+    <select id="ayear" style="border: none;">
+    <option value="26-27">26-27</option>
+    <option value="24-25">24-25</option>
+    <option>23-24</option>
+    </select>
+</td>
+
+<th style="width:180px;">Profit %</th>
+<td style="background-color: #ebf8b1;"> <input type="number" id="profitPercent" value="15"></td>
+</tr>
+</table>
+
+</div>
+
+
+<h2>Trading & Profit & Loss Account from 1 Apr 2025 to 31 March 2026</h2>
+
+<!-- ========================================= -->
+<!-- TRADING ACCOUNT -->
+<!-- ========================================= -->
+
+<table>
+
+<tr>
+    <th>Particulars - Expenses</th> <th>Amount</th>
+    <th>Particulars - Income</th> <th>Amount</th>
+</tr>
+
+<tr>
+    <td>To Opening Stock</td>
+    <td class="editable"><input type="number" id="openingStock" value="0"></td>
+
+    <td>By Sales A/c</td>
+    <td class="editable"><input type="number" id="sales" value="0"></td>
+</tr>
+
+<tr>
+    <td>To Purchase</td>
+    <td class="editable"><input type="number" id="purchase" value="0"></td>
+
+    <td>By Closing Stock</td>
+    <td class="formula"><input type="text" id="closingStock" readonly></td>
+</tr>
+
+<tr>
+    <td><input type="text" class="PURCHASE"></td>
+    <td class="editable"><input type="number" id="wages" value=""></td>
+
+    <td></td>
+    <td></td>
+</tr>
+
+<tr>
+    <td><input type="text" class="PURCHASE"></td>
+    <td class="editable"><input type="number" id="powerFuel" value=""></td>
+
+    <td></td>
+    <td></td>
+</tr>
+
+<tr>
+    <td><b>To Gross Profit</b></td>
+    <td class="formula"><input type="text" id="grossProfit" readonly></td>
+
+    <td></td>
+    <td></td>
+</tr>
+
+<tr>
+    <td><b>Total</b></td>
+    <td class="formula"><input type="text" id="tradingTotal1" readonly></td>
+
+    <td><b>Total</b></td>
+    <td class="formula"><input type="text" id="tradingTotal2" readonly></td>
+</tr>
+
+
+
+<tr>
+    <th>Other - Expenses</th> <th>Amount</th>
+    <th>Other - Income</th> <th>Amount</th>
+</tr>
+
+<tr>
+    <td>To Depreciation</td>
+    <td class="formula"><input type="number" id="depreciation" value="0" readonly></td>
+
+
+    <td>By Gross Profit</td>
+    <td class="formula"><input type="text" id="grossProfit2" readonly></td>
+</tr>
+
+<tr>
+    <td><input type="text" class="EXP"></td>
+    <td class="editable"><input type="number" id="exp2" value=""></td>
+
+    <td><input type="text" class="OTHERINCOME" ></td>
+    <td class="editable"><input type="number" id="oi1" value=""></td>
+</tr>
+
+<tr>
+    <td><input type="text" class="EXP"></td>
+    <td class="editable"><input type="number" id="exp3" value=""></td>
+
+    <td><input type="text" class="OTHERINCOME"></td>
+    <td class="editable"><input type="number" id="oi2" value=""></td>
+</tr>
+
+<tr>
+    <td><input type="text" class="EXP"></td>
+    <td class="editable"><input type="number" id="exp4" value=""></td>
+
+    <td><input type="text" class="OTHERINCOME"></td>
+    <td class="editable"><input type="number" id="oi3" value=""></td>
+</tr>
+
+<tr>
+    <td><input type="text" class="EXP"></td>
+    <td class="editable"><input type="number" id="exp5" value=""></td>
+
+    <td><input type="text" class="OTHERINCOME"></td>
+    <td class="editable"><input type="number" id="oi4" value=""></td>
+</tr>
+
+<tr>
+    <td><input type="text" class="EXP"></td>
+    <td class="editable"><input type="number" id="exp6" value=""></td>
+
+    <td><input type="text" class="OTHERINCOME"></td>
+    <td class="editable"><input type="number" id="oi5" value=""></td>
+</tr>
+
+<tr>
+    <td><input type="text" class="EXP"></td>
+    <td class="editable"><input type="number" id="exp7" value=""></td>
+
+    <td><input type="text" class="OTHERINCOME"></td>
+    <td class="editable"><input type="number" id="oi6" value=""></td>
+</tr>
+
+<tr>
+    <td><input type="text" class="EXP"></td>
+    <td class="editable"><input type="number" id="exp8" value=""></td>
+
+    <td><input type="text" class="OTHERINCOME"></td>
+    <td class="editable"><input type="number" id="oi7" value=""></td>
+</tr>
+
+<tr>
+    <td><input type="text" class="EXP"></td>
+    <td class="editable"><input type="number" id="exp9" value=""></td>
+
+    <td><input type="text" class="OTHERINCOME"></td>
+    <td class="editable"><input type="number" id="oi8" value=""></td>
+</tr>
+
+<tr>
+    <td><input type="text" class="EXP"></td>
+    <td class="editable"><input type="number" id="exp10" value=""></td>
+
+    <td><input type="text" class="OTHERINCOME"></td>
+    <td class="editable"><input type="number" id="oi9" value=""></td>
+</tr>
+
+<tr>
+    <td><input type="text" class="EXP"></td>
+    <td class="editable"><input type="number" id="exp11" value=""></td>
+
+    <td><input type="text" class="OTHERINCOME"></td>
+    <td class="editable"><input type="number" id="oi10" value=""></td>
+</tr>
+
+<tr>
+    <td><input type="text" class="EXP"></td>
+    <td class="editable"><input type="number" id="exp12" value=""></td>
+
+    <td><input type="text" class="OTHERINCOME"></td>
+    <td class="editable"><input type="number" id="oi11" value=""></td>
+</tr>
+
+<tr>
+   <td><input type="text" class="EXP"></td>
+    <td class="editable"><input type="number" id="exp1" value=""></td>
+
+    <td><input type="text" class="OTHERINCOME"></td>
+    <td class="editable"><input type="number" id="oi12" value=""></td>
+</tr>
+
+<tr>
+    <td><b>To Net Profit</b></td>
+    <td class="formula"><input type="text" id="netProfit" readonly></td>
+
+    <td></td>
+    <td ></td>
+</tr>
+
+<tr>
+    <td><b>Total</b></td>
+    <td class="formula"><input type="text" id="plTotal1" readonly></td>
+
+    <td><b>Total</b></td>
+    <td class="formula"><input type="text" id="plTotal2" readonly></td>
+</tr>
+
+</table>
+
+
+
+<!-- ========================================= -->
+<!-- BALANCE SHEET -->
+<!-- ========================================= -->
+
+<h2>Balance Sheet from 1 Apr 2025 to 31 March 2026</h2>
+<table>
+
+<tr>
+    <th>Liabilities</th>
+    <th>Amount</th>
+    <th>Assets</th>
+    <th>Amount</th>
+</tr>
+
+
+<tr>
+    <td style="font-weight: bold; color: blue;">Capital A/c</td>
+    <td ></td>
+
+   <td>Fixed Assets <br> (as per Schedule "A" annexed)</td>
+    <td class="formula"><input type="number" id="fixedAssets" value="0" readonly></td>
+</tr>
+
+
+<tr>
+    <td>Opening Capital</td>
+    <td class="editable"><input type="number" id="liability1" value=""></td>
+
+    <td>Closing Stock</td>
+    <td class="formula"><input type="text" id="closingStockBs" readonly></td>
+</tr>
+
+<tr>
+    <td>Add Net Profit</td>
+    <td class="formula"><input type="text" id="netProfitBs" readonly></td>
+
+    <td style="font-weight: bold; color: blue;">Current Assets, Loans <br> & Advances</td>
+    <td ></td>
+</tr>
+
+<tr>
+    <td id="drawingsLabel" >Add Mis Match Amt in Assets or Income Side</td>
+    <td class="formula"><input type="text" id="drawings" readonly></td>
+
+    <td>Sundry Debtors</td>
+    <td class="editable"><input type="number" id="assets1" value=""></td>
+</tr>
+
+<tr>
+     <td><input type="text" value="Less Drawings"></td>
+    <td class="editable"><input type="number" id="liability10" value=""></td>
+
+    <td><input type="text" class="ASSETS"></td>
+    <td class="editable"><input type="number" id="assets2" value=""></td>
+</tr>
+
+<tr>
+     <td style="font-weight: bold; color: blue;">Secured Loan</td>
+    <td ></td>
+
+    <td><input type="text" class="ASSETS"></td>
+    <td class="editable"><input type="number" id="assets3" value=""></td>
+</tr>
+
+<tr>
+    <td><input type="text" placeholder="Secured Loan 1"></td>
+    <td class="editable"><input type="number" id="liability2" value=""></td>
+
+    <td></td>
+    <td ></td>
+</tr>
+
+<tr>
+    <td><input type="text" placeholder="Secured Loan 2"></td>
+    <td class="editable"><input type="number" id="liability3" value=""></td>
+
+    <td style="font-weight: bold; color: blue;">Cash & Cash Equivalent</td>
+    <td ></td>
+</tr>
+
+<tr>
+     <td style="font-weight: bold; color: blue;">Current Liabilities  & Provisions</td>
+    <td ></td>
+
+    <td>Cash in Hand</td>
+    <td class="editable"><input type="number" id="assets4" value=""></td>
+</tr>
+
+<tr>
+     <td>Sundry Creditors</td>
+    <td class="editable"><input type="number" id="liability4" value=""></td>
+
+    <td><input type="text" placeholder="Cash in Bank 1"></td>
+    <td class="editable"><input type="number" id="assets5" value=""></td>
+</tr>
+
+<tr>
+     <td><input type="text" class="LIABILITIES"></td>
+    <td class="editable"><input type="number" id="liability5" value=""></td>
+
+    <td><input type="text" placeholder="Cash in Bank 2"></td>
+    <td class="editable"><input type="number" id="assets6" value=""></td>
+</tr>
+
+<tr>
+    <td><input type="text" class="LIABILITIES"></td>
+    <td class="editable"><input type="number" id="liability6" value=""></td>
+
+    <td style="font-weight: bold; color: blue;">Other Assets</td>
+    <td ></td>
+</tr>
+<tr>
+     <td><input type="text" class="LIABILITIES"></td>
+    <td class="editable"><input type="number" id="liability7" value=""></td>
+
+    <td><input type="text" class="ASSETS"></td>
+    <td class="editable"><input type="number" id="assets7" value=""></td>
+</tr>
+<tr>
+      <td><input type="text" class="LIABILITIES"></td>
+    <td class="editable"><input type="number" id="liability8" value=""></td>
+
+    <td><input type="text" class="ASSETS"></td>
+    <td class="editable"><input type="number" id="assets8" value=""></td>
+</tr>
+
+<tr>
+    <td><input type="text" class="LIABILITIES"></td>
+    <td class="editable"><input type="number" id="liability9" value=""></td>
+
+    <td><input type="text" class="ASSETS"></td>
+    <td class="editable"><input type="number" id="assets9" value=""></td>
+</tr>
+
+<tr>
+    <td></td>
+    <td ></td>
+
+    <td><input type="text" class="ASSETS"></td>
+    <td class="editable"><input type="number" id="assets10" value=""></td>
+</tr>
+
+<tr>
+    <td><b>Total</b></td>
+    <td class="formula"><input type="text" id="liabilityTotal" readonly></td>
+
+    <td><b>Total</b></td>
+    <td class="formula"><input type="text" id="assetTotal" readonly></td>
+</tr>
+
+</table>
+
+
+<!-- ============  ------ FIXED ASSETS CHART -------  ==================== -->
+
+<h2>FIXED ASSETS </h2>
+<h4 style="text-align: center;">Schedule "A" of Fixed Assets as on 31-March-2026 </h4>
+
+<table>
+<tr>
+    <th style="width:35%;">Particulars</th>
+    <th style="width:15%;">Amount</th>
+    <th style="width:15%;">Dep. %</th>
+    <th style="width:20%;">Dep.</th>
+    <th style="width:15%;">Value</th>
+</tr>
+
+<!-- =========== FURNITURE ================ -->
+<tr>
+    <td><input  value="FURNITURE"></td>
+    <td class="editable"> <input type="number" id="furnitureAmt" value="0"> </td>
+    <td class="editable"> <input type="number" id="furniturePer" value="10">  </td>
+    <td class="formula"> <input type="text" id="furnitureDep" readonly> </td>
+    <td class="formula"> <input type="text" id="furnitureValue" readonly></td>
+</tr>
+
+<!-- ============= COMPUTER ================= -->
+<tr>
+    <td><input  value="COMPUTER"></td>
+    <td class="editable"> <input type="number" id="computerAmt" value="0"></td>
+    <td class="editable"> <input type="number" id="computerPer" value="40"> </td>
+    <td class="formula"> <input type="text" id="computerDep" readonly> </td>
+    <td class="formula"> <input type="text" id="computerValue" readonly> </td>
+</tr>
+
+<!-- =========== MOBILE ================== -->
+<tr>
+    <td><input  value="MOBILE"></td>
+    <td class="editable"><input type="number" id="mobileAmt" value="0"></td>
+    <td class="editable"> <input type="number" id="mobilePer" value="15"> </td>
+    <td class="formula"> <input type="text" id="mobileDep" readonly> </td>
+    <td class="formula"> <input type="text" id="mobileValue" readonly> </td>
+</tr>
+
+
+
+<!-- ========================================= -->
+<!-- TOTAL -->
+<!-- ========================================= -->
+
+<tr>
+
+    <th>TOTAL</th>
+
+    <th class="formula">
+        <input type="text" id="fixedTotal" readonly>
+    </th>
+
+    <th></th>
+
+    <th class="formula">
+        <input type="text" id="fixedDepTotal" readonly>
+    </th>
+
+    <th class="formula">
+        <input type="text" id="fixedFinalValue" readonly>
+    </th>
+
+</tr>
+
+</table>
+
+</div>
+
+<br><br><br>
+<!-- ========================================= -->
+<!-- SCRIPT -->
+<!-- ========================================= -->
+
+<script>
+
+function val(id){
+
+    return parseFloat(
+        document.getElementById(id).value
+    ) || 0;
+
+}
+
+
+
+function set(id,value){
+
+    document.getElementById(id).value =
+    Number(value).toFixed();
+
+}
+
+
+
+function calculate(){
+
+
+
+    // =====================================
+    // TRADING ACCOUNT
+    // =====================================
+
+    let openingStock =
+        val('openingStock');
+
+    let purchase =
+        val('purchase');
+
+    let wages =
+        val('wages');
+
+    let powerFuel =
+        val('powerFuel');
+
+    let sales =
+        val('sales');
+
+    let profitPercent =
+        val('profitPercent');
+
+
+
+    // SALES WITHOUT PROFIT
+
+    let stockSale =
+
+        sales /
+
+        (
+            1 + (profitPercent / 100)
+        );
+
+
+
+    // GROSS PROFIT
+
+    let grossProfit =
+
+        sales - stockSale;
+
+
+
+    // CLOSING STOCK
+
+    let closingStock =
+
+        (
+            openingStock +
+            purchase +
+            wages +
+            powerFuel
+        )
+
+        -
+
+        (
+            sales - grossProfit
+        );
+
+
+
+    // AUTO FILL
+
+    set(
+        'grossProfit',
+        grossProfit
+    );
+
+
+
+    set(
+        'closingStock',
+        closingStock
+    );
+
+
+
+    // TRADING TOTAL
+
+    let tradingDebit =
+
+        openingStock +
+
+        purchase +
+
+        wages +
+
+        powerFuel +
+
+        grossProfit;
+
+
+
+    let tradingCredit =
+
+        sales +
+
+        closingStock;
+
+
+
+    set(
+        'tradingTotal1',
+        tradingDebit
+    );
+
+
+
+    set(
+        'tradingTotal2',
+        tradingCredit
+    );
+
+
+
+    // =====================================
+    // P&L ACCOUNT
+    // =====================================
+
+    set(
+        'grossProfit2',
+        grossProfit
+    );
+
+
+
+    let expenses =
+
+         val('exp1') +
+        val('exp2') +
+        val('exp3') +
+        val('exp4') +
+        val('exp5') +
+        val('exp6') +
+        val('exp7') +
+        val('exp8') +
+        val('exp9') +
+        val('exp10') +
+        val('exp11') +
+        val('exp12') +
+
+        val('depreciation');
+
+
+
+    let otherIncome =
+        val('oi1') +
+        val('oi2') +
+        val('oi3') +
+        val('oi4') +
+        val('oi5') +
+        val('oi6') +
+        val('oi7') +
+        val('oi8') +
+        val('oi9') +
+        val('oi10') +
+        val('oi11') +
+        val('oi12');
+
+
+
+    let totalIncome =
+
+        grossProfit +
+
+        otherIncome;
+
+
+
+    let netProfit =
+
+        totalIncome -
+
+        expenses;
+
+
+
+    set(
+        'netProfit',
+        netProfit
+    );
+
+
+
+    set(
+        'plTotal1',
+        expenses + netProfit
+    );
+
+
+
+    set(
+        'plTotal2',
+        totalIncome
+    );
+
+
+
+    // =====================================
+    // BALANCE SHEET
+    // =====================================
+
+    set(
+        'netProfitBs',
+        netProfit
+    );
+
+
+
+    set(
+        'closingStockBs',
+        closingStock
+    );
+
+
+
+    // ASSETS
+
+    let assets =
+
+        val('fixedAssets') +
+
+        closingStock +
+
+        val('assets1') +
+
+        val('assets2') +
+
+        val('assets3') +
+
+        val('assets4') +
+        val('assets5') +
+        val('assets6') +
+        val('assets7') +
+        val('assets8') +
+        val('assets9') +
+
+        val('assets10');
+
+
+
+    // LIABILITY WITHOUT DRAWINGS
+
+    let liabilityWithoutDrawings =
+
+        val('liability1') +
+        netProfit +
+        val('liability2') +
+        val('liability3') +
+        val('liability4') +
+        val('liability5') +
+        val('liability6') +
+        val('liability7') +
+        val('liability8') +
+        val('liability9') +
+        val('liability10');
+
+    // DIFFERENCE
+
+    // ADD BLINK CSS FROM SCRIPT
+const style = document.createElement("style");
+
+style.innerHTML = `
+@keyframes blinkRed{
+    0%{opacity:1;}
+    50%{opacity:0.2;}
+    100%{opacity:1;}
+}
+`;
+
+document.head.appendChild(style);
+
+
+// ======================================
+
+let diff =
+    liabilityWithoutDrawings -
+    assets;
+
+// DRAWINGS VALUE
+let drawingsValue =
+    Math.abs(diff);
+
+set('drawings', drawingsValue);
+
+let drawingsLabel =
+    document.getElementById('drawingsLabel');
+
+let liabilities = 0;
+
+// PROPRIETOR NAME
+let proName =
+    document.getElementById('proname').value.trim();
+
+// RESET STYLE
+drawingsLabel.style.animation = "none";
+drawingsLabel.style.color = "";
+drawingsLabel.innerHTML = "";
+
+// ======================================
+// CONDITION
+// ======================================
+
+// IF VALUE = 0
+if(drawingsValue == 0){
+
+    drawingsLabel.innerHTML = '';
+
+    liabilities =
+        liabilityWithoutDrawings;
+}
+
+// MISMATCH
+else if(diff >= 0){
+
+    drawingsLabel.innerHTML =
+        'Add Mis Match Amt in <br> Assets or Income Side';
+
+    // RED + BLINK
+    drawingsLabel.style.color = "red";
+    drawingsLabel.style.fontWeight = "bold";
+    drawingsLabel.style.animation =
+        "blinkRed 1s infinite";
+
+    liabilities =
+        liabilityWithoutDrawings -
+        drawingsValue;
+}
+
+// ADD CAPITAL
+else{
+
+    drawingsLabel.innerHTML =
+        'Add. Capital' +
+        (proName ? ' - ' + proName : '');
+
+    // GREEN
+    drawingsLabel.style.color = "green";
+    drawingsLabel.style.fontWeight = "bold";
+
+    liabilities =
+        liabilityWithoutDrawings +
+        drawingsValue;
+}
+    // FINAL TOTAL
+    set( 'liabilityTotal', liabilities);
+    set('assetTotal',assets);
+}
+
+// =========================================
+// AUTO CALCULATE
+// =========================================
+
+let inputs =
+document.querySelectorAll( 'input:not([readonly])');
+inputs.forEach(inp=>{inp.addEventListener('input', calculate);
+});
+calculate();
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+<script>
+
+// ==========================================
+// AUTO CUSTOM DROPDOWN SYSTEM
+// KEYBOARD SUPPORT + NEW HEAD OPTION
+// ==========================================
+
+
+
+// PURCHASE
+const PURCHASE = [
+    "To Opening Stock",
+    "To Purchase",
+    "To Wages",
+    "To Power & Fuel",
+    "To Gross Profit"
+];
+
+
+
+// EXPENSE
+const EXP = [
+    "To Telephone & Internat Exps",
+    "Travling Exp.",
+    "Stationery Exp.",
+    "Sales Parmotion Exp.",
+    "To Bank Charges",
+    "To Electricity Exps",
+    "To Salary",
+    "To Rent",
+    "To Depreciation",
+    "To Repair & Maintinance",
+    "To Misc. Exp."
+];
+
+
+
+// SALE
+const SALE = [
+    "By Sales A/c",
+    "By Closing Stock"
+];
+
+
+
+// OTHER INCOME
+const OTHERINCOME = [
+    "By Mobail Repairing",
+    "By Commission",
+    "By Online Services",
+    "By Tds",
+    "By Bank Interest"
+];
+
+
+
+// LIABILITIES
+const LIABILITIES = [
+    "Electricity Payable",
+    "Salary Payable",
+    "Sundry Creditors",
+    "Wages Payable"
+];
+
+
+
+// ASSETS
+const ASSETS = [
+    "Bank Interest",
+    "By Closing Stock",
+    "By Fixed Assets",
+    "By Gross Profit",
+    "By Loans & Advances",
+    "By Sundry Debtors",
+    "Cash in Bank",
+    "Cash in Hand",
+    "Commission",
+    "Loans & Advances",
+    "Tds"
+];
+
+
+
+// ==========================================
+// GLOBAL STYLE
+// ==========================================
+
+const style = document.createElement("style");
+
+style.innerHTML = `
+
+.customDropdown{
+    position:absolute;
+    background:#ecebeb;
+    border:1px solid #ccc;
+    border-radius:8px;
+    width:250px;
+    max-height:450px;
+    overflow-y:auto;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+    z-index:99999;
+    padding:4px;
+    box-sizing:border-box;
+}
+
+.dropdownItem{
+    padding:8px 10px;
+    cursor:pointer;
+    border-radius:5px;
+    font-size:14px;
+    user-select:none;
+}
+
+.dropdownItem:hover,
+.dropdownItem.active{
+    background:#007bff;
+    color:#fff;
+}
+
+.newHead{
+    background:#f2f2f2;
+    font-weight:bold;
+    border-top:1px solid #ddd;
+    margin-top:5px;
+}
+
+`;
+
+document.head.appendChild(style);
+
+
+
+// ==========================================
+// CREATE DROPDOWN
+// ==========================================
+
+function applyDropdown(className,dataList){
+
+    let inputs =
+    document.querySelectorAll("." + className);
+
+
+
+    inputs.forEach((input)=>{
+
+        let dropdown = null;
+
+        let activeIndex = -1;
+
+
+
+        // =========================
+        // OPEN DROPDOWN
+        // =========================
+
+        function openDropdown(){
+
+            closeDropdown();
+
+
+
+            dropdown =
+            document.createElement("div");
+
+            dropdown.className =
+            "customDropdown";
+
+
+
+            // POSITION
+
+            let rect =
+            input.getBoundingClientRect();
+
+
+
+            dropdown.style.left =
+            rect.left + "px";
+
+            dropdown.style.top =
+            (rect.bottom + window.scrollY) + "px";
+
+            dropdown.style.width =
+            rect.width + "px";
+
+
+
+            // CREATE ITEMS
+
+            dataList.forEach((item,index)=>{
+
+                let div =
+                document.createElement("div");
+
+                div.className =
+                "dropdownItem";
+
+                div.innerText = item;
+
+
+
+                // CLICK SELECT
+
+                div.onclick = ()=>{
+
+                    input.value = item;
+
+                    closeDropdown();
+
+                };
+
+
+
+                dropdown.appendChild(div);
+
+            });
+
+
+
+            // =========================
+            // NEW HEAD OPTION
+            // =========================
+
+            let newHead =
+            document.createElement("div");
+
+            newHead.className =
+            "dropdownItem newHead";
+
+            newHead.innerText =
+            "+ New Head";
+
+
+
+            newHead.onclick = ()=>{
+
+                let newValue =
+                prompt("Enter New Head");
+
+
+
+                if(
+                    newValue &&
+                    newValue.trim() != ""
+                ){
+
+                    newValue =
+                    newValue.trim();
+
+
+
+                    // ADD IN ARRAY
+
+                    dataList.push(newValue);
+
+
+
+                    // SET INPUT
+
+                    input.value =
+                    newValue;
+
+                }
+
+
+
+                closeDropdown();
+
+            };
+
+
+
+            dropdown.appendChild(newHead);
+
+
+
+            document.body.appendChild(dropdown);
+
+
+
+            activeIndex = -1;
+
+        }
+
+
+
+        // =========================
+        // CLOSE DROPDOWN
+        // =========================
+
+        function closeDropdown(){
+
+            if(dropdown){
+
+                dropdown.remove();
+
+                dropdown = null;
+
+            }
+
+        }
+
+
+
+        // =========================
+        // CLICK INPUT
+        // =========================
+
+        input.addEventListener("click",()=>{
+
+            openDropdown();
+
+        });
+
+
+
+        // =========================
+        // FOCUS INPUT
+        // =========================
+
+        input.addEventListener("focus",()=>{
+
+            openDropdown();
+
+        });
+
+
+
+        // =========================
+        // BLOCK TYPING
+        // =========================
+
+        input.addEventListener("input",()=>{
+
+            input.value = "";
+
+        });
+
+
+
+        // =========================
+        // KEYBOARD SUPPORT
+        // =========================
+
+        input.addEventListener("keydown",(e)=>{
+
+            if(!dropdown){
+
+                openDropdown();
+
+            }
+
+
+
+            let items =
+            dropdown.querySelectorAll(".dropdownItem");
+
+
+
+            // DOWN KEY
+
+            if(e.key === "ArrowDown"){
+
+                e.preventDefault();
+
+
+
+                activeIndex++;
+
+
+
+                if(activeIndex >= items.length){
+
+                    activeIndex = 0;
+
+                }
+
+
+
+                updateActive(items);
+
+            }
+
+
+
+            // UP KEY
+
+            else if(e.key === "ArrowUp"){
+
+                e.preventDefault();
+
+
+
+                activeIndex--;
+
+
+
+                if(activeIndex < 0){
+
+                    activeIndex =
+                    items.length - 1;
+
+                }
+
+
+
+                updateActive(items);
+
+            }
+
+
+
+            // ENTER KEY
+
+            else if(e.key === "Enter"){
+
+                e.preventDefault();
+
+
+
+                if(activeIndex >= 0){
+
+                    items[activeIndex].click();
+
+                }
+
+            }
+
+
+
+            // BLOCK OTHER KEYS
+
+            else if(
+
+                e.key.length === 1
+
+            ){
+
+                e.preventDefault();
+
+            }
+
+        });
+
+
+
+        // =========================
+        // ACTIVE ITEM
+        // =========================
+
+        function updateActive(items){
+
+            items.forEach(item=>{
+
+                item.classList.remove("active");
+
+            });
+
+
+
+            if(items[activeIndex]){
+
+                items[activeIndex]
+                .classList.add("active");
+
+
+
+                items[activeIndex]
+                .scrollIntoView({
+                    block:"nearest"
+                });
+
+            }
+
+        }
+
+
+
+        // =========================
+        // CLICK OUTSIDE CLOSE
+        // =========================
+
+        document.addEventListener("click",(e)=>{
+
+            if(
+                e.target !== input &&
+                dropdown &&
+                !dropdown.contains(e.target)
+            ){
+
+                closeDropdown();
+
+            }
+
+        });
+
+    });
+
+}
+
+
+
+// ==========================================
+// APPLY ALL
+// ==========================================
+
+applyDropdown(
+    "PURCHASE",
+    PURCHASE
+);
+
+
+
+applyDropdown(
+    "EXP",
+    EXP
+);
+
+
+
+applyDropdown(
+    "SALE",
+    SALE
+);
+
+
+
+applyDropdown(
+    "OTHERINCOME",
+    OTHERINCOME
+);
+
+
+
+applyDropdown(
+    "LIABILITIES",
+    LIABILITIES
+);
+
+
+
+applyDropdown(
+    "ASSETS",
+    ASSETS
+);
+
+
+/*-----------
+<input type="text" class="PURCHASE" style="color: #ecebeb;">
+<input type="text" class="EXP">
+<input type="text" class="SALE">
+<input type="text" class="OTHERINCOME">
+<input type="text" class="LIABILITIES">
+<input type="text" class="ASSETS">
+*/
+</script>
+
+
+
+
+
+<script>
+// ========================================
+// VALUE GET
+// =========================================
+
+function val(id){
+
+    return parseFloat(
+        document.getElementById(id).value
+    ) || 0;
+}
+// =========================================
+// VALUE SET
+// =========================================
+
+function set(id,value){
+
+    document.getElementById(id).value =
+    Number(value).toFixed();
+}
+// =========================================
+// FIXED ASSETS CALCULATION
+// =========================================
+
+function fixedAssetsCalc(){
+    // =====================================
+    // FURNITURE
+    // =====================================
+
+    let furnitureAmt = val('furnitureAmt');
+    let furniturePer = val('furniturePer');
+    let furnitureDep = ( furnitureAmt * furniturePer ) / 100;
+    let furnitureValue = furnitureAmt - furnitureDep;
+    set( 'furnitureDep', furnitureDep);
+    set( 'furnitureValue', furnitureValue);
+
+    // =====================================
+    // COMPUTER
+    // =====================================
+
+    let computerAmt = val('computerAmt');
+    let computerPer = val('computerPer');
+    let computerDep = ( computerAmt * computerPer) / 100;
+    let computerValue = computerAmt - computerDep;
+    set( 'computerDep', computerDep);
+    set( 'computerValue', computerValue );
+
+    // =====================================
+    // MOBILE
+    // =====================================
+    let mobileAmt = val('mobileAmt');
+    let mobilePer = val('mobilePer');
+    let mobileDep = (  mobileAmt * mobilePer ) / 100;
+    let mobileValue = mobileAmt - mobileDep;
+    set( 'mobileDep', mobileDep);
+    set(  'mobileValue', mobileValue);
+
+    // =====================================
+    // TOTALS
+    // =====================================
+
+    let totalAmount = furnitureAmt + computerAmt + mobileAmt;
+    let totalDep = furnitureDep + computerDep + mobileDep;
+    let finalValue = furnitureValue + computerValue + mobileValue;
+    // =====================================
+    // SHOW TOTAL
+    // =====================================
+
+    set('fixedTotal', totalAmount );
+    set( 'fixedDepTotal', totalDep );
+    set( 'fixedFinalValue',  finalValue );
+
+    // =====================================
+    // AUTO LINK TO BALANCE SHEET
+    // =====================================
+
+    let fixedAssetsInput = document.getElementById( 'fixedAssets' );
+    if(fixedAssetsInput){ fixedAssetsInput.value = finalValue.toFixed(); }
+
+    // =====================================
+    // AUTO LINK TO P&L DEPRECIATION
+    // =====================================
+
+    let depreciationInput = document.getElementById( 'depreciation');
+    if(depreciationInput){ depreciationInput.value = totalDep.toFixed();}
+
+    // =====================================
+    // RE-CALCULATE MAIN SHEET
+    // =====================================
+
+    if(typeof calculate === "function"){ calculate();}
+}
+
+// =========================================
+// AUTO RUN
+// =========================================
+
+let fixedInputs =
+document.querySelectorAll(
+
+`
+#furnitureAmt,
+#furniturePer,
+#computerAmt,
+#computerPer,
+#mobileAmt,
+#mobilePer
+`
+);
+
+fixedInputs.forEach(inp=>{ inp.addEventListener( 'input', fixedAssetsCalc );
+
+});
+
+// =========================================
+// FIRST LOAD
+// =========================================
+fixedAssetsCalc();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ========================================= -->
+<!-- EXPORT BUTTON -->
+<!-- ========================================= -->
+
+<button id="exportBtn" style="
+position:fixed;
+right:20px;
+bottom:50px;
+padding:12px 20px;
+border:none;
+border-radius:12px;
+background:#012649;
+color:#fff;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+box-shadow:0 4px 10px rgba(0,0,0,0.25);
+z-index:99999;
+">
+📥 Export
+</button>
+
+<!-- ========================================= -->
+<!-- EXPORT MENU -->
+<!-- ========================================= -->
+
+<div id="exportMenu" style="
+position:fixed;
+right:20px;
+bottom:75px;
+display:none;
+flex-direction:column;
+gap:8px;
+background:#fff;
+padding:10px;
+border-radius:12px;
+box-shadow:0 4px 15px rgba(0,0,0,0.25);
+z-index:99999;
+min-width:180px;
+">
+
+<button data-type="html" style="
+padding:10px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+background:#f1f1f1;
+font-weight:bold;
+">
+🌐 Export HTML
+</button>
+
+<button data-type="excel" style="
+padding:10px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+background:#f1f1f1;
+font-weight:bold;
+">
+📊 Export Excel
+</button>
+
+<button data-type="print" style="
+padding:10px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+background:#f1f1f1;
+font-weight:bold;
+">
+🖨 Print Sheet
+</button>
+
+</div>
+
+<script>
+
+// ==========================================
+// EXPORT MENU TOGGLE
+// ==========================================
+
+const exportBtn =
+    document.getElementById("exportBtn");
+
+const exportMenu =
+    document.getElementById("exportMenu");
+
+exportBtn.onclick = function(e){
+
+    e.stopPropagation();
+
+    exportMenu.style.display =
+        exportMenu.style.display === "flex"
+        ? "none"
+        : "flex";
+};
+
+// ==========================================
+// HIDE MENU
+// ==========================================
+
+document.addEventListener("click", function(e){
+
+    if(
+        !exportMenu.contains(e.target) &&
+        e.target !== exportBtn
+    ){
+
+        exportMenu.style.display =
+            "none";
+    }
+});
+
+// ==========================================
+// MENU BUTTONS
+// ==========================================
+
+document.querySelectorAll(
+    "#exportMenu button"
+).forEach(btn => {
+
+    btn.onclick = function(){
+
+        const type =
+            this.dataset.type;
+
+        exportSheet(type);
+
+        exportMenu.style.display =
+            "none";
+    };
+});
+
+// ==========================================
+// EXPORT FUNCTION
+// ==========================================
+
+function exportSheet(type){
+
+    const financialdata =
+        document.querySelector(".financialdata");
+
+    if(!financialdata){
+
+        alert("⚠️ Sheet not found!");
+        return;
+    }
+
+    // ======================================
+    // FILE NAME
+    // ======================================
+
+    let proName =
+        document.getElementById("proname")
+        ?.value.trim() || "financialdata";
+
+    let ayear =
+        document.getElementById("ayear")
+        ?.value.trim() || "2025-26";
+
+    let fileName =
+        (proName + " " + ayear)
+        .replace(/[\\/:*?"<>|]/g, "_");
+
+    // ======================================
+    // CLONE financialdata
+    // ======================================
+
+    const cloned =
+        financialdata.cloneNode(true);
+
+    // ======================================
+    // INPUT -> TEXT
+    // ======================================
+
+    cloned.querySelectorAll("input")
+    .forEach(input => {
+
+        const span =
+            document.createElement("span");
+
+        span.innerText =
+            input.value ||
+            input.placeholder ||
+            "";
+
+        span.style.display =
+            "inline-block";
+
+        span.style.minWidth =
+            "50px";
+
+        span.style.padding =
+            "2px 4px";
+
+        span.style.fontFamily =
+            "Arial";
+
+        input.parentNode.replaceChild(
+            span,
+            input
+        );
+    });
+
+    // ======================================
+    // FULL HTML
+    // ======================================
+
+    const htmlData = `
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>${fileName}</title>
+
+<style>
+
+body{
+    font-family:Arial;
+    margin:20px;
+}
+
+.financialdata{
+    width:100%;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-bottom:20px;
+}
+
+td,th{
+    border:1px solid #000;
+    padding:6px;
+    font-size:14px;
+}
+
+h2,h4{
+    text-align:center;
+}
+
+@media print{
+
+    body{
+        margin:10px;
+    }
+
+    table{
+        page-break-inside:auto;
+    }
+
+    tr{
+        page-break-inside:avoid;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+${cloned.outerHTML}
+
+</body>
+
+</html>
+`;
+
+    // ======================================
+    // HTML EXPORT
+    // ======================================
+
+    if(type === "html"){
+
+        const blob =
+            new Blob(
+                [htmlData],
+                {type:"text/html"}
+            );
+
+        downloadFile(
+            blob,
+            fileName + ".html"
+        );
+    }
+
+    // ======================================
+    // EXCEL EXPORT
+    // ======================================
+
+    else if(type === "excel"){
+
+        const blob =
+            new Blob(
+                [htmlData],
+                {
+                    type:
+                    "application/vnd.ms-excel"
+                }
+            );
+
+        downloadFile(
+            blob,
+            fileName + ".xls"
+        );
+    }
+
+    // ======================================
+    // PRINT
+    // ======================================
+
+    else if(type === "print"){
+
+        const printWindow =
+            window.open(
+                "",
+                "",
+                "width=1200,height=900"
+            );
+
+        printWindow.document.write(
+            htmlData
+        );
+
+        printWindow.document.close();
+
+        printWindow.focus();
+
+        setTimeout(() => {
+
+            printWindow.print();
+
+        }, 500);
+    }
+}
+
+// ==========================================
+// DOWNLOAD
+// ==========================================
+
+function downloadFile(blob, filename){
+
+    const link =
+        document.createElement("a");
+
+    link.href =
+        URL.createObjectURL(blob);
+
+    link.download =
+        filename;
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(link.href);
+}
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
