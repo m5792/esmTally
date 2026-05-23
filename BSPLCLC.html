@@ -90,11 +90,111 @@ input[readonly]{
 <script src="TechNexaBSLogin.js"></script>
 
 
+
+
+
+
+
+<script>
+
+// ======================================
+// SESSION AUTO SHOW EVERYWHERE
+// ======================================
+
+function updateSession(){
+
+    let yearValue =
+        document.getElementById('ayear').value;
+
+    // JITNE BHI id="session" HAI
+    document
+    .querySelectorAll('#session')
+    .forEach(el=>{
+
+        // INPUT / TEXTAREA
+        if(
+            el.tagName === 'INPUT' ||
+            el.tagName === 'TEXTAREA'
+        ){
+
+            el.value = yearValue;
+
+        }
+
+        // DIV / SPAN / STRONG / TD
+        else{
+
+            el.innerHTML = yearValue;
+
+        }
+
+    });
+
+}
+
+// CHANGE EVENT
+document
+.getElementById('ayear')
+.addEventListener(
+    'change',
+    updateSession
+);
+
+// FIRST LOAD
+updateSession();
+
+</script>
+
+
+
+<div style="
+display:flex;
+flex-wrap:wrap;
+gap:5px;
+align-items:center;
+justify-content:center; /* ✅ center alignment */
+
+padding:5px;
+margin-bottom:5px;
+border-radius:10px;
+background:#f9fbfc;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+">
+
+<strong style="border: none; font-size: 16px; font-weight: bold;">Select Sassion: </strong>
+
+<select id="ayear">
+<option>1 Apr 2025 to 31 March 2026</option>
+<option>1 Apr 2024 to 31 March 2025</option>
+<option>1 Apr 2023 to 31 March 2024</option>
+
+</select>
+</div>
+
+
+
 <div class="financialdata">
- <input  type="text" style="text-align: center; font-size: 24px; font-weight: bold; width: 11in; " placeholder="Enter Your Firm Name" >
+<br/>
+<div style="
+display:flex;
+flex-wrap:wrap;
+gap:5px;
+align-items:center;
+justify-content:center; /* ✅ center alignment */
+
+padding:5px;
+margin-bottom:5px;
+border-radius:10px;
+background:#f9fbfc;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+">
+<input  type="text" style="width: 5in;" placeholder="Enter Your Firm Name" >
+<strong style="border: none; font-size: 16px; font-weight: bold;">| </strong>
+<input type="text" id="proname" placeholder="Enter Proprietor Name" style="width: 5in;">
+</div>
 
 
-     <div style="
+<div style="
 display:flex;
 flex-wrap:wrap;
 gap:5px;
@@ -107,32 +207,17 @@ border-radius:10px;
 background:#f9fbfc;
 box-shadow:0 2px 8px rgba(0,0,0,0.1);
 ">
- <table>
-<tr>
-<th style="width:180px;">Proprietor Name</th>
-<td style="width:300px;"> <input type="text" id="proname" placeholder="Enter Proprietor Name"></td>
-
-<th style="width:180px;">Session</th>
-<td style="width:80px;"> 
-    <select id="ayear" style="border: none;">
-    <option value="26-27">26-27</option>
-    <option value="24-25">24-25</option>
-    <option>23-24</option>
-    </select>
-</td>
-
-<th style="width:180px;">Profit %</th>
-<td style="background-color: #ebf8b1;"> <input type="number" id="profitPercent" value="15"></td>
-</tr>
-</table>
+<strong style="border: none; font-size: 16px; font-weight: bold;">Trading & Profit & Loss Account - </strong>
+<strong style="border: none; font-size: 16px; font-weight: bold;" id="session"></strong>
 
 </div>
 
-
-<h2>Trading & Profit & Loss Account from 1 Apr 2025 to 31 March 2026</h2>
-
 <!-- ========================================= -->
 <!-- TRADING ACCOUNT -->
+<!-- ========================================= -->
+<strong style="border: none; font-size: 16px; font-weight: bold;">Profit % :-</strong>
+<input type="text" id="profitPercent" value="10" style="width: 1in; background-color: #ebf8b1;">
+<br/><br>
 <!-- ========================================= -->
 
 <table>
@@ -326,7 +411,24 @@ box-shadow:0 2px 8px rgba(0,0,0,0.1);
 <!-- BALANCE SHEET -->
 <!-- ========================================= -->
 
-<h2>Balance Sheet from 1 Apr 2025 to 31 March 2026</h2>
+<div style="
+display:flex;
+flex-wrap:wrap;
+gap:5px;
+align-items:center;
+justify-content:center; /* ✅ center alignment */
+border-bottom: 5px solid #024369;
+padding:5px;
+margin-bottom:5px;
+border-radius:10px;
+background:#f9fbfc;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+">
+<strong style="border: none; font-size: 16px; font-weight: bold;">Balance Sheet -   </strong>
+<strong style="border: none; font-size: 16px; font-weight: bold;" id="session"></strong>
+
+</div>
+<br>
 <table>
 
 <tr>
@@ -338,8 +440,8 @@ box-shadow:0 2px 8px rgba(0,0,0,0.1);
 
 
 <tr>
-    <td style="font-weight: bold; color: blue;">Capital A/c</td>
-    <td ></td>
+    <td style="font-weight: bold; color: rgb(0, 156, 101);">Capital A/c</td>
+    <td style="background-color: #f3f1f1; font-weight: bold;" aria-readonly=""><input type="number" id="natcapital" value="" ></td>
 
    <td>Fixed Assets <br> (as per Schedule "A" annexed)</td>
     <td class="formula"><input type="number" id="fixedAssets" value="0" readonly></td>
@@ -477,9 +579,25 @@ box-shadow:0 2px 8px rgba(0,0,0,0.1);
 
 
 <!-- ============  ------ FIXED ASSETS CHART -------  ==================== -->
+<div style="
+display:flex;
+flex-wrap:wrap;
+gap:5px;
+align-items:center;
+justify-content:center; /* ✅ center alignment */
+border-bottom: 5px solid #024369;
+padding:5px;
+margin-bottom:5px;
+border-radius:10px;
+background:#f9fbfc;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+">
+<strong style="border: none; font-size: 16px; font-weight: bold;">FIXED ASSETS  </strong>
+<br><br>
+<strong style="border: none; font-size: 16px; font-weight: bold;" >(Schedule "A" of Fixed Assets as on</strong>
+<strong style="border: none; font-size: 16px; font-weight: bold;" id="session"></strong>)
+</div>
 
-<h2>FIXED ASSETS </h2>
-<h4 style="text-align: center;">Schedule "A" of Fixed Assets as on 31-March-2026 </h4>
 
 <table>
 <tr>
@@ -659,51 +777,22 @@ function calculate(){
     // TRADING TOTAL
 
     let tradingDebit =
-
         openingStock +
-
         purchase +
-
         wages +
-
         powerFuel +
-
         grossProfit;
 
+    let tradingCredit =  sales +  closingStock;
 
-
-    let tradingCredit =
-
-        sales +
-
-        closingStock;
-
-
-
-    set(
-        'tradingTotal1',
-        tradingDebit
-    );
-
-
-
-    set(
-        'tradingTotal2',
-        tradingCredit
-    );
-
-
+    set( 'tradingTotal1', tradingDebit );
+    set( 'tradingTotal2', tradingCredit );
 
     // =====================================
     // P&L ACCOUNT
     // =====================================
 
-    set(
-        'grossProfit2',
-        grossProfit
-    );
-
-
+    set( 'grossProfit2', grossProfit );
 
     let expenses =
 
@@ -719,10 +808,7 @@ function calculate(){
         val('exp10') +
         val('exp11') +
         val('exp12') +
-
         val('depreciation');
-
-
 
     let otherIncome =
         val('oi1') +
@@ -738,87 +824,38 @@ function calculate(){
         val('oi11') +
         val('oi12');
 
-
-
-    let totalIncome =
-
-        grossProfit +
-
-        otherIncome;
-
-
-
-    let netProfit =
-
-        totalIncome -
-
-        expenses;
-
-
-
-    set(
-        'netProfit',
-        netProfit
-    );
-
-
-
-    set(
-        'plTotal1',
-        expenses + netProfit
-    );
-
-
-
-    set(
-        'plTotal2',
-        totalIncome
-    );
-
-
+ 
+  
+    let totalIncome = grossProfit + otherIncome;
+    let netProfit = totalIncome - expenses;
+    set( 'netProfit', netProfit);
+    set(  'plTotal1', expenses + netProfit );
+    set(  'plTotal2', totalIncome );
+  
 
     // =====================================
     // BALANCE SHEET
     // =====================================
 
-    set(
-        'netProfitBs',
-        netProfit
-    );
-
-
-
-    set(
-        'closingStockBs',
-        closingStock
-    );
-
-
+    set( 'netProfitBs',  netProfit);
+    set( 'closingStockBs', closingStock );
 
     // ASSETS
 
     let assets =
 
         val('fixedAssets') +
-
         closingStock +
-
         val('assets1') +
-
         val('assets2') +
-
         val('assets3') +
-
         val('assets4') +
         val('assets5') +
         val('assets6') +
         val('assets7') +
         val('assets8') +
         val('assets9') +
-
         val('assets10');
-
-
 
     // LIABILITY WITHOUT DRAWINGS
 
@@ -895,7 +932,7 @@ if(drawingsValue == 0){
 else if(diff >= 0){
 
     drawingsLabel.innerHTML =
-        'Add Mis Match Amt in <br> Assets or Income Side';
+        'Add Mis Match Amt in Assets Side <br> or Less Drawings';
 
     // RED + BLINK
     drawingsLabel.style.color = "red";
@@ -926,6 +963,19 @@ else{
     // FINAL TOTAL
     set( 'liabilityTotal', liabilities);
     set('assetTotal',assets);
+
+    // NAT CAPITAL TOTAL
+// ======================================
+
+let natcapital =
+
+    val('liability1') +
+    val('netProfitBs') +
+    val('drawings') +
+    val('liability10');
+
+set('natcapital', natcapital);
+//----------------------------------------
 }
 
 // =========================================
@@ -1812,4 +1862,61 @@ function downloadFile(blob, filename){
 
 
 
+<select id="ayear">
 
+<option>1 Apr 2025 to 31 March 2026</option>
+<option>1 Apr 2024 to 31 March 2025</option>
+<option>1 Apr 2023 to 31 March 2024</option>
+
+</select>
+
+
+<script>
+
+// ======================================
+// SESSION AUTO SHOW EVERYWHERE
+// ======================================
+
+function updateSession(){
+
+    let yearValue =
+        document.getElementById('ayear').value;
+
+    // JITNE BHI id="session" HAI
+    document
+    .querySelectorAll('#session')
+    .forEach(el=>{
+
+        // INPUT / TEXTAREA
+        if(
+            el.tagName === 'INPUT' ||
+            el.tagName === 'TEXTAREA'
+        ){
+
+            el.value = yearValue;
+
+        }
+
+        // DIV / SPAN / STRONG / TD
+        else{
+
+            el.innerHTML = yearValue;
+
+        }
+
+    });
+
+}
+
+// CHANGE EVENT
+document
+.getElementById('ayear')
+.addEventListener(
+    'change',
+    updateSession
+);
+
+// FIRST LOAD
+updateSession();
+
+</script>
