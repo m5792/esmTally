@@ -1,3 +1,206 @@
+<meta charset="UTF-8">
+<!-- ============ ------ =============== --------------------- ===========  Footer Area Start ================-------  Start =========================== -->
+<style>
+
+/* FIXED FOOTER */
+
+.fixed-footer{
+position:fixed;
+left:0;
+bottom:0;
+width:100%;
+background:#f1f1f1;
+border:5px solid #00203d; border-radius:10px;
+padding:5px;
+z-index:99999;
+box-shadow:0 -2px 10px rgba(0,0,0,0.2);
+}
+
+/* FOOTER ROW */
+
+.footer-row{
+display:flex;
+align-items:center;
+gap:10px;
+width:100%;
+overflow-x:auto;
+}
+
+/* COMMON DIV STYLE */
+
+.footer-box{
+padding:6px 10px;
+border:3px solid #ffffff;
+background:#e9e7e7;
+border-radius:8px;
+white-space:nowrap;
+font-size:14px;
+font-weight:bold;
+}
+
+/* TIME BOX */
+
+#currentDateTime{
+background:blue;
+color:white;
+font-size:16px;
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+.footer-box{
+font-size:12px;
+padding:5px 8px;
+}
+
+#currentDateTime{
+font-size:13px;
+}
+
+}
+
+</style>
+
+<!-- FOOTER -->
+<div class="fixed-footer">  <!-- ================= ------ Footer Container Start -------  Start =========================== -->
+
+<div class="footer-row">        <!-- == --------- .......... Footer Row .......  Start ......... ---------- === -->
+
+<div id="currentDateTime"class="footer-box"></div>
+<div class="footer-box"><button id="saveWorkBtn" style="border:none;border-radius:8px;background:#eaf4fd;color:#02314d;font-weight:bold;cursor:pointer;" >💾 Save Working File</button></div>
+<div class="footer-box"> <button onclick="exportSheet('html')" style="padding:1px 1px;border:none;border-radius:8px;background:#e9e7e7;color:#004139;font-weight:bold;cursor:pointer;">🌐 Export HTML</button></div>
+<div class="footer-box"> <button onclick="exportSheet('excel')" style="padding:1px 1px;border:none;border-radius:8px;background:#e9e7e7;color:#411200;font-weight:bold;cursor:pointer;">📊 Export Excel</button></div>
+<div class="footer-box"> <button onclick="exportSheet('print')" style="padding:1px 1px;border:none;border-radius:8px;background:#e9e7e7;color:#0a0a0a;font-weight:bold;cursor:pointer;">🖨 Print</button></div>
+<div class="footer-box"> <strong style="padding:1px 1px;border:none;border-radius:8px;background:#e9e7e7;color:#0a0a0a;font-weight:bold;">Last Modify: </strong><span id="lastmodify"></span></div>
+
+<div class="footer-box" style="display:flex; align-items:center; gap:8px; text-decoration:none; color: black; font-weight:bold; background-color: #e3f3f5; border:3px solid #013769; border-radius:10px;">
+<a href="https://www.google.com/" target="_blank" style="display:flex; align-items:center; gap:8px; text-decoration:none; color: black; font-weight:bold;">
+<img src="https://cdn.dribbble.com/users/1717214/screenshots/4124610/g-logo.gif"alt="Google"width="20"height="20"style="border-radius:8px;">
+<span class="name" style="color: #01225f;">Google</span>
+</a>
+<strong style="border: none; font-size: 16px; font-weight: bold;"> | </strong>
+<a href="https://web.whatsapp.com/" target="_blank" style="display:flex; align-items:center; gap:8px; text-decoration:none; color: black; font-weight:bold;">
+<img src="https://cliply.co/wp-content/uploads/2021/08/372108180_WHATSAPP_ICON_400.gif"alt="Google"width="20"height="20"style="border-radius:8px;">
+<span class="name" style="color: #00361d;">Whatsapp</span>
+</a>
+<strong style="border: none; font-size: 16px; font-weight: bold;"> | </strong>
+<a href="https://www.incometax.gov.in/iec/foportal/" target="_blank" style="display:flex; align-items:center; gap:8px; text-decoration:none; color: black; font-weight:bold;">
+<img src="https://upload.wikimedia.org/wikipedia/commons/1/13/Logo_of_Income_Tax_Department_India.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original"alt="Google"width="20"height="20"style="border-radius:8px;">
+<span class="name" style="color: #00361d;">ITR Login</span>
+</a>
+<strong style="border: none; font-size: 16px; font-weight: bold;"> | </strong>
+<a href="https://chatgpt.com/" target="_blank" style="display:flex; align-items:center; gap:8px; text-decoration:none; color: black; font-weight:bold;">
+<img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMDIzNGhlOTZ3aG81OWMyeTA3b3N4c3lpaGMzMDQ3aGU2cjdsZnZ5aiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/f0VbswUmSY6X1cBz4C/giphy.gif"alt="Google"width="20"height="20"style="border-radius:8px;">
+<span class="name" style="color: #00361d;">Chat GPT</span>
+</a>
+<strong style="border: none; font-size: 16px; font-weight: bold;"> | </strong>
+<a href="https://www.youtube.com/" target="_blank" style="display:flex; align-items:center; gap:8px; text-decoration:none; color: rgb(109, 1, 1); font-weight:bold;">
+<img src="https://cliply.co/wp-content/uploads/2019/07/371907120_YOUTUBE_ICON_TRANSPARENT_400.gif"alt="Google"width="20"height="20"style="border-radius:8px;">
+<span class="name" style="color: #830000;">You Tube</span>
+</a>
+</div>
+
+<div class="footer-box">
+<strong style="border: none; font-size: 16px; font-weight: bold;">Select Sassion: </strong>
+<select id="ayear" style="border: none; font-size: 16px;">
+<option>1 Apr 2025 to 31 March 2026</option>
+<option>1 Apr 2024 to 31 March 2025</option>
+<option>1 Apr 2023 to 31 March 2024</option>
+</select>
+</div>
+
+</div>  <!-- == --------- .......... Footer Row .......  xxx ......... ---------- === -->
+
+
+</div>  <!-- ================= ------ Footer Stop -------  xxx =========================== -->
+
+<script src="TechNexaBSLogin.js"></script>
+
+
+
+<!-- ===========================Current date and time Script Start Hare ----------Start--- -->
+<script>
+function displayCurrentDateTime() {
+const now = new Date();
+
+// Formatting options
+const options = { 
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric', 
+    hour: '2-digit', 
+    minute: '2-digit', 
+    second: '2-digit' 
+};
+
+// Formatting date and time
+const formattedDateTime = now.toLocaleString('en-US', options);
+
+// Displaying in the div
+document.getElementById("currentDateTime").textContent = `Today: ${formattedDateTime}`;
+}
+
+// Call the function on page load to show the current date and time
+displayCurrentDateTime();
+
+// Update the date and time every second
+setInterval(displayCurrentDateTime, 1000);
+</script>
+<!-- ===========================Current date and time Script Stop Hare ----------XXX--- -->
+
+<!-- =========================== Session Salection Script Start Hare ----------Start--- -->
+<script>
+
+// SESSION AUTO SHOW EVERYWHERE
+// ======================================
+function updateSession(){
+    let yearValue =
+        document.getElementById('ayear').value;
+
+    // JITNE BHI id="session" HAI
+    document
+    .querySelectorAll('#session')
+    .forEach(el=>{
+
+        // INPUT / TEXTAREA
+        if(
+            el.tagName === 'INPUT' ||
+            el.tagName === 'TEXTAREA'
+        ){
+
+            el.value = yearValue;
+
+        }
+
+        // DIV / SPAN / STRONG / TD
+        else{
+
+            el.innerHTML = yearValue;
+
+        }
+
+    });
+
+}
+
+// CHANGE EVENT
+document
+.getElementById('ayear')
+.addEventListener(
+    'change',
+    updateSession
+);
+
+// FIRST LOAD
+updateSession();
+</script>
+<!-- =========================== Session Salection Script STop Hare ----------xxx--- -->
+
+<!-- ============ ------ =============== --------------------- ===========  Footer Area Stop ================-------  xxx =========================== -->
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,26 +222,14 @@ body{
     width:1100px;
     margin:auto;
     background:#fff;
-    border:2px solid #000;
     padding:10px;
+    height: 90vh; 
+    overflow-y: auto; 
+    border-left:5px solid #020202; border-right:5px solid #004c79; 
+    border-radius:10px;
 }
 
-h1,h2{
-    text-align:center;
-    margin:0;
-}
 
-h1{
-    background:#000;
-    color:#fff;
-    padding:8px;
-    font-size:28px;
-}
-
-h2{
-    margin:15px 0;
-    font-size:22px;
-}
 
 table{
     width:100%;
@@ -87,93 +278,11 @@ input[readonly]{
 </head>
 
 <body>
-<script src="TechNexaBSLogin.js"></script>
+
+<br>
 
 
-
-
-
-
-
-<script>
-
-// ======================================
-// SESSION AUTO SHOW EVERYWHERE
-// ======================================
-
-function updateSession(){
-
-    let yearValue =
-        document.getElementById('ayear').value;
-
-    // JITNE BHI id="session" HAI
-    document
-    .querySelectorAll('#session')
-    .forEach(el=>{
-
-        // INPUT / TEXTAREA
-        if(
-            el.tagName === 'INPUT' ||
-            el.tagName === 'TEXTAREA'
-        ){
-
-            el.value = yearValue;
-
-        }
-
-        // DIV / SPAN / STRONG / TD
-        else{
-
-            el.innerHTML = yearValue;
-
-        }
-
-    });
-
-}
-
-// CHANGE EVENT
-document
-.getElementById('ayear')
-.addEventListener(
-    'change',
-    updateSession
-);
-
-// FIRST LOAD
-updateSession();
-
-</script>
-
-
-
-<div style="
-display:flex;
-flex-wrap:wrap;
-gap:5px;
-align-items:center;
-justify-content:center; /* ✅ center alignment */
-
-padding:5px;
-margin-bottom:5px;
-border-radius:10px;
-background:#f9fbfc;
-box-shadow:0 2px 8px rgba(0,0,0,0.1);
-">
-
-<strong style="border: none; font-size: 16px; font-weight: bold;">Select Sassion: </strong>
-
-<select id="ayear">
-<option>1 Apr 2025 to 31 March 2026</option>
-<option>1 Apr 2024 to 31 March 2025</option>
-<option>1 Apr 2023 to 31 March 2024</option>
-
-</select>
-</div>
-
-
-
-<div class="financialdata">
+<div class="financialdata" >
 <br/>
 <div style="
 display:flex;
@@ -188,9 +297,9 @@ border-radius:10px;
 background:#f9fbfc;
 box-shadow:0 2px 8px rgba(0,0,0,0.1);
 ">
-<input  type="text" style="width: 5in;" placeholder="Enter Your Firm Name" >
+<input  type="text" style="width: 5in;" class="capitalInput" placeholder="Enter Your Firm Name" >
 <strong style="border: none; font-size: 16px; font-weight: bold;">| </strong>
-<input type="text" id="proname" placeholder="Enter Proprietor Name" style="width: 5in;">
+<input type="text" id="proname" class="capitalInput" placeholder="Enter Proprietor Name" style="width: 5in;">
 </div>
 
 
@@ -223,183 +332,191 @@ box-shadow:0 2px 8px rgba(0,0,0,0.1);
 <table>
 
 <tr>
-    <th>Particulars - Expenses</th> <th>Amount</th>
-    <th>Particulars - Income</th> <th>Amount</th>
+    <th colspan="2">Particulars - Expenses</th>    <th>Amount</th>
+    <th colspan="2">Particulars - Income</th>  <th>Amount</th>
 </tr>
 
 <tr>
-    <td>To Opening Stock</td>
+    <td colspan="2">To Opening Stock</td>    
     <td class="editable"><input type="number" id="openingStock" value="0"></td>
 
-    <td>By Sales A/c</td>
+    <td colspan="2">By Sales A/c</td> 
     <td class="editable"><input type="number" id="sales" value="0"></td>
 </tr>
 
 <tr>
-    <td>To Purchase</td>
+    <td colspan="2">To Purchase</td> 
     <td class="editable"><input type="number" id="purchase" value="0"></td>
 
-    <td>By Closing Stock</td>
+    <td colspan="2">By Closing Stock</td> 
     <td class="formula"><input type="text" id="closingStock" readonly></td>
 </tr>
 
 <tr>
-    <td><input type="text" class="PURCHASE"></td>
+    <td colspan="2"><input type="text" class="PURCHASE"></td>
     <td class="editable"><input type="number" id="wages" value=""></td>
 
-    <td></td>
-    <td></td>
+    <td colspan="2"></td>
+    <td></td>   
 </tr>
 
 <tr>
-    <td><input type="text" class="PURCHASE"></td>
+    <td colspan="2"><input type="text" class="PURCHASE"></td>
     <td class="editable"><input type="number" id="powerFuel" value=""></td>
 
-    <td></td>
+    <td colspan="2"></td>
     <td></td>
 </tr>
 
 <tr>
-    <td><b>To Gross Profit</b></td>
+    <td colspan="2"><b>To Gross Profit</b></td> 
     <td class="formula"><input type="text" id="grossProfit" readonly></td>
 
-    <td></td>
+    <td colspan="2"></td>
     <td></td>
 </tr>
 
 <tr>
-    <td><b>Total</b></td>
+    <td colspan="2"><b>Total</b></td> 
     <td class="formula"><input type="text" id="tradingTotal1" readonly></td>
 
-    <td><b>Total</b></td>
+    <td colspan="2"><b>Total</b></td>  
     <td class="formula"><input type="text" id="tradingTotal2" readonly></td>
 </tr>
 
 
 
 <tr>
-    <th>Other - Expenses</th> <th>Amount</th>
-    <th>Other - Income</th> <th>Amount</th>
+    <th colspan="2">Other - Expenses</th>  <th>Amount</th>
+    <th colspan="2">Other - Income</th>   <th>Amount</th>
 </tr>
 
 <tr>
-    <td>To Depreciation</td>
+    <td colspan="2">To Depreciation <br> (as per Schedule "A" annexed)</td> 
     <td class="formula"><input type="number" id="depreciation" value="0" readonly></td>
 
 
-    <td>By Gross Profit</td>
+    <td colspan="2">By Gross Profit (C/F)</td>
     <td class="formula"><input type="text" id="grossProfit2" readonly></td>
 </tr>
 
 <tr>
-    <td><input type="text" class="EXP"></td>
+    <td colspan="2"><input type="text" class="EXP"></td> 
     <td class="editable"><input type="number" id="exp2" value=""></td>
 
-    <td><input type="text" class="OTHERINCOME" ></td>
-    <td class="editable"><input type="number" id="oi1" value=""></td>
+    <td colspan="2" style="font-weight: bold;">By Income From Salary | Nat Gross Salary: <span id="natsalary">0</span> <br> <span style="font-size: 13px; color: rgb(48, 0, 0);background-color: #efeeee;"> Less: Standard deduction u/s 16(ia) Rs. 75000</span></td>
+    <td class="editable"><input type="number" id="oi1" value=""  oninput="updateSalary()"></td>
 </tr>
 
+<script>
+function val(id){
+    return Number( document.getElementById(id).value ) || 0;}
+function updateSalary(){ let salary = val('oi1'); document.getElementById('natsalary')
+    .innerText = salary + 75000;}
+</script>
+
+
 <tr>
-    <td><input type="text" class="EXP"></td>
+    <td colspan="2"><input type="text" class="EXP"></td>
     <td class="editable"><input type="number" id="exp3" value=""></td>
 
-    <td><input type="text" class="OTHERINCOME"></td>
+    <td colspan="2"><input type="text" class="OTHERINCOME"></td> 
     <td class="editable"><input type="number" id="oi2" value=""></td>
 </tr>
 
 <tr>
-    <td><input type="text" class="EXP"></td>
+    <td colspan="2"><input type="text" class="EXP"></td> 
     <td class="editable"><input type="number" id="exp4" value=""></td>
 
-    <td><input type="text" class="OTHERINCOME"></td>
+    <td colspan="2"><input type="text" class="OTHERINCOME"></td> 
     <td class="editable"><input type="number" id="oi3" value=""></td>
 </tr>
 
 <tr>
-    <td><input type="text" class="EXP"></td>
+    <td colspan="2"><input type="text" class="EXP"></td>
     <td class="editable"><input type="number" id="exp5" value=""></td>
 
-    <td><input type="text" class="OTHERINCOME"></td>
+    <td colspan="2"><input type="text" class="OTHERINCOME"></td>
     <td class="editable"><input type="number" id="oi4" value=""></td>
 </tr>
 
 <tr>
-    <td><input type="text" class="EXP"></td>
+    <td colspan="2"><input type="text" class="EXP"></td> 
     <td class="editable"><input type="number" id="exp6" value=""></td>
 
-    <td><input type="text" class="OTHERINCOME"></td>
+    <td colspan="2"><input type="text" class="OTHERINCOME"></td>
     <td class="editable"><input type="number" id="oi5" value=""></td>
 </tr>
 
 <tr>
-    <td><input type="text" class="EXP"></td>
+    <td colspan="2"><input type="text" class="EXP"></td> 
     <td class="editable"><input type="number" id="exp7" value=""></td>
 
-    <td><input type="text" class="OTHERINCOME"></td>
+    <td colspan="2"><input type="text" class="OTHERINCOME"></td>
     <td class="editable"><input type="number" id="oi6" value=""></td>
 </tr>
 
 <tr>
-    <td><input type="text" class="EXP"></td>
+    <td colspan="2"><input type="text" class="EXP"></td>
     <td class="editable"><input type="number" id="exp8" value=""></td>
 
-    <td><input type="text" class="OTHERINCOME"></td>
+    <td colspan="2"><input type="text" class="OTHERINCOME"></td> 
     <td class="editable"><input type="number" id="oi7" value=""></td>
 </tr>
 
 <tr>
-    <td><input type="text" class="EXP"></td>
+    <td colspan="2"><input type="text" class="EXP"></td>
     <td class="editable"><input type="number" id="exp9" value=""></td>
 
-    <td><input type="text" class="OTHERINCOME"></td>
+    <td colspan="2"><input type="text" class="OTHERINCOME"></td> 
     <td class="editable"><input type="number" id="oi8" value=""></td>
 </tr>
 
 <tr>
-    <td><input type="text" class="EXP"></td>
+    <td colspan="2"><input type="text" class="EXP"></td> 
     <td class="editable"><input type="number" id="exp10" value=""></td>
 
-    <td><input type="text" class="OTHERINCOME"></td>
+    <td colspan="2"><input type="text" class="OTHERINCOME"></td>  
     <td class="editable"><input type="number" id="oi9" value=""></td>
 </tr>
 
 <tr>
-    <td><input type="text" class="EXP"></td>
+    <td colspan="2"><input type="text" class="EXP"></td>
     <td class="editable"><input type="number" id="exp11" value=""></td>
 
-    <td><input type="text" class="OTHERINCOME"></td>
+    <td colspan="2"><input type="text" class="OTHERINCOME"></td> 
     <td class="editable"><input type="number" id="oi10" value=""></td>
 </tr>
 
 <tr>
-    <td><input type="text" class="EXP"></td>
+    <td colspan="2"><input type="text" class="EXP"></td> 
     <td class="editable"><input type="number" id="exp12" value=""></td>
 
-    <td><input type="text" class="OTHERINCOME"></td>
+    <td colspan="2"><input type="text" class="OTHERINCOME"></td> 
     <td class="editable"><input type="number" id="oi11" value=""></td>
 </tr>
 
 <tr>
-   <td><input type="text" class="EXP"></td>
+   <td colspan="2"><input type="text" class="EXP"></td> 
     <td class="editable"><input type="number" id="exp1" value=""></td>
 
-    <td><input type="text" class="OTHERINCOME"></td>
+    <td colspan="2"><input type="text" class="OTHERINCOME"></td>
     <td class="editable"><input type="number" id="oi12" value=""></td>
 </tr>
 
 <tr>
-    <td><b>To Net Profit</b></td>
+    <td colspan="2"><b>To Net Profit</b></td>   
     <td class="formula"><input type="text" id="netProfit" readonly></td>
 
-    <td></td>
+    <td colspan="2"></td>   
     <td ></td>
 </tr>
 
 <tr>
-    <td><b>Total</b></td>
+    <td colspan="2"><b>Total</b></td>   
     <td class="formula"><input type="text" id="plTotal1" readonly></td>
 
-    <td><b>Total</b></td>
+    <td colspan="2"><b>Total</b></td>  
     <td class="formula"><input type="text" id="plTotal2" readonly></td>
 </tr>
 
@@ -432,146 +549,146 @@ box-shadow:0 2px 8px rgba(0,0,0,0.1);
 <table>
 
 <tr>
-    <th>Liabilities</th>
+    <th colspan="2">Liabilities</th>
     <th>Amount</th>
-    <th>Assets</th>
+    <th colspan="2">Assets</th>
     <th>Amount</th>
 </tr>
 
 
 <tr>
-    <td style="font-weight: bold; color: rgb(0, 156, 101);">Capital A/c</td>
+    <td style="font-weight: bold; color: rgb(0, 156, 101);" colspan="2">Capital A/c</td>
     <td style="background-color: #f3f1f1; font-weight: bold;" aria-readonly=""><input type="number" id="natcapital" value="" ></td>
 
-   <td>Fixed Assets <br> (as per Schedule "A" annexed)</td>
+   <td colspan="2">Fixed Assets <br> (as per Schedule "A" annexed)</td>
     <td class="formula"><input type="number" id="fixedAssets" value="0" readonly></td>
 </tr>
 
 
 <tr>
     <td>Opening Capital</td>
-    <td class="editable"><input type="number" id="liability1" value=""></td>
+    <td class="editable"><input type="number" id="liability1" value=""></td>       <td></td>
 
-    <td>Closing Stock</td>
+    <td colspan="2">Closing Stock</td>
     <td class="formula"><input type="text" id="closingStockBs" readonly></td>
 </tr>
 
 <tr>
     <td>Add Net Profit</td>
-    <td class="formula"><input type="text" id="netProfitBs" readonly></td>
+    <td class="formula"><input type="text" id="netProfitBs" readonly></td>   <td></td>
 
-    <td style="font-weight: bold; color: blue;">Current Assets, Loans <br> & Advances</td>
+    <td style="font-weight: bold; color: blue;" colspan="2">Current Assets, Loans <br> & Advances</td>
     <td ></td>
 </tr>
 
 <tr>
-    <td id="drawingsLabel" >Add Mis Match Amt in Assets or Income Side</td>
-    <td class="formula"><input type="text" id="drawings" readonly></td>
+    <td id="drawingsLabel" >Add Capital</td>
+    <td class="formula"><input type="text" id="drawings" readonly></td>   <td></td>
 
-    <td>Sundry Debtors</td>
+    <td colspan="2">Sundry Debtors</td>
     <td class="editable"><input type="number" id="assets1" value=""></td>
 </tr>
 
 <tr>
      <td><input type="text" value="Less Drawings"></td>
-    <td class="editable"><input type="number" id="liability10" value=""  style="color:red; font-weight:bold;"  oninput="setNegative(this)"></td>
+    <td class="editable"><input type="number" id="liability10" value=""  style="color:red; font-weight:bold;"  oninput="setNegative(this)"></td>   <td></td>
     <script>function setNegative(input){ let val = input.value.replace("-", "");  if(val !== ""){ input.value = "-" + val;}}</script>
 
-    <td><input type="text" class="ASSETS"></td>
+    <td colspan="2"><input type="text" class="ASSETS"></td>
     <td class="editable"><input type="number" id="assets2" value=""></td>
 </tr>
 
 <tr>
-     <td style="font-weight: bold; color: blue;">Secured Loan</td>
+     <td style="font-weight: bold; color: blue;" colspan="2">Secured Loan</td>
     <td ></td>
 
-    <td><input type="text" class="ASSETS"></td>
+    <td colspan="2"> <input type="text" class="ASSETS"></td>
     <td class="editable"><input type="number" id="assets3" value=""></td>
 </tr>
 
 <tr>
-    <td><input type="text" placeholder="Secured Loan 1"></td>
-    <td class="editable"><input type="number" id="liability2" value=""></td>
+    <td colspan="2"><input type="text" placeholder="Secured Loan 1"></td>
+    <td class="editable" ><input type="number" id="liability2" value=""></td>
 
-    <td></td>
+    <td colspan="2"></td>
     <td ></td>
 </tr>
 
 <tr>
-    <td><input type="text" placeholder="Secured Loan 2"></td>
+    <td colspan="2"><input type="text" placeholder="Secured Loan 2"></td>
     <td class="editable"><input type="number" id="liability3" value=""></td>
 
-    <td style="font-weight: bold; color: blue;">Cash & Cash Equivalent</td>
-    <td ></td>
+    <td colspan="2" style="font-weight: bold; color: blue;">Cash & Cash Equivalent</td>
+    <td style="background-color: #f3f1f1; font-weight: bold;" aria-readonly=""><input type="number" id="cashbank" value="" ></td>
 </tr>
 
 <tr>
-     <td style="font-weight: bold; color: blue;">Current Liabilities  & Provisions</td>
+     <td colspan="2" style="font-weight: bold; color: blue;">Current Liabilities  & Provisions</td>
     <td ></td>
 
-    <td>Cash in Hand</td>
-    <td class="editable"><input type="number" id="assets4" value=""></td>
+    <td >Cash in Hand</td>
+    <td class="editable"><input type="number" id="assets4" value=""></td>   <td ></td>
 </tr>
 
 <tr>
-     <td>Sundry Creditors</td>
+     <td colspan="2">Sundry Creditors</td>
     <td class="editable"><input type="number" id="liability4" value=""></td>
 
-    <td><input type="text" placeholder="Cash in Bank 1"></td>
-    <td class="editable"><input type="number" id="assets5" value=""></td>
+    <td ><input type="text" placeholder="Cash in Bank 1"></td>
+    <td class="editable"><input type="number" id="assets5" value=""></td>   <td ></td>
 </tr>
 
 <tr>
-     <td><input type="text" class="LIABILITIES"></td>
+     <td colspan="2"><input type="text" class="LIABILITIES"></td>
     <td class="editable"><input type="number" id="liability5" value=""></td>
 
-    <td><input type="text" placeholder="Cash in Bank 2"></td>
-    <td class="editable"><input type="number" id="assets6" value=""></td>
+    <td ><input type="text" placeholder="Cash in Bank 2"></td>
+    <td class="editable"><input type="number" id="assets6" value=""></td>   <td ></td>
 </tr>
 
 <tr>
-    <td><input type="text" class="LIABILITIES"></td>
+    <td colspan="2"><input type="text" class="LIABILITIES"></td>
     <td class="editable"><input type="number" id="liability6" value=""></td>
 
-    <td style="font-weight: bold; color: blue;">Other Assets</td>
+    <td colspan="2" style="font-weight: bold; color: blue;">Other Assets</td>
     <td ></td>
 </tr>
 <tr>
-     <td><input type="text" class="LIABILITIES"></td>
+     <td colspan="2"><input type="text" class="LIABILITIES"></td>
     <td class="editable"><input type="number" id="liability7" value=""></td>
 
-    <td><input type="text" class="ASSETS"></td>
+    <td colspan="2"><input type="text" class="ASSETS"></td>
     <td class="editable"><input type="number" id="assets7" value=""></td>
 </tr>
 <tr>
-      <td><input type="text" class="LIABILITIES"></td>
+      <td colspan="2"><input type="text" class="LIABILITIES"></td>
     <td class="editable"><input type="number" id="liability8" value=""></td>
 
-    <td><input type="text" class="ASSETS"></td>
+    <td colspan="2"><input type="text" class="ASSETS"></td>
     <td class="editable"><input type="number" id="assets8" value=""></td>
 </tr>
 
 <tr>
-    <td><input type="text" class="LIABILITIES"></td>
+    <td colspan="2"><input type="text" class="LIABILITIES"></td>
     <td class="editable"><input type="number" id="liability9" value=""></td>
 
-    <td><input type="text" class="ASSETS"></td>
+    <td colspan="2"><input type="text" class="ASSETS"></td>
     <td class="editable"><input type="number" id="assets9" value=""></td>
 </tr>
 
 <tr>
-    <td></td>
+    <td colspan="2"></td>
     <td ></td>
 
-    <td><input type="text" class="ASSETS"></td>
+    <td colspan="2"><input type="text" class="ASSETS"></td>
     <td class="editable"><input type="number" id="assets10" value=""></td>
 </tr>
 
 <tr>
-    <td><b>Total</b></td>
+    <td colspan="2"><b>Total</b></td>
     <td class="formula"><input type="text" id="liabilityTotal" readonly></td>
 
-    <td><b>Total</b></td>
+    <td colspan="2"><b>Total</b></td>
     <td class="formula"><input type="text" id="assetTotal" readonly></td>
 </tr>
 
@@ -665,7 +782,7 @@ box-shadow:0 2px 8px rgba(0,0,0,0.1);
 
 </div>
 
-<br><br><br>
+
 <!-- ========================================= -->
 <!-- SCRIPT -->
 <!-- ========================================= -->
@@ -824,14 +941,14 @@ function calculate(){
         val('oi11') +
         val('oi12');
 
- 
-  
+
     let totalIncome = grossProfit + otherIncome;
     let netProfit = totalIncome - expenses;
     set( 'netProfit', netProfit);
     set(  'plTotal1', expenses + netProfit );
     set(  'plTotal2', totalIncome );
-  
+
+
 
     // =====================================
     // BALANCE SHEET
@@ -872,6 +989,12 @@ function calculate(){
         val('liability8') +
         val('liability9') +
         val('liability10');
+
+        //  Total Cash and bank
+        let totalcashbank =
+        val('assets4') +
+        val('assets5') +
+        val('assets6');
 
     // DIFFERENCE
 
@@ -975,6 +1098,7 @@ let natcapital =
     val('liability10');
 
 set('natcapital', natcapital);
+ set(  'cashbank', totalcashbank );
 //----------------------------------------
 }
 
@@ -1481,371 +1605,120 @@ fixedAssetsCalc();
 
 
 
+<!-- EXPORT BUTTONS -->
 
 
-<!-- ========================================= -->
-<!-- EXPORT BUTTON -->
-<!-- ========================================= -->
-
-<button id="exportBtn" style="
-position:fixed;
-right:20px;
-bottom:50px;
-padding:12px 20px;
-border:none;
-border-radius:12px;
-background:#012649;
-color:#fff;
-font-size:16px;
-font-weight:bold;
-cursor:pointer;
-box-shadow:0 4px 10px rgba(0,0,0,0.25);
-z-index:99999;
-">
-📥 Export
-</button>
-
-<!-- ========================================= -->
-<!-- EXPORT MENU -->
-<!-- ========================================= -->
-
-<div id="exportMenu" style="
-position:fixed;
-right:20px;
-bottom:75px;
-display:none;
-flex-direction:column;
-gap:8px;
-background:#fff;
-padding:10px;
-border-radius:12px;
-box-shadow:0 4px 15px rgba(0,0,0,0.25);
-z-index:99999;
-min-width:180px;
-">
-
-<button data-type="html" style="
-padding:10px;
-border:none;
-border-radius:8px;
-cursor:pointer;
-background:#f1f1f1;
-font-weight:bold;
-">
-🌐 Export HTML
-</button>
-
-<button data-type="excel" style="
-padding:10px;
-border:none;
-border-radius:8px;
-cursor:pointer;
-background:#f1f1f1;
-font-weight:bold;
-">
-📊 Export Excel
-</button>
-
-<button data-type="print" style="
-padding:10px;
-border:none;
-border-radius:8px;
-cursor:pointer;
-background:#f1f1f1;
-font-weight:bold;
-">
-🖨 Print Sheet
-</button>
-
-</div>
 
 <script>
 
-// ==========================================
-// EXPORT MENU TOGGLE
-// ==========================================
-
-const exportBtn =
-    document.getElementById("exportBtn");
-
-const exportMenu =
-    document.getElementById("exportMenu");
-
-exportBtn.onclick = function(e){
-
-    e.stopPropagation();
-
-    exportMenu.style.display =
-        exportMenu.style.display === "flex"
-        ? "none"
-        : "flex";
-};
-
-// ==========================================
-// HIDE MENU
-// ==========================================
-
-document.addEventListener("click", function(e){
-
-    if(
-        !exportMenu.contains(e.target) &&
-        e.target !== exportBtn
-    ){
-
-        exportMenu.style.display =
-            "none";
-    }
-});
-
-// ==========================================
-// MENU BUTTONS
-// ==========================================
-
-document.querySelectorAll(
-    "#exportMenu button"
-).forEach(btn => {
-
-    btn.onclick = function(){
-
-        const type =
-            this.dataset.type;
-
-        exportSheet(type);
-
-        exportMenu.style.display =
-            "none";
-    };
-});
-
-// ==========================================
-// EXPORT FUNCTION
-// ==========================================
-
 function exportSheet(type){
 
-    const financialdata =
-        document.querySelector(".financialdata");
+const financialdata=document.querySelector(".financialdata");
 
-    if(!financialdata){
+if(!financialdata){
+alert("⚠️ Sheet not found!");
+return;
+}
 
-        alert("⚠️ Sheet not found!");
-        return;
-    }
+let proName=document.getElementById("proname")?.value.trim()||"financialdata";
 
-    // ======================================
-    // FILE NAME
-    // ======================================
+let ayear=document.getElementById("ayear")?.value.trim()||"2025-26";
 
-    let proName =
-        document.getElementById("proname")
-        ?.value.trim() || "financialdata";
+let fileName=(proName+" "+ayear).replace(/[\\/:*?"<>|]/g,"_");
 
-    let ayear =
-        document.getElementById("ayear")
-        ?.value.trim() || "2025-26";
+const cloned=financialdata.cloneNode(true);
 
-    let fileName =
-        (proName + " " + ayear)
-        .replace(/[\\/:*?"<>|]/g, "_");
+cloned.querySelectorAll("input").forEach(input=>{
 
-    // ======================================
-    // CLONE financialdata
-    // ======================================
+const span=document.createElement("span");
 
-    const cloned =
-        financialdata.cloneNode(true);
+span.innerText=input.value||input.placeholder||"";
 
-    // ======================================
-    // INPUT -> TEXT
-    // ======================================
+span.style.display="inline-block";
+span.style.minWidth="50px";
+span.style.padding="2px 4px";
+span.style.fontFamily="Arial";
 
-    cloned.querySelectorAll("input")
-    .forEach(input => {
+input.parentNode.replaceChild(span,input);
 
-        const span =
-            document.createElement("span");
+});
 
-        span.innerText =
-            input.value ||
-            input.placeholder ||
-            "";
-
-        span.style.display =
-            "inline-block";
-
-        span.style.minWidth =
-            "50px";
-
-        span.style.padding =
-            "2px 4px";
-
-        span.style.fontFamily =
-            "Arial";
-
-        input.parentNode.replaceChild(
-            span,
-            input
-        );
-    });
-
-    // ======================================
-    // FULL HTML
-    // ======================================
-
-    const htmlData = `
+const htmlData=`
 <html>
-
 <head>
-
 <meta charset="UTF-8">
-
 <title>${fileName}</title>
-
 <style>
-
-body{
-    font-family:Arial;
-    margin:20px;
-}
-
-.financialdata{
-    width:100%;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    margin-bottom:20px;
-}
-
-td,th{
-    border:1px solid #000;
-    padding:6px;
-    font-size:14px;
-}
-
-h2,h4{
-    text-align:center;
-}
-
+body{font-family:Arial;margin:20px;}
+.financialdata{width:100%;}
+table{width:100%;border-collapse:collapse;margin-bottom:20px;}
+td,th{border:1px solid #000;padding:6px;font-size:14px;}
+h2,h4{text-align:center;}
 @media print{
-
-    body{
-        margin:10px;
-    }
-
-    table{
-        page-break-inside:auto;
-    }
-
-    tr{
-        page-break-inside:avoid;
-    }
+body{margin:10px;}
+table{page-break-inside:auto;}
+tr{page-break-inside:avoid;}
 }
-
 </style>
-
 </head>
-
 <body>
-
 ${cloned.outerHTML}
-
 </body>
-
 </html>
 `;
 
-    // ======================================
-    // HTML EXPORT
-    // ======================================
+if(type==="html"){
 
-    if(type === "html"){
+const blob=new Blob([htmlData],{type:"text/html"});
 
-        const blob =
-            new Blob(
-                [htmlData],
-                {type:"text/html"}
-            );
+downloadFile(blob,fileName+".html");
 
-        downloadFile(
-            blob,
-            fileName + ".html"
-        );
-    }
-
-    // ======================================
-    // EXCEL EXPORT
-    // ======================================
-
-    else if(type === "excel"){
-
-        const blob =
-            new Blob(
-                [htmlData],
-                {
-                    type:
-                    "application/vnd.ms-excel"
-                }
-            );
-
-        downloadFile(
-            blob,
-            fileName + ".xls"
-        );
-    }
-
-    // ======================================
-    // PRINT
-    // ======================================
-
-    else if(type === "print"){
-
-        const printWindow =
-            window.open(
-                "",
-                "",
-                "width=1200,height=900"
-            );
-
-        printWindow.document.write(
-            htmlData
-        );
-
-        printWindow.document.close();
-
-        printWindow.focus();
-
-        setTimeout(() => {
-
-            printWindow.print();
-
-        }, 500);
-    }
 }
 
-// ==========================================
-// DOWNLOAD
-// ==========================================
+else if(type==="excel"){
 
-function downloadFile(blob, filename){
+const blob=new Blob([htmlData],{type:"application/vnd.ms-excel"});
 
-    const link =
-        document.createElement("a");
+downloadFile(blob,fileName+".xls");
 
-    link.href =
-        URL.createObjectURL(blob);
+}
 
-    link.download =
-        filename;
+else if(type==="print"){
 
-    document.body.appendChild(link);
+const printWindow=window.open("","","width=1200,height=900");
 
-    link.click();
+printWindow.document.write(htmlData);
 
-    document.body.removeChild(link);
+printWindow.document.close();
 
-    URL.revokeObjectURL(link.href);
+printWindow.focus();
+
+setTimeout(()=>{
+
+printWindow.print();
+
+},500);
+
+}
+
+}
+
+function downloadFile(blob,filename){
+
+const link=document.createElement("a");
+
+link.href=URL.createObjectURL(blob);
+
+link.download=filename;
+
+document.body.appendChild(link);
+
+link.click();
+
+document.body.removeChild(link);
+
+URL.revokeObjectURL(link.href);
+
 }
 
 </script>
@@ -1857,18 +1730,6 @@ function downloadFile(blob, filename){
 
 
 
-
-
-
-
-
-<select id="ayear">
-
-<option>1 Apr 2025 to 31 March 2026</option>
-<option>1 Apr 2024 to 31 March 2025</option>
-<option>1 Apr 2023 to 31 March 2024</option>
-
-</select>
 
 
 <script>
@@ -1918,5 +1779,178 @@ document
 
 // FIRST LOAD
 updateSession();
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<!-- ============= ---------- SAVE WORKING FILE BUTTON ----------------- ================= -->
+
+<script>
+
+// ==========================================
+// PAGE LOAD PAR PROPRIETOR NAME POPUP
+// ==========================================
+
+window.addEventListener(
+    "load",
+    function(){
+        let proNameInput = document.getElementById( "proname" );
+        // AGAR INPUT EXIST KARTA HAI
+        if(proNameInput){
+            let currentName =proNameInput.value.trim();
+            // AGAR NAME EMPTY HAI
+     if(currentName === ""){
+        setTimeout(()=>{
+        let newName = prompt(  "⚠ Please Enter Proprietor Name" );
+        // AGAR USER NAME DALTA HAI
+     if( newName && newName.trim() !== "" ){ proNameInput.value = newName.trim();
+                        // AGAR CALCULATE FUNCTION HAI
+      if( typeof calculate === "function" ){ calculate();}
+          }
+         },300); } }
+    }
+);
+
+// ============  AUTO CAPITAL CLASS ==========================
+function applyCapitalInputs(){
+    document
+    .querySelectorAll(".capitalInput")
+    .forEach(input => {
+    function makeCapital(){ input.value = input.value.replace(/\b\w/g,
+    function(char){ return char.toUpperCase(); });
+        }
+        // TYPING
+        input.addEventListener( "input", makeCapital);
+        // CHANGE
+        input.addEventListener( "change", makeCapital );
+        // PASTE
+        input.addEventListener( "paste",
+         function(){
+         setTimeout( makeCapital, 10 ); }
+        );
+        // FIRST LOAD
+        makeCapital();
+    });
+}
+
+// AUTO APPLY
+applyCapitalInputs();
+// RECHECK
+setInterval(
+    applyCapitalInputs,
+    500
+);
+// ============SAVE BUTTON CLICK===================
+
+document
+.getElementById("saveWorkBtn")
+.addEventListener( "click", saveWorkingFile);
+
+// ============SAVE CURRENT WORKING FILE==========
+async function saveWorkingFile(){
+ // =============PROPRIETOR NAME CHECK==========
+    let proNameInput =document.getElementById( "proname" );
+    let proName = proNameInput.value.trim();
+    // EMPTY NAME
+    if(proName === ""){
+        let newName = prompt( "⚠ Please Enter Proprietor Name" );
+        // CANCEL
+        if( !newName || newName.trim() === "")
+        { alert( "❌ File Save Cancelled" ); return;}
+        // AUTO FILL
+        proNameInput.value =newName.trim();
+        proName = newName.trim();
+    }
+    // ============LAST MODIFY TIME============
+    let lastModify = document.getElementById(  "lastmodify" );
+    if(lastModify){ let now = new Date();
+        let day = String( now.getDate() ).padStart(2,"0");
+        let months = [
+            "Jan","Feb","Mar","Apr",
+            "May","Jun","Jul","Aug",
+            "Sep","Oct","Nov","Dec"
+        ];
+        let month = months[now.getMonth()];
+        let year = now.getFullYear();
+        let hours = now.getHours();
+        let minutes =  String( now.getMinutes() ).padStart(2,"0");
+        let ampm =  hours >= 12 ? "pm" : "am";
+        hours = hours % 12;
+        if(hours === 0){  hours = 12;}
+        let timeStamp = day + "-" +  month + year + " - " + hours + ":" + minutes + " " + ampm;
+        lastModify.innerHTML = timeStamp;
+    }
+    // ============ALL INPUT VALUES SAVE=========
+    document
+    .querySelectorAll( "input, textarea, select" )
+    .forEach(el=>{
+        // CHECKBOX / RADIO
+        if(  el.type === "checkbox" || el.type === "radio"
+        ){if(el.checked){  el.setAttribute(  "checked", "checked" ); }
+            else{ el.removeAttribute(  "checked" );}
+        }
+        // SELECT
+        else if(
+            el.tagName === "SELECT"
+        ){
+
+            Array
+            .from(el.options)
+            .forEach(option=>{ option.removeAttribute( "selected" );
+                if(option.selected){ option.setAttribute( "selected", "selected"); } });
+        }
+        // NORMAL INPUT
+        else{ el.setAttribute( "value", el.value ); } });
+
+    // =============CURRENT FULL HTML============
+    let fullHtml = document .documentElement  .outerHTML;
+
+    // ===========FILE NAME===========
+    let ayear = document .getElementById("ayear")?.value.trim() || "Session";
+    // ONLY PRONAME + SESSION
+    let fileName = ( proName + "_" + ayear )
+        .replace( /[\\/:*?"<>|]/g, "_" );
+
+    // =============CREATE HTML FILE=========
+    let blob =  new Blob( [fullHtml],  {  type:"text/html" } );
+
+    // ========== MODERN SAVE FILE PICKER=========
+    if(window.showSaveFilePicker){ try{
+            // SAVE DIALOG
+    const handle = await window .showSaveFilePicker({ suggestedName:fileName + ".html",
+     types: [ { description: "HTML File",  accept: { "text/html": [".html"]  } } ] });
+            // CREATE WRITER
+            const writable =  await handle .createWritable();
+            // WRITE FILE
+            await writable.write(blob);
+            // CLOSE FILE
+            await writable.close();
+            alert(  "✅ Working File Saved Successfully" );
+        }
+        catch(error){
+            // USER CANCEL
+            if(  error.name !=="AbortError" ){
+                console.error(error);
+                alert(
+                    "❌ File Save Failed" ); }}}
+
+    // ============== FALLBACK DOWNLOAD==========
+    else{ let link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download =fileName + ".html";
+        document.body.appendChild(link); link.click();
+        document.body.removeChild(link); URL.revokeObjectURL( link.href );
+        alert( "✅ Working File Downloaded");
+    }
+}
 
 </script>
