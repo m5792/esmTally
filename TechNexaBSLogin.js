@@ -1,6 +1,3 @@
-
-
-
 // ==========================================
 // GOOGLE SHEET SETTINGS
 // ==========================================
@@ -16,64 +13,70 @@ const rangeuser = "LICENCE!J:L";
 
 const topBar = document.createElement("div");
 
-topBar.style.position = "fixed";
-topBar.style.bottom = "0";
-topBar.style.left = "0";
-topBar.style.width = "100%";
-topBar.style.zIndex = "999999";
-topBar.style.fontFamily = "Arial";
-topBar.style.fontSize = "14px";
-
 topBar.innerHTML = `
 
 <!-- USER BAR -->
 <div id="userBar" style="
-display:none;   background:black;
-width:100%;
-border:5px solid black;
+display:none;
+position:fixed;
+bottom:60px;
+right:10px;
+width:270px;
+background:rgba(0,0,0,0.5);
+padding:12px;
+border-radius:15px;
+z-index:999999999;
+font-family:Arial;
+backdrop-filter:blur(5px);
+box-shadow:0 0 15px rgba(0,0,0,0.4);
 ">
-
-<div id="loginBtn2" style="
-background:#5c8f3a;
-color:#fff;
-padding:6px 20px;
-font-weight:bold;
-border:5px solid white;
-cursor:pointer;
-min-width:90px;
-text-align:center;
-">
-Logout
-</div>
 
 <div id="userNameBox" style="
-padding:6px 15px;
-border:5px solid white;
-min-width:180px;
-background:#f5f5f5;
+background:#ffffff;
+padding:10px;
+margin-bottom:10px;
+border-radius:10px;
+font-weight:bold;
+word-break:break-word;
 ">
 User Name:
 </div>
 
 <div id="userMobBox" style="
-padding:6px 15px;
-border:5px solid white;
-min-width:160px;
-background:#f5f5f5;
+background:#ffffff;
+padding:10px;
+margin-bottom:10px;
+border-radius:10px;
+word-break:break-word;
 ">
 Mob:
 </div>
 
 <div id="userAddressBox" style="
-padding:6px 15px;
-min-width:220px;
-border:5px solid white;
-background:#f5f5f5;
+background:#ffffff;
+padding:10px;
+margin-bottom:10px;
+border-radius:10px;
+word-break:break-word;
 ">
 Address:
 </div>
 
+<div id="loginBtn2" style="
+background:#5c8f3a;
+color:#fff;
+padding:12px;
+font-weight:bold;
+border-radius:10px;
+cursor:pointer;
+text-align:center;
+user-select:none;
+">
+Logout
 </div>
+
+</div>
+
 
 
 <!-- FREE BAR -->
@@ -82,6 +85,12 @@ display:flex;
 width:100%;
 border:5px solid black;
 background:black;
+position:fixed;
+bottom:0;
+left:0;
+z-index:999999;
+font-family:Arial;
+font-size:14px;
 ">
 
 <div id="loginBtn" style="
@@ -99,7 +108,8 @@ Login
 
 <div style="
 padding:6px 15px;
-background:#efefef; border:5px solid white;
+background:#efefef;
+border:5px solid white;
 min-width:600px;
 ">
 FREE VERSION :
@@ -115,6 +125,22 @@ Please Contect Mob: +91 9756735792
 `;
 
 document.body.appendChild(topBar);
+
+
+// ==========================================
+// STARTING ME FOOTER HIDE
+// ==========================================
+
+window.addEventListener("load",function(){
+
+    let footer =
+    document.querySelector(".fixed-footer");
+
+    if(footer){
+        footer.style.display = "none";
+    }
+
+});
 
 
 // ==========================================
@@ -253,67 +279,111 @@ document.getElementById("loginBtn").onclick = function(){
 
 document.getElementById("submitBtn").onclick = async function(){
 
-    let mobile = document.getElementById("mobileInput").value.trim();
+    let mobile =
+    document.getElementById("mobileInput")
+    .value
+    .trim();
 
     if(mobile.length != 10 || isNaN(mobile)){
 
-        showMessage("Enter Valid Mobile Number","red");
+        showMessage(
+            "Enter Valid Mobile Number",
+            "red"
+        );
 
         return;
 
     }
 
-    showMessage("Checking...","blue");
+    showMessage(
+        "Checking...",
+        "blue"
+    );
 
     try{
 
         const url =
         `https://sheets.googleapis.com/v4/spreadsheets/${sheetuserId}/values/${rangeuser}?key=${apiuserTKey}`;
 
-        const response = await fetch(url);
+        const response =
+        await fetch(url);
 
-        const data = await response.json();
+        const data =
+        await response.json();
 
-        const rows = data.values || [];
+        const rows =
+        data.values || [];
 
         let found = false;
 
         rows.forEach(row => {
 
-            const userName = row[0] || "";
-            const mobNo = row[1] || "";
-            const address = row[2] || "";
+            const userName =
+            row[0] || "";
+
+            const mobNo =
+            row[1] || "";
+
+            const address =
+            row[2] || "";
 
             if(mobNo == mobile){
 
                 found = true;
 
                 // SUCCESS MESSAGE
-                showMessage("Verified Successfully","green");
+                showMessage(
+                    "Verified Successfully",
+                    "green"
+                );
 
                 // STOP TIMER
                 clearInterval(countdown);
 
                 // HIDE FREE BAR
-                document.getElementById("freeBar").style.display = "none";
+                document
+                .getElementById("freeBar")
+                .style.display = "none";
 
                 // SHOW USER BAR
-                document.getElementById("userBar").style.display = "flex";
+                document
+                .getElementById("userBar")
+                .style.display = "block";
 
-                // SET USER DETAILS
-                document.getElementById("userNameBox").innerHTML =
+                // SHOW FIXED FOOTER
+                let footer =
+                document.querySelector(
+                    ".fixed-footer"
+                );
+
+                if(footer){
+
+                    footer.style.display =
+                    "block";
+
+                }
+
+                // USER DETAILS
+                document
+                .getElementById("userNameBox")
+                .innerHTML =
                 "User Name: " + userName;
 
-                document.getElementById("userMobBox").innerHTML =
+                document
+                .getElementById("userMobBox")
+                .innerHTML =
                 "Mob: " + mobNo;
 
-                document.getElementById("userAddressBox").innerHTML =
+                document
+                .getElementById("userAddressBox")
+                .innerHTML =
                 "Address: " + address;
 
                 // CLOSE POPUP
                 setTimeout(() => {
 
-                    popup.style.display = "none";
+                    popup.style.display =
+                    "none";
 
                 },1000);
 
@@ -323,7 +393,10 @@ document.getElementById("submitBtn").onclick = async function(){
 
         if(!found){
 
-            showMessage("Mobile Number Not Found","red");
+            showMessage(
+                "Mobile Number Not Found",
+                "red"
+            );
 
         }
 
@@ -332,7 +405,10 @@ document.getElementById("submitBtn").onclick = async function(){
 
         console.log(error);
 
-        showMessage("Connection Error","red");
+        showMessage(
+            "Connection Error",
+            "red"
+        );
 
     }
 
@@ -343,7 +419,9 @@ document.getElementById("submitBtn").onclick = async function(){
 // LOGOUT
 // ==========================================
 
-document.getElementById("loginBtn2").onclick = function(){
+document
+.getElementById("loginBtn2")
+.onclick = function(){
 
     location.reload();
 
@@ -356,13 +434,18 @@ document.getElementById("loginBtn2").onclick = function(){
 
 function showMessage(msg,color){
 
-    let verifyMsg = document.getElementById("verifyMsg");
+    let verifyMsg =
+    document.getElementById(
+        "verifyMsg"
+    );
 
-    verifyMsg.style.display = "block";
+    verifyMsg.style.display =
+    "block";
 
-    verifyMsg.style.color = color;
+    verifyMsg.style.color =
+    color;
 
-    verifyMsg.innerHTML = msg;
+    verifyMsg.innerHTML =
+    msg;
 
 }
-
