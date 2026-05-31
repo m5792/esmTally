@@ -215,7 +215,7 @@ setInterval(loadNews, 30000);
          <input id="afi05" class="r1list"  name="esmD" > </input>
 
           <label>/Unit Details:</label>
-        <input type="text" id="afi13" class="r2list" name="esmJ" style="width:0.8in;" readonly>
+        <input type="text" id="afi13" class="r2list" name="esmJ" style="width:0.8in;" required>
 
         <label>I. Type:*</label>
         <input id="afi14" class="r3list" name="esmN" style="width:0.8in;" required >
@@ -911,6 +911,7 @@ if (e.altKey && (e.key === "m" || e.key === "M")) {
 <p onclick="window.open('https://thisissand.com/','_blank')" style="cursor:pointer;color:#080808;">Game - Sand Picture Making</p>
 <p onclick="window.open('https://taajazone.com/','_blank')" style="cursor:pointer;color:#080808;">TAAZAZONE.COM</p>
 <p onclick="window.open('https://mypngd.in/','_blank')" style="cursor:pointer;color:#080808;">LPG/PNG IOAG Conetion Details</p>
+<p onclick="window.open('https://eyes.nasa.gov/apps/solar-system/#/home','_blank')" style="cursor:pointer;color:#013f91;">Eyes of the Solar System (By Nasa)</p>
 <p onclick="window.open('https://ebhulekh.uk.gov.in/dashboard/enduser/select-khata/selected-data','_blank')" style="cursor:pointer;color:#009ee2;">eBhulekh-Uttarakhand</p>
 <span style="color: blue;"> Username:> 9639012011, Password:> Adv@2026</span>
 
@@ -3025,12 +3026,28 @@ function mt_getData(className){
   }
 
 
-  // 🔶 dependent dropdowns
+  // 🔶 dependent dropdowns niche wale code ko unhide kro agar dropdown me kewal match value show  krna hai tab aur uske niche wale code ko hide kro
+ /*-----------
   if(className === "r1list" || className === "r2list" || className === "r3list"|| className === "r4list"){
     return mt_getFiltered(className);
   }
-
+*/
   
+//  ldgrlist ke base par match aur match na hone par independent dropdown show hoga niche ke code me 
+//----------------------------------
+if(
+    className === "r1list" || className === "r2list" || className === "r3list" || className === "r4list"){
+    const filtered = mt_getFiltered(className);
+    // ldgrlist ke base par match mila
+    if(filtered.length){ return filtered;}
+    // match nahi mila to independent dropdown
+    return mt_unique(
+        mt_sheetData.map(r => r[mt_colMap[className]])
+    );
+}
+
+//-------------------------------------------
+
   // 🔷 normal dropdown
   return mt_unique(mt_sheetData.map(r=>r[mt_colMap[className]]));
 }
