@@ -212,24 +212,27 @@ updateSession();
 
 <style>
 
-body{
-    font-family:Arial,sans-serif;
-    background:#f4f4f4;
-    padding:20px;
-}
 
 .financialdata{
-    width:1100px;
+    width:98%;
     margin:auto;
-    background:#fff;
+    background:#f4fafa;
     padding:10px;
-    height: 90vh; 
+    height: 83vh; 
     overflow-y: auto; 
-    border-left:5px solid #020202; border-right:5px solid #004c79; 
+    border-top:5px solid #020202; border-bottom:5px solid #004c79; 
     border-radius:10px;
+
+     display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: flex-start;
 }
 
-
+.financialdata > div{
+    border: 1px solid #ccc;
+    padding: 10px;
+}
 
 table{
     width:100%;
@@ -282,26 +285,31 @@ input[readonly]{
 <br>
 
 
-<div class="financialdata" >
-<br/>
-<div style="
-display:flex;
-flex-wrap:wrap;
-gap:5px;
-align-items:center;
-justify-content:center; /* ✅ center alignment */
 
-padding:5px;
-margin-bottom:5px;
-border-radius:10px;
-background:#f9fbfc;
-box-shadow:0 2px 8px rgba(0,0,0,0.1);
-">
-<input  type="text" style="width: 5in;" class="capitalInput" placeholder="Enter Your Firm Name" >
+
+
+<div style="display:flex; justify-content:center;background:white; gap:10px; padding: 5px 5px; ">  
+ 
+    <div class="footer-box" style="display:flex; align-items:center; gap:8px; text-decoration:none; color: black; font-weight:bold; background-color: #e3f3f5; border:3px solid #013769; border-radius:10px;">
+      <input  type="text" id="fname" style="width: 4in;"  placeholder="Enter Your Firm Name" >
 <strong style="border: none; font-size: 16px; font-weight: bold;">| </strong>
-<input type="text" id="proname" class="capitalInput" placeholder="Enter Proprietor Name" style="width: 5in;">
+<input type="text" id="proname"  placeholder="Enter Proprietor Name" style="width: 3in;">  
+
+<div class="footer-box"> 
+<strong style="border: none; font-size: 14px; font-weight: bold;">Profit % :-</strong> <input type="text" id="profitPercent" value="10" style="width: 1in; background-color: #ebf8b1;">
 </div>
 
+<div class="footer-box"> <button class="print-btn pldiv" style="padding:1px 1px;border:none;border-radius:8px;background:#e9e7e7;color:#004139;font-weight:bold;cursor:pointer;">Print Profit & Loss </button></div>
+<div class="footer-box"> <button class="print-btn bsdiv" style="padding:1px 1px;border:none;border-radius:8px;background:#e9e7e7;color:#004139;font-weight:bold;cursor:pointer;">Print Balance Sheet </button></div>
+<div class="footer-box"> <button class="print-btn fadiv" style="padding:1px 1px;border:none;border-radius:8px;background:#e9e7e7;color:#004139;font-weight:bold;cursor:pointer;">Print Fixed Assets </button></div>
+
+ </div>
+</div>
+
+
+<div class="financialdata" >  <!-- --- finaincial data div Start hare -----------Start------------ -->
+<br/>
+<div id="pldiv" style="border: none;">  <!-- --- Trading & Profit & Loss Account div Start hare -----------Start------------ -->
 
 <div style="
 display:flex;
@@ -313,7 +321,7 @@ border-bottom: 5px solid #024369;
 padding:5px;
 margin-bottom:5px;
 border-radius:10px;
-background:#f9fbfc;
+background:white; color: 024369;
 box-shadow:0 2px 8px rgba(0,0,0,0.1);
 ">
 <strong style="border: none; font-size: 16px; font-weight: bold;">Trading & Profit & Loss Account - </strong>
@@ -321,13 +329,7 @@ box-shadow:0 2px 8px rgba(0,0,0,0.1);
 
 </div>
 
-<!-- ========================================= -->
-<!-- TRADING ACCOUNT -->
-<!-- ========================================= -->
-<strong style="border: none; font-size: 16px; font-weight: bold;">Profit % :-</strong>
-<input type="text" id="profitPercent" value="10" style="width: 1in; background-color: #ebf8b1;">
-<br/><br>
-<!-- ========================================= -->
+<!-- ========---- TRADING ACCOUNT ----========= -->
 
 <table>
 
@@ -522,10 +524,9 @@ function updateSalary(){ let salary = val('oi1'); document.getElementById('natsa
 
 </table>
 
+</div>
 
-
-<!-- ========================================= -->
-<!-- BALANCE SHEET -->
+<div id="bsdiv" style="border: none;">   <!-- ===========--- BALANCE SHEET ---========== Start ----  -->
 <!-- ========================================= -->
 
 <div style="
@@ -534,11 +535,11 @@ flex-wrap:wrap;
 gap:5px;
 align-items:center;
 justify-content:center; /* ✅ center alignment */
-border-bottom: 5px solid #024369;
+border-bottom: 5px solid #5e0300;
 padding:5px;
 margin-bottom:5px;
 border-radius:10px;
-background:#f9fbfc;
+background:white; color: #5e0300;
 box-shadow:0 2px 8px rgba(0,0,0,0.1);
 ">
 <strong style="border: none; font-size: 16px; font-weight: bold;">Balance Sheet -   </strong>
@@ -693,8 +694,9 @@ box-shadow:0 2px 8px rgba(0,0,0,0.1);
 </tr>
 
 </table>
+</div>
 
-
+<div id="fadiv" style="border: none;">   <!-- ============  ------ FIXED ASSETS CHART -------  Start ==================== -->
 <!-- ============  ------ FIXED ASSETS CHART -------  ==================== -->
 <div style="
 display:flex;
@@ -702,15 +704,14 @@ flex-wrap:wrap;
 gap:5px;
 align-items:center;
 justify-content:center; /* ✅ center alignment */
-border-bottom: 5px solid #024369;
+border-bottom: 5px solid rgb(5, 56, 0);
 padding:5px;
 margin-bottom:5px;
 border-radius:10px;
-background:#f9fbfc;
+background:white; color: rgb(5, 56, 0);
 box-shadow:0 2px 8px rgba(0,0,0,0.1);
 ">
 <strong style="border: none; font-size: 16px; font-weight: bold;">FIXED ASSETS  </strong>
-<br><br>
 <strong style="border: none; font-size: 16px; font-weight: bold;" >(Schedule "A" of Fixed Assets as on</strong>
 <strong style="border: none; font-size: 16px; font-weight: bold;" id="session"></strong>)
 </div>
@@ -762,25 +763,16 @@ box-shadow:0 2px 8px rgba(0,0,0,0.1);
 
     <th>TOTAL</th>
 
-    <th class="formula">
-        <input type="text" id="fixedTotal" readonly>
-    </th>
-
+    <th class="formula"> <input type="text" id="fixedTotal" readonly> </th>
     <th></th>
-
-    <th class="formula">
-        <input type="text" id="fixedDepTotal" readonly>
-    </th>
-
-    <th class="formula">
-        <input type="text" id="fixedFinalValue" readonly>
-    </th>
-
+    <th class="formula"> <input type="text" id="fixedDepTotal" readonly> </th>
+    <th class="formula"> <input type="text" id="fixedFinalValue" readonly>  </th>
 </tr>
 
 </table>
-
 </div>
+
+</div>  <!-- --- finaincial data div stop hare --------------- xxx --------------- -->
 
 
 <!-- ========================================= -->
@@ -1113,23 +1105,242 @@ inputs.forEach(inp=>{inp.addEventListener('input', calculate);
 calculate();
 </script>
 
+
+
+
+<!-- ============ ------ print function script by div id name script Start ================-------  Start =========================== -->
+<script>
+document.addEventListener("click", function(e){
+
+    const btn = e.target.closest(".print-btn");
+    if(!btn) return;
+
+    // Button ki class se target id nikale
+    const targetClass = [...btn.classList].find(c => c !== "print-btn");
+
+    if(!targetClass) return;
+
+    const element = document.getElementById(targetClass);
+
+    if(!element){
+        alert("ID '" + targetClass + "' not found.");
+        return;
+    }
+
+    // Firm Name
+    const fnameEle = document.getElementById("fname");
+    const fname = fnameEle
+        ? (fnameEle.value || fnameEle.innerText || fnameEle.textContent)
+        : "";
+
+    // Proprietor Name
+    const proEle = document.getElementById("proname");
+    const proname = proEle
+        ? (proEle.value || proEle.innerText || proEle.textContent)
+        : "";
+
+    // Date Time Format
+    function getPrintDateTime(){
+
+        const d = new Date();
+
+        const months = [
+            "Jan","Feb","Mar","Apr","May","Jun",
+            "Jul","Aug","Sep","Oct","Nov","Dec"
+        ];
+
+        let day = String(d.getDate()).padStart(2,"0");
+        let month = months[d.getMonth()];
+        let year = d.getFullYear();
+
+        let hour = d.getHours();
+        let minute = String(d.getMinutes()).padStart(2,"0");
+
+        const ampm = hour >= 12 ? "pm" : "am";
+
+        hour = hour % 12;
+        if(hour == 0) hour = 12;
+
+        return `${day}-${month}-${year} / ${hour}:${minute} ${ampm}`;
+    }
+
+    const printDate = getPrintDateTime();
+
+    const printWindow = window.open("", "", "width=900,height=700");
+
+    printWindow.document.write(`
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Print</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    margin:20px;
+    color:#000;
+}
+
+.header{
+    text-align:center;
+    border-bottom:2px solid #000;
+    padding-bottom:10px;
+    margin-bottom:20px;
+}
+
+.header h2{
+    margin:0;
+    font-size:28px;
+}
+
+.header .info{
+    display:flex;
+    justify-content:space-between;
+    margin-top:10px;
+    font-size:15px;
+    font-weight:bold;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+}
+
+table,th,td{
+    border:1px solid #000; font-size:15px;
+}
+
+th,td{
+    padding:6px;
+}
+
+input{
+    width:1in;
+    border:none;
+    background:transparent;
+    text-align:left;
+    font-size:15px;
+    outline:none;
+}
+.signature{
+    width:260px;
+    margin-left:auto;
+    margin-top:70px;
+    text-align:center;
+}
+
+.signature .line{
+    border-top:1px solid #000;
+    margin-bottom:8px;
+}
+
+.signature .name{
+    font-weight:bold;
+    font-size:16px;
+}
+
+.signature .title{
+    font-size:13px;
+    margin-top:3px;
+}
+
+.signature .date{
+    margin-top:15px;
+    font-size:14px;
+}
+
+.signature .printdate{
+    margin-top:6px;
+    font-size:13px;
+}
+
+@media print{
+
+    body{
+        margin:10mm;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+<h2>${fname}</h2>
+
+<div class="info">
+
+<div>
+Firm Name :- ${fname}
+</div>
+
+<div>
+Proprietor Name :- ${proname}
+</div>
+
+</div>
+
+</div>
+
+${element.outerHTML}
+
+<div class="signature">
+
+<div class="line"></div>
+
+<div class="name">
+${proname}
+</div>
+
+<div class="title">
+Authorized Signatory
+</div>
+
+<div class="date">
+<b>Date :</b>
+</div>
+
+<div class="printdate">
+${printDate}
+</div>
+
+</div>
+
+</body>
+</html>
+`);
+
+    printWindow.document.close();
+    printWindow.focus();
+
+    setTimeout(function(){
+
+        printWindow.print();
+        printWindow.close();
+
+    },300);
+
+});
+</script>
+<!-- ============ ------ print function script by div id name script STop ================-------  Stop =========================== -->
 </body>
 </html>
 
 
-
-
-
-
-
 <script>
-
 // ==========================================
-// AUTO CUSTOM DROPDOWN SYSTEM
-// KEYBOARD SUPPORT + NEW HEAD OPTION
-// ==========================================
-
-
+// AUTO CUSTOM DROPDOWN SYSTEM and  KEYBOARD SUPPORT + NEW HEAD OPTION
 
 // PURCHASE
 const PURCHASE = [
@@ -1139,9 +1350,6 @@ const PURCHASE = [
     "To Power & Fuel",
     "To Gross Profit"
 ];
-
-
-
 // EXPENSE
 const EXP = [
     "To Telephone & Internat Exps",
@@ -1405,8 +1613,6 @@ function applyDropdown(className,dataList){
             }
         });
 
-
-
         // =========================
         // ACTIVE ITEM
         // =========================
@@ -1440,8 +1646,6 @@ function applyDropdown(className,dataList){
         });
     });
 }
-
-
 
 // ==========================================
 // APPLY ALL
@@ -1594,20 +1798,7 @@ fixedAssetsCalc();
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-<!-- EXPORT BUTTONS -->
-
-
+<!-- EXPORT in html/ excel/ and print all finaincial div BUTTONS script start  -->
 
 <script>
 
@@ -1723,76 +1914,36 @@ URL.revokeObjectURL(link.href);
 
 </script>
 
-
-
-
-
-
+<!-- EXPORT in html/ excel/ and print all finaincial div BUTTONS script start  -->
 
 
 
 
 <script>
-
-// ======================================
 // SESSION AUTO SHOW EVERYWHERE
-// ======================================
-
 function updateSession(){
-
     let yearValue =
         document.getElementById('ayear').value;
-
     // JITNE BHI id="session" HAI
     document
     .querySelectorAll('#session')
     .forEach(el=>{
-
         // INPUT / TEXTAREA
-        if(
-            el.tagName === 'INPUT' ||
-            el.tagName === 'TEXTAREA'
-        ){
-
-            el.value = yearValue;
-
-        }
-
+        if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA')
+        { el.value = yearValue;}
         // DIV / SPAN / STRONG / TD
-        else{
-
-            el.innerHTML = yearValue;
-
+        else{ el.innerHTML = yearValue; }});
         }
-
-    });
-
-}
-
 // CHANGE EVENT
 document
 .getElementById('ayear')
-.addEventListener(
-    'change',
-    updateSession
-);
-
+.addEventListener('change', updateSession);
 // FIRST LOAD
 updateSession();
-
 </script>
 
 
-
-
-
-
-
-
-
-
-
-<!-- ============= ---------- SAVE WORKING FILE BUTTON ----------------- ================= -->
+<!-- ============= ---------- SAVE WORKING FILE BUTTON in html format start -----------------start ================= -->
 
 <script>
 
@@ -1953,4 +2104,4 @@ async function saveWorkingFile(){
     }
 }
 
-</script>
+<!-- ============= ---------- SAVE WORKING FILE BUTTON in html format Stop -----------------STop ================= --></script>
